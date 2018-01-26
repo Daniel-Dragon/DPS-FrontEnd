@@ -1,5 +1,7 @@
 # DPS-FrontEnd
 
+[![Build Status](https://travis-ci.org/Dan-Baba/DPS-FrontEnd.svg?branch=master)](https://travis-ci.org/Dan-Baba/DPS-FrontEnd)
+
 ### Steps to develop
 1. Install Node.js
 2. Run command `npm install` in project directory.
