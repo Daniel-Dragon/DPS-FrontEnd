@@ -7,6 +7,7 @@ before_script:
   - npm install -g --silent @angular/cli
   - cd dps-frontend
   - npm install
+  - ng test --single-run
 
 script:
   - ng build --prod
