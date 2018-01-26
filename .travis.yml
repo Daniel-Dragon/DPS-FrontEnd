@@ -10,3 +10,6 @@ before_script:
 
 script:
   - ng build --prod
+
+notifications:
+  slack: csc434:69KLuLQ6IsZkW1lTmG1hFJtY
