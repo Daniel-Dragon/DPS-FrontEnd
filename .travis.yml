@@ -1,7 +1,15 @@
+dist: trusty
+
+addons:
+  chrome: stable
+
 language: node_js
 
 node_js:
   - node
+
+before_install:
+  - "/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome --headless --disable-gpu --remote-debugging-port=9222 http://localhost &"
 
 before_script:
   - npm install -g --silent @angular/cli
