@@ -25,3 +25,15 @@
 //     expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
 //   }));
 // });
+import { AppComponent } from './app.component';
+describe('AppComponent', () => {
+    let cmp : AppComponent;
+    
+    beforeEach(() => {
+        cmp = new AppComponent();
+    });
+
+    it('should be defined', () => {
+        expect(cmp).toBeDefined();
+    })
+})
