@@ -5,7 +5,7 @@ import { CollapseModule, BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
-import { HomeComponent } from './home-Component/home.component';
+import { HomeComponent } from './home-component/home.component';
 import { MainMenuComponent } from './mainMenu-component/mainMenu.component';
 import { SubMenuComponent } from './subMenu-component/subMenu.component';
 
