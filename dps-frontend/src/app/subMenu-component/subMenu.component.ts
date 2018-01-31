@@ -1,8 +1,8 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-    selector:"sub-menu",
-    templateUrl:"./subMenu.component.html",
-    styleUrls:["./subMenu.component.css"]
+    selector: 'app-sub-menu',
+    templateUrl: './subMenu.component.html',
+    styleUrls: ['./subMenu.component.css']
 })
 export class SubMenuComponent {}

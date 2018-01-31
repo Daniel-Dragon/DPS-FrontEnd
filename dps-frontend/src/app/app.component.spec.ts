@@ -27,13 +27,12 @@
 // });
 import { AppComponent } from './app.component';
 describe('AppComponent', () => {
-    let cmp : AppComponent;
-    
+    let cmp: AppComponent;
     beforeEach(() => {
         cmp = new AppComponent();
     });
 
     it('should be defined', () => {
         expect(cmp).toBeDefined();
-    })
-})
+    });
+});

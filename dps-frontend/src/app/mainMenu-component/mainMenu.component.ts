@@ -1,11 +1,12 @@
-import { Component } from "@angular/core";
-import { UserService } from "../core-module/user-service/user.service";
+import { Component } from '@angular/core';
+import { UserService } from '../core-module/user-service/user.service';
 
 @Component({
-    selector: 'main-menu',
-    templateUrl: './mainMenu.component.html'
-})
+    selector: 'app-main-menu',
+    templateUrl: './mainMenu.component.html',
+    styleUrls: ['./mainMenu.component.css']
+    })
 export class MainMenuComponent {
-    
+
     collapsed = true;
 }
