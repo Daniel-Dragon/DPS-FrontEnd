@@ -1,13 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, enableProdMode } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { CollapseModule, BsDropdownModule } from 'ngx-bootstrap';
+import { RouterModule } from '@angular/router'
+
+import { SharedModule } from './shared-module/shared.module'
 
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './home-component/home.component';
 import { MainMenuComponent } from './mainMenu-component/mainMenu.component';
 import { SubMenuComponent } from './subMenu-component/subMenu.component';
+import { CoreModule } from './core-module/core.module';
 
 
 if (environment.production) {
@@ -23,12 +25,13 @@ if (environment.production) {
   ],
   imports: [
     BrowserModule,
-    CollapseModule.forRoot(),
-    BsDropdownModule.forRoot(),
+    SharedModule,
+    
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
+    CoreModule,
     ...environment.imports
   ],
   providers: [],
