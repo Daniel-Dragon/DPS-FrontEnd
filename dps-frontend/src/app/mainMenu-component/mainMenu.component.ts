@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../core-module/user-service/user.service';
+import { ModalService } from '../shared-module/modal.service/modal.service';
+import { LoginComponent } from '../login.component/login.component';
 
 @Component({
     selector: 'app-main-menu',
@@ -8,5 +10,11 @@ import { UserService } from '../core-module/user-service/user.service';
     })
 export class MainMenuComponent {
 
-    collapsed = true;
+    collapsed: Boolean = true;
+
+    constructor(private modalService: ModalService) {}
+
+    testModal() {
+        this.modalService.makeModal(LoginComponent as Component);
+    }
 }
