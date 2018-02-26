@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CollapseModule, BsDropdownModule, ModalModule } from 'ngx-bootstrap';
-import { ModalService } from './modal.service/modal.service';
+import { CollapseModule, BsDropdownModule, BsModalService, ModalModule } from 'ngx-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
-        ModalModule.forRoot()
+        ModalModule.forRoot(),
+        FormsModule,
+        ReactiveFormsModule
     ],
     providers: [
-        ModalService
+        BsModalService
     ],
     exports: [
     ]

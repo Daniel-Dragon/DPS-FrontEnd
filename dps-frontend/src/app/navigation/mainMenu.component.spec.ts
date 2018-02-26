@@ -1,5 +1,5 @@
 import { MainMenuComponent } from './mainMenu.component';
-import { ModalService } from '../shared-module/modal.service/modal.service';
+import { BsModalService } from '../shared-module/index';
 
 describe('MainMenuComponent', () => {
     let cmp: MainMenuComponent;
