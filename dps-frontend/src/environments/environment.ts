@@ -1,4 +1,6 @@
 import { Provider } from "@angular/compiler/src/core";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { MockBackend } from "../app/mocks/mock_backend";
 
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
@@ -14,5 +16,10 @@ export const environment = {
 
   ],
   providers:[
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MockBackend,
+      multi: true
+    }
   ]
 };

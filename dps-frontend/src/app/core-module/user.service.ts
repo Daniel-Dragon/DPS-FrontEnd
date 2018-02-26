@@ -16,7 +16,7 @@ export class UserService implements OnInit {
     public login(loginForm) {
         return this.http.get('api/login', {headers: new HttpHeaders(loginForm)}).do( 
             resp => {
-            this.authentication = resp.authentication;
+            this.authentication = (resp as any).authentication;
             localStorage.setItem('authentication', this.authentication); },
             err => {
                 this.authentication = null;

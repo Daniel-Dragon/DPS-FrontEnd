@@ -12,8 +12,7 @@ import { HomeComponent } from './home.component';
 import { MainMenuComponent } from './navigation/mainMenu.component';
 import { SubMenuComponent } from './subMenu-component/subMenu.component';
 import { LoginComponent } from './users/login.component';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MockBackend } from './mocks/mock_backend';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 if (environment.production) {
@@ -40,11 +39,6 @@ if (environment.production) {
     CoreModule,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MockBackend,
-      multi: true
-    },
     ...environment.providers
   ],
   bootstrap: [AppComponent],
