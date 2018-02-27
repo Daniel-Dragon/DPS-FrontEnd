@@ -14,7 +14,7 @@ export class UserService implements OnInit {
     //TODO make observable that returns bool based on success.
     //Should send on HTTPS
     public login(loginForm) {
-        return this.http.get('api/login', {headers: new HttpHeaders(loginForm)}).do( 
+        return this.http.get('api/user/authenticate', {headers: new HttpHeaders(loginForm)}).do( 
             resp => {
             this.authentication = (resp as any).authentication;
             localStorage.setItem('authentication', this.authentication); },

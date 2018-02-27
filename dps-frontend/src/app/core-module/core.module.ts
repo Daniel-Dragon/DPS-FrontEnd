@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { UserService } from './user.service';
+import { EventService } from './event.service';
 
 @NgModule({
   declarations: [
@@ -8,7 +9,8 @@ import { UserService } from './user.service';
   imports: [
   ],
   providers: [
-    UserService
+    UserService,
+    EventService
   ],
   exports: [
   ]

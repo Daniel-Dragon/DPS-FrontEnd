@@ -13,6 +13,7 @@ import { MainMenuComponent } from './navigation/mainMenu.component';
 import { LoginComponent } from './users/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EventService } from './core-module/event.service';
 
 if (environment.production) {
   enableProdMode();
