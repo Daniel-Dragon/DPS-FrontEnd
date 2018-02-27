@@ -30,7 +30,44 @@
                     <button type="submit" class="btn btn-primary pull-right">Login</button>
                 </div>
             </div>
+            <div class="modal-footer"><button type="button" (click)="isRegistering = !isRegistering" class="btn btn-danger" id="regButton">Register</button></div>
+        </form>
+       
+        <form *ngIf="isRegistering" [formGroup]="registerForm" autocomplete="off" novalidate>
+                
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address:</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We will NEVER share your email address.</small>
+              </div>
+              <div class="form-group">
+                <label for="firstNameInput">First Name</label>
+                <input type="name" class="form-control" id="firstNameInput" aria-describedby="firstNameHelp" placeholder="Enter First Name">
+              </div>
+              <div class="form-group">
+                <label for="lastNameInput">Last Name</label>
+                <input type="lastNameInput" class="form-control" id="lastNameInput" aria-describedby="lastNameHelp" placeholder="Enter Last Name">
+               </div>
+               <div class="form-group">
+                <label for="phoneNumber">Primary Phone Number</label>
+                <input type="phoneNumber" class="form-control" id="phoneNumberInput" aria-describedby="phoneHelp" placeholder="Enter phone number">
+                <small id="phoneHelp" class="form-text text-muted">This will be used as the primary means of communication. We will NEVER share your phone number.</small>
+              </div>
+              <div class="form-group">
+                <label for="passwordCreateInput">Create a password</label>
+                <input type="password" class="form-control" id="passwordCreateInput" aria-describedby="passwordHelp" placeholder="Enter a password">
+                <small id="passwordHelp" class="form-text text-muted">This will be the password used to login to the system after registration.</small>
+              </div>
+              <div class="form-group">
+                    <label for="verifyPassword">Re-Type Password</label>
+                    <input type="verifyPassword" class="form-control" id="verifyPassword" aria-describedby="verifyPasswordHelp" placeholder="Re-Type Password">
+                    <small id="passwordHelp" class="form-text text-muted">Please re-type your password for verification purposes.</small>
+                </div>
+
+              <div class="modal-footer">
+                 <div class="col-sm-1 col-sm-push-0" button type="button" class="btn btn-default" (click)="close()">Cancel</div>
+                <div class="btn btn-primary pull-right" button type="submit" class="btn btn-danger">Submit</div>
+            </div>
         </form>
     </div>        
 </div>
-<div class="modal-footer"><button type="button" (click)="isRegistering = !isRegistering" class="btn btn-danger">Register</button></div>
