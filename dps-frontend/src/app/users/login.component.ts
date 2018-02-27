@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
+    isRegistering: boolean = false;
     // registerForm: FormGroup;
 
     constructor(public userService: UserService, public modalRef: BsModalRef, public router: Router) {}

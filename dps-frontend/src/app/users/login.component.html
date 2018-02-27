@@ -6,7 +6,7 @@
 </div>
 <div class="modal-body">
     <div class="container-fluid">
-        <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" autocomplete="off" novalidate>
+        <form *ngIf="!isRegistering" [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" autocomplete="off" novalidate>
             <div class="row">
                 <div class="col-sm-10 col-sm-push-1">
                     <div class="form-group">
@@ -33,4 +33,4 @@
         </form>
     </div>        
 </div>
-<div class="modal-footer"><button type="button" class="btn btn-danger">Register</button></div>
+<div class="modal-footer"><button type="button" (click)="isRegistering = !isRegistering" class="btn btn-danger">Register</button></div>
