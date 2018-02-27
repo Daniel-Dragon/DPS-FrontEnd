@@ -14,6 +14,8 @@ import { LoginComponent } from './users/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EventService } from './core-module/event.service';
+import { SettingsComponent } from './users/settings.component';
+import { LoggedInGuard } from './shared-module/logged-in.guard';
 
 if (environment.production) {
   enableProdMode();
@@ -24,7 +26,8 @@ if (environment.production) {
     AppComponent,
     HomeComponent,
     MainMenuComponent,
-    LoginComponent
+    LoginComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -33,11 +36,13 @@ if (environment.production) {
     SharedModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard] },
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
     CoreModule,
   ],
   providers: [
+    LoggedInGuard,
     ...environment.providers
   ],
   bootstrap: [AppComponent],

@@ -20,3 +20,9 @@ export interface Volunteer {
     startTime: Date;
     endTime: Date;
 }
+
+export interface User {
+    name: String;
+    email: String;
+    phoneNumber: String;
+}

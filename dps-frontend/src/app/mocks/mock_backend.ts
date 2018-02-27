@@ -22,7 +22,12 @@ export class MockBackend implements HttpInterceptor {
                 if (this.passwords[0] == request.headers.get('password')) {
                     status = 200;
                     body = {
-                        authentication: 'validToken'
+                        authentication: 'validToken',
+                        user: {
+                            name: 'Test User',
+                            email: 'danfoote104227@gmail.com',
+                            phoneNumber: '5181234567'
+                        }
                     };
                 }
             }

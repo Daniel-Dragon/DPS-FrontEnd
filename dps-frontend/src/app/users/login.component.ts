@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
     login(loginForm): void {
         this.userService.login(loginForm).subscribe( (resp) => {
             console.log('Success');
+            this.close();
         },
         (err) => {
             console.log('Failure');

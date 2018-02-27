@@ -1,0 +1,26 @@
+<div class="col-md-8 col-md-push-2">
+    <span *ngIf="!isEditing; then static else edit"></span>
+    <ng-template #static>
+        Name: {{ user.name }}<br />
+        Email: {{ user.email }}<br />
+        Phone Number: {{ user.phoneNumber }}<br />
+        <input (click)="isEditing = true" type="button" class="btn btn-primary" value="Edit">
+    </ng-template>
+    <ng-template #edit>
+        <form [formGroup]="userForm" (ngSubmit)="SaveUserInfo(userForm.value)" novalidate>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input formControlName="name" type="text" class="form-control" id="name">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input formControlName="email" type="text" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input formControlName="phoneNumber" type="text" class="form-control" id="phoneNumber">
+            </div>
+            <button [disabled]="DisableSave()" class="btn btn-success">Save</button>
+        </form>
+    </ng-template>
+</div>
