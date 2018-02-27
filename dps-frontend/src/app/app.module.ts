@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { HomeComponent } from './home.component';
 import { MainMenuComponent } from './navigation/mainMenu.component';
-import { SubMenuComponent } from './subMenu-component/subMenu.component';
 import { LoginComponent } from './users/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +23,6 @@ if (environment.production) {
     AppComponent,
     HomeComponent,
     MainMenuComponent,
-    SubMenuComponent,
     LoginComponent
   ],
   imports: [
