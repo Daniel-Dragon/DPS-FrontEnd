@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
+    registerForm: FormGroup;
     isRegistering: boolean = false;
     // registerForm: FormGroup;
 
@@ -23,6 +24,21 @@ export class LoginComponent implements OnInit {
         this.loginForm = new FormGroup({
             email: email,
             password: password
+        });
+
+        let emailReg = new FormControl();
+        let firstName = new FormControl();
+        let lastName = new FormControl();
+        let phoneNumber = new FormControl();
+        let createPassword = new FormControl();
+        let verifyPassword = new FormControl();
+        this.registerForm = new FormGroup({
+            emailReg: emailReg,
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            createPassword: createPassword,
+            verifyPassword: verifyPassword
         });
     }
 
