@@ -31,7 +31,7 @@ export class MockBackend implements HttpInterceptor {
                     };
                 }
             }
-            if (status == 200)
+            if (status == 200) {
                 return new Observable(resp => {
                     resp.next(new HttpResponse({
                         status: status,
@@ -39,7 +39,7 @@ export class MockBackend implements HttpInterceptor {
                     }));
                     resp.complete();
                 });
-            else
+            }
                 return Observable.throw('Unauthorized Status: ' + status);
         }
 
@@ -61,7 +61,7 @@ export class MockBackend implements HttpInterceptor {
     }
 }
 
-const defaultEmail = ['danfoote104227@gmail.com'];
+const defaultEmail = ['email@gmail.com'];
 const defaultPasswords = ['password'];
 
 const defaultEvents = [
