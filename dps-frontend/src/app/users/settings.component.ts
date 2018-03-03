@@ -1,20 +1,20 @@
 import { Component, OnInit } from "@angular/core";
-import { UserService } from "../core-module/user.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../core-module/auth.service";
 
 @Component({
     templateUrl: './settings.component.html',
     styleUrls: []
     })
     export class SettingsComponent implements OnInit {
-        constructor(public userService: UserService) {}
+        constructor(public authService: AuthService) {}
         userForm;
         name;
         email;
         phoneNumber;
         user;
         ngOnInit() {
-            this.user = this.userService.getUserInfo()
+            this.user = this.authService.getUserInfo()
             this.name = new FormControl(this.user.name, Validators.required);
             this.email = new FormControl(this.user.email, [Validators.required, Validators.email]);
             this.phoneNumber = new FormControl(this.user.phoneNumber, Validators.required);

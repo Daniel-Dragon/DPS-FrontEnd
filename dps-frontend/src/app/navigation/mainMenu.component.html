@@ -25,7 +25,7 @@
                 <li><a href="#">Separated link</a></li>
             </ul>
             </li>
-            <li><span *ngIf="userService.isAuthorized(); then authorized else unauthorized"></span></li>
+            <li><span *ngIf="authService.isAuthorized(); then authorized else unauthorized"></span></li>
             <ng-template #unauthorized><a (click)="login()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></ng-template>
             <ng-template #authorized><a routerLink="/settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></ng-template>
         </ul>
