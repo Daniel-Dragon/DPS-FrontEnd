@@ -8,10 +8,13 @@ describe('UserService', () => {
             return { do: () => {}}
         })
     };
+    let mockAuth = {
+
+    };
     let service;
 
     beforeEach(() => {
-        service = new UserService(<any>mockHttp);
+        service = new UserService(<any>mockHttp, <any>mockAuth);
     });
 
     it('login should make the correct http call', () => {

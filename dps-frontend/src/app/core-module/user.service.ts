@@ -25,12 +25,6 @@ export class UserService implements OnInit {
         );
     }
 
-    public getUserInfo() {
-        if (!this.auth.authToken)
-            return
-        return this.user;
-    }
-
     ngOnInit() {
     }
 }
