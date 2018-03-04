@@ -5,6 +5,7 @@ import { AuthService } from "./core-module/auth.service";
 import { BsModalService } from "ngx-bootstrap";
 import { AddJobComponent } from "./add-job.component";
 import { Event } from "./shared-module/models";
+import { UserService } from "./core-module/user.service";
 
 @Component({
     styleUrls:['./event.component.css'],
@@ -18,7 +19,8 @@ export class EventComponent implements OnInit {
         private authService: AuthService, 
         private route: ActivatedRoute,
         private router: Router,
-        private modalService: BsModalService
+        private modalService: BsModalService,
+        private userService: UserService
     ) {}
 
     ngOnInit() {
@@ -26,6 +28,7 @@ export class EventComponent implements OnInit {
             this.id = +params['id'];
             this.loadEvent();
         });
+        this.userService.onAuthChange.subscribe(resp => this.loadEvent());
     }
 
     loadEvent() {
@@ -37,17 +40,20 @@ export class EventComponent implements OnInit {
     volunteer(jobId: Number) {
         this.eventService.volunteer(this.id, jobId, this.authService.user.id).subscribe(
             resp => {
-        }, err => {
-        });
+                this.loadEvent();
+            }, err => {
+                this.loadEvent();
+            }
+        );
     }
 
     unVolunteer(jobId: Number) {
         this.eventService.unregister(this.id, jobId, this.authService.user.id).subscribe(
             resp => {
-
+                this.loadEvent();
             },
             err => {
-
+                this.loadEvent();
             }
         )
     };

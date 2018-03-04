@@ -5,11 +5,13 @@ import { Subscription } from "rxjs/Subscription";
 import 'rxjs/Rx'
 import { User } from "../shared-module/models";
 import { AuthService } from "./auth.service";
+import { Subject } from "rxjs/Rx";
 
 
 @Injectable()
 export class UserService implements OnInit {
     user: User;
+    onAuthChange = new Subject();
 
     constructor(public http: HttpClient, private auth: AuthService) {}
 
@@ -22,11 +24,12 @@ export class UserService implements OnInit {
                 this.auth.authToken = (resp as any).authentication;
                 this.auth.user = (resp as any).user;
                 this.auth.permissions = (resp as any).permissions;
+                this.onAuthChange.next(true);
             },
             err => {
                 this.auth.authToken = null;
+                this.onAuthChange.next(true);
                 localStorage.removeItem('authentication'); 
-            
             }
         );
     }
