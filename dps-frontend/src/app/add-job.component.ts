@@ -10,24 +10,30 @@ import { EventService } from './core-module/event.service';
 })
 export class AddJobComponent implements OnInit {
     form: FormGroup;
-    startTime;
-    endTime;
-    eventId;
+    id = -1;
+    name = "";
+    startTime = null;
+    endTime = null;
+    eventId = null;
 
     constructor(private modalRef: BsModalRef, private fb: FormBuilder, private eventService: EventService) {}
 
     ngOnInit() {
         this.form = this.fb.group({
-            name: ['', Validators.minLength(5)],
+            name: [this.name, Validators.minLength(5)],
             startTime: new Date(this.startTime),
             endTime: new Date(this.endTime)
-        })
+        });
+    }
+
+    isEditing() {
+        return !(this.id == -1);
     }
 
     addJob(jobVal) {
         this.eventService.addJob(this.eventId, jobVal).subscribe(
             resp => {
-
+                this.modalRef.hide();
             },
             err => {
 
@@ -35,7 +41,18 @@ export class AddJobComponent implements OnInit {
         )
     }
 
-    cancel() {
+    editJob(jobVal) {
+        this.eventService.updateJob(this.eventId, this.id, jobVal).subscribe(
+            resp => {
+                this.modalRef.hide();
+            },
+            err => {
+
+            }
+        )
+    }
+
+    close() {
         this.modalRef.hide();
     }
 

@@ -28,8 +28,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <input type="button" class="btn btn-danger" value="Cancel">
-                    <input (click)="addJob(form.value)" type="button" class="btn btn-primary" value="Save Job">
+                    <input (click)="close()" type="button" class="btn btn-danger" value="Cancel">
+                    <span *ngIf="isEditing(); then editing else creating"></span>
+                    <ng-template #editing><input (click)="editJob(form.value)" type="button" class="btn btn-primary" value="Edit Job"></ng-template>
+                    <ng-template #creating><input (click)="addJob(form.value)" type="button" class="btn btn-primary" value="Save Job"></ng-template>
+
                 </div>
             </form>               
         </div>

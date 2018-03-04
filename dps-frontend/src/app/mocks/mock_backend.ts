@@ -132,19 +132,28 @@ export class MockBackend implements HttpInterceptor {
             let job = <Job>JSON.parse(request.body);
             let nextJobId = 0;
 
-            // Find the highest jobId, then increase it by 1 so it's unique
-            for (let i = 0; i < this.events.length; i++) {
-                for (let j = 0; j < this.events[i].jobs.length; j++) {
-                    if (this.events[i].jobs[j].id > nextJobId) {
-                        nextJobId = this.events[i].jobs[j].id;
+            if (job.id != -1) {
+                // We are updating a job
+                let tempEventIndex = this.events.findIndex(event => event.id == eventId);
+                let tempJobIndex = this.events[tempEventIndex].jobs.findIndex(curJob => curJob.id == job.id);
+                job.volunteer = this.events[tempEventIndex].jobs[tempJobIndex].volunteer;
+                this.events[tempEventIndex].jobs[tempJobIndex] = job;
+            } else {
+                // Find the highest jobId, then increase it by 1 so it's unique
+                for (let i = 0; i < this.events.length; i++) {
+                    for (let j = 0; j < this.events[i].jobs.length; j++) {
+                        if (this.events[i].jobs[j].id > nextJobId) {
+                            nextJobId = this.events[i].jobs[j].id;
+                        }
                     }
                 }
+                nextJobId += 1;
+                job.id = nextJobId;
+                job.volunteer = null;
+                this.events.filter(event => {
+                    return event.id == eventId;
+                })[0].jobs.push(job);
             }
-            nextJobId += 1;
-            job.id = nextJobId;
-            this.events.filter(event => {
-                return event.id == eventId;
-            })[0].jobs.push(job);
 
             localStorage.setItem('events', JSON.stringify(this.events));
 

@@ -43,8 +43,14 @@ export class EventService {
     }
 
     public addJob(eventId: Number, jobVal: Job) {
+        jobVal.id = -1;
         let body = JSON.stringify(jobVal);
         return this.http.put('api/events/job/' + eventId, body);
     }
 
+    public updateJob(eventId: number, jobId: number, jobVal: Job) {
+        jobVal.id = jobId;
+        let body = JSON.stringify(jobVal);
+        return this.http.put('api/events/job/' + eventId, body);
+    }
 }

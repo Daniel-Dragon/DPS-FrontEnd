@@ -64,6 +64,14 @@ export class EventComponent implements OnInit {
             endTime: new Date(this.event.endTime),
             eventId: this.event.id
         }
-        this.modalService.show(AddJobComponent, {initialState: initialState})
+        this.modalService.onHide.subscribe(resp => this.loadEvent());
+        this.modalService.show(AddJobComponent, {initialState: initialState});
+    }
+
+    editJob(jobId) {
+        let initialState: any = this.event.jobs.filter(job => job.id == jobId)[0];
+        initialState.eventId = this.event.id;
+        this.modalService.onHide.subscribe(resp => this.loadEvent());
+        this.modalService.show(AddJobComponent, {initialState: initialState});
     }
 }
