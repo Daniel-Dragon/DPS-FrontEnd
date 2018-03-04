@@ -7,7 +7,6 @@ import { UserService } from '../core-module/user.service';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-modal-content',
     templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {

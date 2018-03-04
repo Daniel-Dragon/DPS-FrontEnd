@@ -14,13 +14,19 @@ export class UserService implements OnInit {
     constructor(public http: HttpClient, private auth: AuthService) {}
 
     public login(loginForm) {
+        let header = {
+            headers: new HttpHeaders(loginForm)
+        };
         return this.http.get('api/user/authenticate', {headers: new HttpHeaders(loginForm)}).do( 
             resp => {
-            this.auth.authToken = (resp as any).authentication;
-            this.auth.user = (resp as any).user; },
+                this.auth.authToken = (resp as any).authentication;
+                this.auth.user = (resp as any).user;
+                this.auth.permissions = (resp as any).permissions;
+            },
             err => {
                 this.auth.authToken = null;
                 localStorage.removeItem('authentication'); 
+            
             }
         );
     }

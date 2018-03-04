@@ -18,6 +18,8 @@ import { LoggedInGuard } from './shared-module/logged-in.guard';
 import { AuthenitcationInterceptor } from './shared-module/authentication-interceptor';
 import { MockBackend } from './mocks/mock_backend';
 import { EventComponent } from './event.component';
+import { AddJobComponent } from './add-job.component';
+import { TimepickerModule } from 'ngx-bootstrap';
 
 if (environment.production) {
   enableProdMode();
@@ -30,7 +32,8 @@ if (environment.production) {
     MainMenuComponent,
     LoginComponent,
     SettingsComponent,
-    EventComponent
+    EventComponent,
+    AddJobComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,7 @@ if (environment.production) {
       { path: 'event/:id', component: EventComponent },
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
+    TimepickerModule.forRoot(),
     CoreModule,
   ],
   providers: [
@@ -51,6 +55,6 @@ if (environment.production) {
     ...environment.providers
   ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginComponent]
+  entryComponents: [LoginComponent, AddJobComponent]
 })
 export class AppModule { }

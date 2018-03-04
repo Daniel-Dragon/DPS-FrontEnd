@@ -1,10 +1,11 @@
 import { Injectable, OnInit } from "@angular/core";
-import { User } from "../shared-module/models";
+import { User, Permissions } from "../shared-module/models";
 
 @Injectable()
 export class AuthService {
     authToken;
     user: User;
+    permissions: Permissions;
 
     constructor() {
     }
@@ -15,5 +16,9 @@ export class AuthService {
 
     getUserInfo() {
         return this.user;
+    }
+
+    getPermissions() {
+        return this.permissions;
     }
 }

@@ -1,5 +1,5 @@
 export interface Event {
-    id: Number;
+    id: number;
     name: String;
     startTime: Date;
     endTime: Date;
@@ -8,7 +8,7 @@ export interface Event {
 }
 
 export interface Job {
-    id: Number;
+    id: number;
     name: String;
     startTime: Date;
     endTime: Date;
@@ -16,14 +16,21 @@ export interface Job {
 }
 
 export interface Volunteer {
-    id: Number;
+    id: number;
     name: String;
     email?: String;
 }
 
 export interface User {
-    id: Number;
+    id: number;
     name: String;
     email: String;
     phoneNumber: String;
+}
+
+export interface Permissions {
+    admin: Boolean;
+    employee: Boolean;
+    volunteer: Boolean;
+    developer: Boolean;
 }

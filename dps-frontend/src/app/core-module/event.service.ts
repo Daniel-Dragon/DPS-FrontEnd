@@ -2,7 +2,7 @@ import { Injectable, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
-import { Event } from '../shared-module/models';
+import { Event, Job } from '../shared-module/models';
 import 'rxjs/Rx'
 
 
@@ -26,19 +26,25 @@ export class EventService {
     }
 
     public createEvent(eventObj: Event) {
-        return this.http.put('api/events/new', {headers: new HttpHeaders(JSON.stringify(eventObj))}).do(resp => {
+        let body = {event: eventObj}
+        return this.http.put('api/events/new', body).do(resp => {
 
         })
     }
 
     public volunteer(eventId: Number, jobId: Number, userId: Number) {
-        let header = {userId: userId};
-        return this.http.put('api/events/' + eventId + "/" + jobId, {headers: new HttpHeaders(JSON.stringify(header))});
+        let body = JSON.stringify({userId: userId});
+        return this.http.put('api/events/' + eventId + "/" + jobId, body);
     }
 
     public unregister(eventId: Number, jobId: Number, userId: Number) {
-        let header = {userId: userId};
-        return this.http.put('api/events/unregister/' + eventId + "/" + jobId, {headers: new HttpHeaders(JSON.stringify(header))});
+        let body = JSON.stringify({userId: userId});
+        return this.http.put('api/events/unregister/' + eventId + "/" + jobId, body);
+    }
+
+    public addJob(eventId: Number, jobVal: Job) {
+        let body = JSON.stringify(jobVal);
+        return this.http.put('api/events/job/' + eventId, body);
     }
 
 }

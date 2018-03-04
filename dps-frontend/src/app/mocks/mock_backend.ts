@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Event } from '../shared-module/models';
+import { Event, Job } from '../shared-module/models';
 
 @Injectable()
 export class MockBackend implements HttpInterceptor {
@@ -14,21 +14,29 @@ export class MockBackend implements HttpInterceptor {
         // Mock LOG IN
         if (request.url == 'api/user/authenticate' && request.method == 'GET') {
             let status = 401;
-            let body = {};
+            let respBody = {};
+            let email = request.headers.get('email');
+            let password = request.headers.get('password');
             let index = this.emails.findIndex((element) => {
-                return element == request.headers.get('email');
+                return element == email;
             });
 
             if (index >= 0) {
-                if (this.passwords[0] == request.headers.get('password')) {
+                if (this.passwords[0] == password) {
                     status = 200;
-                    body = {
+                    respBody = {
                         authentication: 'validToken',
                         user: {
                             id: 0,
                             name: 'Daniel Foote',
                             email: 'danfoote104227@gmail.com',
                             phoneNumber: '5181234567'
+                        },
+                        permissions: {
+                            admin: true,
+                            employee: true,
+                            volunteer: true,
+                            developer: true
                         }
                     };
                 }
@@ -37,7 +45,7 @@ export class MockBackend implements HttpInterceptor {
                 return new Observable(resp => {
                     resp.next(new HttpResponse({
                         status: status,
-                        body: body
+                        body: respBody
                     }));
                     resp.complete();
                 });
@@ -68,13 +76,13 @@ export class MockBackend implements HttpInterceptor {
                 return event.id == id;
             });
 
-            let body = JSON.parse(JSON.stringify(matchingEvents[0]));
+            let respBody = JSON.parse(JSON.stringify(matchingEvents[0]));
 
             // Remove identity info if not authorized
             if (!request.headers.get('authentication')) {
-                for (let i = 0; i < body.jobs.length; i++) {
-                    if (body.jobs[i].volunteer) {
-                        body.jobs[i].volunteer = {
+                for (let i = 0; i < respBody.jobs.length; i++) {
+                    if (respBody.jobs[i].volunteer) {
+                        respBody.jobs[i].volunteer = {
                             id: -1,
                             name: 'Volunteer'
                         };
@@ -85,7 +93,7 @@ export class MockBackend implements HttpInterceptor {
             return new Observable(resp => {
                 resp.next(new HttpResponse({
                     status: 200,
-                    body: body
+                    body: respBody
                 }));
                 resp.complete();
             })
@@ -97,7 +105,7 @@ export class MockBackend implements HttpInterceptor {
             let url = request.url.split('/');
             let eventId = +url[3];
             let jobId = +url[4];
-            let userId = +request.params.get('userId');
+            let userId = +JSON.parse(request.body).userId;
 
             this.events.filter(event => {
                 return event.id == eventId;
@@ -116,13 +124,46 @@ export class MockBackend implements HttpInterceptor {
             })
         }
 
+        // If we are adding a new job
+        if(request.url.startsWith('api/events/job/') && request.method == 'PUT') {
+            // api/events/job/:eventId header contains job
+            let url = request.url.split('/');
+            let eventId = +url[3];
+            let job = <Job>JSON.parse(request.body);
+            let nextJobId = 0;
+
+            // Find the highest jobId, then increase it by 1 so it's unique
+            for (let i = 0; i < this.events.length; i++) {
+                for (let j = 0; j < this.events[i].jobs.length; j++) {
+                    if (this.events[i].jobs[j].id > nextJobId) {
+                        nextJobId = this.events[i].jobs[j].id;
+                    }
+                }
+            }
+            nextJobId += 1;
+            job.id = nextJobId;
+            this.events.filter(event => {
+                return event.id == eventId;
+            })[0].jobs.push(job);
+
+            localStorage.setItem('events', JSON.stringify(this.events));
+
+            return new Observable(resp => {
+                resp.next(new HttpResponse({
+                    status: 200,
+                    body: {}
+                }));
+                resp.complete();
+            })
+        }
+
         // If we are volunteering for a job
         if(request.url.startsWith('api/events/') && request.method == 'PUT') {
             // api/events/:eventId/:jobId header contains userId
             let url = request.url.split('/');
             let eventId = +url[2];
             let jobId = +url[3];
-            let userId = +request.params.get('userId');
+            let userId = +JSON.parse(request.body).userId;
 
             this.events.filter(event => {
                 return event.id == eventId;

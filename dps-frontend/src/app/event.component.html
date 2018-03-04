@@ -3,7 +3,7 @@
     Date: {{ event.startTime | date:'fullDate'}} <br />
     Time: {{ event.startTime | date:'shortTime'}} - {{ event.endTime | date:'shortTime'}} <br /><br />
     {{ event.description }}<br /><br />
-    JOBS:
+    JOBS: <input *ngIf="authService.getPermissions()?.admin" (click)="addJob()" type="button" class="btn btn-primary" value="Add Job">
     <div class="row">
         <div class="col-md-4" *ngFor="let job of event.jobs">
             <div class="panel" [ngClass]="{'panel-primary': !job.volunteer, 'panel-danger': job.volunteer}">

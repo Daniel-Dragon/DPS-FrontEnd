@@ -2,8 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { EventService } from "./core-module/event.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "./core-module/auth.service";
+import { BsModalService } from "ngx-bootstrap";
+import { AddJobComponent } from "./add-job.component";
+import { Event } from "./shared-module/models";
 
 @Component({
+    styleUrls:['./event.component.css'],
     templateUrl: './event.component.html'
 })
 export class EventComponent implements OnInit {
@@ -13,7 +17,8 @@ export class EventComponent implements OnInit {
         private eventService: EventService, 
         private authService: AuthService, 
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private modalService: BsModalService
     ) {}
 
     ngOnInit() {
@@ -46,4 +51,13 @@ export class EventComponent implements OnInit {
             }
         )
     };
+
+    addJob() {
+        let initialState = {
+            startTime: new Date(this.event.startTime),
+            endTime: new Date(this.event.endTime),
+            eventId: this.event.id
+        }
+        this.modalService.show(AddJobComponent, {initialState: initialState})
+    }
 }
