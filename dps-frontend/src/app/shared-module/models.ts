@@ -4,24 +4,25 @@ export interface Event {
     startTime: Date;
     endTime: Date;
     description: String;
-    volunteerGroups: VolunteerGroup[];
+    jobs: Job[];
 }
 
-export interface VolunteerGroup {
-    title: String;
+export interface Job {
+    id: Number;
+    name: String;
     startTime: Date;
     endTime: Date;
-    volunteers?: Volunteer[];
+    volunteer: Volunteer;
 }
 
 export interface Volunteer {
+    id: Number;
     name: String;
-    email: String;
-    startTime: Date;
-    endTime: Date;
+    email?: String;
 }
 
 export interface User {
+    id: Number;
     name: String;
     email: String;
     phoneNumber: String;

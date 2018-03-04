@@ -1,0 +1,28 @@
+<div class="col-md-8 col-md-push-2">
+    {{ event.name }}<br />
+    Date: {{ event.startTime | date:'fullDate'}} <br />
+    Time: {{ event.startTime | date:'shortTime'}} - {{ event.endTime | date:'shortTime'}} <br /><br />
+    {{ event.description }}<br /><br />
+    JOBS:
+    <div class="row">
+        <div class="col-md-4" *ngFor="let job of event.jobs">
+            <div class="panel" [ngClass]="{'panel-primary': !job.volunteer, 'panel-danger': job.volunteer}">
+                <div class="panel-heading">
+                    {{ job.name }}
+                </div>
+                <div class="panel-body">
+                        Date: {{ job.startTime | date:'fullDate'}} <br />
+                        Time: {{ job.startTime | date:'shortTime'}} - {{ job.endTime | date:'shortTime'}}
+                        <span *ngIf="authService.isAuthorized() && job.volunteer"><br />
+                            Volunteer: <a [href]="'mailto:' + job.volunteer.email">{{ job.volunteer.name }}</a>
+                        </span>
+                </div>
+                <div class="panel-footer">
+                    <span *ngIf="job.volunteer; then filled else open"></span>
+                    <ng-template #filled><input (click)="unVolunteer(job.id)" type="button" class="btn btn-danger" [value]="authService.user?.id != job.volunteer?.id ? 'Filled' : 'Unregister'" [disabled]="authService.user?.id != job.volunteer?.id"></ng-template>
+                    <ng-template #open><input (click)="volunteer(job.id)" type="button" class="btn btn-primary" value="Volunteer" [disabled]="!authService.isAuthorized()"></ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

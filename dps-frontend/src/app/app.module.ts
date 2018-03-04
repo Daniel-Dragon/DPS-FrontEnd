@@ -17,6 +17,7 @@ import { SettingsComponent } from './users/settings.component';
 import { LoggedInGuard } from './shared-module/logged-in.guard';
 import { AuthenitcationInterceptor } from './shared-module/authentication-interceptor';
 import { MockBackend } from './mocks/mock_backend';
+import { EventComponent } from './event.component';
 
 if (environment.production) {
   enableProdMode();
@@ -28,7 +29,8 @@ if (environment.production) {
     HomeComponent,
     MainMenuComponent,
     LoginComponent,
-    SettingsComponent
+    SettingsComponent,
+    EventComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,7 @@ if (environment.production) {
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard] },
+      { path: 'event/:id', component: EventComponent },
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
     CoreModule,

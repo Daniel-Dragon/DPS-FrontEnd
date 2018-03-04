@@ -31,4 +31,14 @@ export class EventService {
         })
     }
 
+    public volunteer(eventId: Number, jobId: Number, userId: Number) {
+        let header = {userId: userId};
+        return this.http.put('api/events/' + eventId + "/" + jobId, {headers: new HttpHeaders(JSON.stringify(header))});
+    }
+
+    public unregister(eventId: Number, jobId: Number, userId: Number) {
+        let header = {userId: userId};
+        return this.http.put('api/events/unregister/' + eventId + "/" + jobId, {headers: new HttpHeaders(JSON.stringify(header))});
+    }
+
 }
