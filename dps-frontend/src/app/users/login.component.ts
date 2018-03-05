@@ -39,8 +39,7 @@ export class LoginComponent implements OnInit {
         const verifyPassword = new FormControl('', [Validators.required]);
         this.registerForm = this.fb.group({
             email: ['', [Validators.email, Validators.required]],
-            firstName: ['', [Validators.required]],
-            lastName: ['', [Validators.required]],
+            name: ['', [Validators.required]],
             phoneNumber: ['', [Validators.required]],
             password: ['', [Validators.required]],
             passwordVerify: ['', [Validators.required]]

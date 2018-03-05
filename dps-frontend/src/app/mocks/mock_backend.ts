@@ -38,6 +38,15 @@ export class MockBackend implements HttpInterceptor {
 
             if (this.users.findIndex(user => user.email == userRegister.email) == -1) {
                 // No user with email found, can register
+                // Need to find next highest userId
+                let nextId = 0;
+                for (let i = 0; i < this.users.length; i++) {
+                    if (this.users[i].user.id > nextId) {
+                        nextId = this.users[i].user.id;
+                    }
+                }
+                nextId += 1;
+                userRegister.id = nextId;
                 userRegister = {
                     user: userRegister,
                     permissions: {
@@ -61,6 +70,35 @@ export class MockBackend implements HttpInterceptor {
                 // User found, error duplicate register
                 return Observable.throw("User with email already registered");
             }
+        }
+
+        // Mock updating user details
+        if (request.url == 'api/user' && request.method == 'PUT') {
+            let updatedUser = request.body;
+            let userToUpdateIndex = this.users.findIndex(user => user.user.id == updatedUser.id);
+            // check if the user has permissions to edit this user by checking their token
+            if (request.headers.get('authentication') == this.users[userToUpdateIndex].user.email) {
+                //Has permission doing our stupid auth token as email thing
+                updatedUser.password = this.users[userToUpdateIndex].user.password;
+                this.users[userToUpdateIndex].user = updatedUser;
+                localStorage.setItem('users', JSON.stringify(this.users));
+                let response = {
+                    user: updatedUser,
+                    authentication: updatedUser.email,
+                    permissions: this.users[userToUpdateIndex].permissions
+                };
+                return new Observable(resp => {
+                    resp.next(new HttpResponse({
+                        status: 200,
+                        body: response
+                    }));
+                    resp.complete();
+                })
+            } else {
+                //User doesn't have permission to update this user.
+                return Observable.throw('Unauthorized to update this user');
+            }
+
         }
 
         // Mock Events
@@ -213,10 +251,10 @@ export class MockBackend implements HttpInterceptor {
 const defaultUsers = [
     {
         user: {
+            id: 1,
             email: 'danfoote104227@gmail.com',
             password: 'password',
-            firstName: 'Daniel',
-            lastName: 'Foote',
+            name: 'Daniel Foote',
             phoneNumber: '5181234567'
         },
         permissions: {

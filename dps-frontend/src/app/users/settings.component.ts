@@ -1,13 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../core-module/auth.service";
+import { UserService } from "../core-module/user.service";
 
 @Component({
     templateUrl: './settings.component.html',
     styleUrls: []
     })
     export class SettingsComponent implements OnInit {
-        constructor(public authService: AuthService) {}
+        constructor(public authService: AuthService, private userService: UserService) {}
+        isEditing = false;
         userForm;
         name;
         email;
@@ -30,6 +32,14 @@ import { AuthService } from "../core-module/auth.service";
         }
 
         public SaveUserInfo(userInfo) {
-            //TODO gotta have this call UserService and update user info... do I need a userID or do I need to just use the token?
+            userInfo.id = this.user.id;
+            this.userService.updateUser(userInfo).subscribe(
+                resp => {
+                    this.isEditing = false;
+                },
+                err => {
+
+                }
+            )
         }
     }

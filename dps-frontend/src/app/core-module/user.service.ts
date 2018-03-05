@@ -27,9 +27,8 @@ export class UserService implements OnInit {
                 this.onAuthChange.next(true);
             },
             err => {
-                this.auth.authToken = null;
+                this.auth.logout();
                 this.onAuthChange.next(true);
-                localStorage.removeItem('authentication'); 
             }
         );
     }
@@ -39,15 +38,28 @@ export class UserService implements OnInit {
             resp => {
                 this.auth.authToken = (resp as any).authentication;
                 this.auth.permissions = (resp as any).permissions;
-                delete (resp as any).authentication;
-                delete (resp as any).permissions;
-                this.auth.user = (resp as any);
+                this.auth.user = (resp as any).user;
                 this.onAuthChange.next(true);
             },
             err => {
 
             }
         )
+    }
+
+    public updateUser(user: User) {
+        return this.http.put('api/user', user).do(
+            resp => {
+                this.auth.authToken = (resp as any).authentication;
+                this.auth.permissions = (resp as any).permissions;
+                this.auth.user = (resp as any).user;
+                this.onAuthChange.next(true);
+            },
+            err => {
+                this.auth.logout();
+                this.onAuthChange.next(true);
+            }
+        );
     }
 
     ngOnInit() {

@@ -21,4 +21,12 @@ export class AuthService {
     getPermissions() {
         return this.permissions;
     }
+
+    logout() {
+        //TODO: Do we need to make a service call to have token destroyed on server?
+        this.authToken = null;
+        this.user = null;
+        this.permissions = null;
+        localStorage.removeItem('authentication');
+    }
 }
