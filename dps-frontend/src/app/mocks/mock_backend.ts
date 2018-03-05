@@ -9,10 +9,9 @@ export class MockBackend implements HttpInterceptor {
     events: Event[] = JSON.parse(localStorage.getItem('events')) || defaultEvents;
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        
         // Mock LOG IN
         if (request.url == 'api/user/authenticate' && request.method == 'GET') {
-            let status = 401;
-            let respBody = {};
             let email = request.headers.get('email');
             let password = request.headers.get('password');
             let foundUser = this.users.filter(user => {
@@ -30,6 +29,37 @@ export class MockBackend implements HttpInterceptor {
             }
 
             return Observable.throw('Unauthorized Status: ' + status);
+        }
+
+        // Mock registering
+        if (request.url == 'api/user/register' && request.method == 'PUT') {
+            let userRegister = request.body;
+
+            if (this.users.findIndex(user => user.email == userRegister.email) == -1) {
+                // No user with email found, can register
+                userRegister = {
+                    user: userRegister,
+                    permissions: {
+                        admin: false,
+                        employee: false,
+                        volunteer: true,
+                        developer: false
+                    }
+                };
+                this.users.push(userRegister);
+                localStorage.setItem('users', JSON.stringify(this.users));
+                userRegister.authentication = 'validToken';
+                return new Observable(resp => {
+                    resp.next(new HttpResponse({
+                        status: 200,
+                        body: userRegister
+                    }));
+                    resp.complete();
+                })
+            } else {
+                // User found, error duplicate register
+                return Observable.throw("User with email already registered");
+            }
         }
 
         // Mock Events

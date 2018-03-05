@@ -34,6 +34,22 @@ export class UserService implements OnInit {
         );
     }
 
+    public register(registerForm) {
+        return this.http.put('api/user/register', registerForm).do(
+            resp => {
+                this.auth.authToken = (resp as any).authentication;
+                this.auth.permissions = (resp as any).permissions;
+                delete (resp as any).authentication;
+                delete (resp as any).permissions;
+                this.auth.user = (resp as any);
+                this.onAuthChange.next(true);
+            },
+            err => {
+
+            }
+        )
+    }
+
     ngOnInit() {
     }
 }
