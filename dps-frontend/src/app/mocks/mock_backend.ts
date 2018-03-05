@@ -19,6 +19,7 @@ export class MockBackend implements HttpInterceptor {
             })[0];
 
             if (foundUser) {
+                foundUser.authentication = foundUser.user.email;
                 return new Observable(resp => {
                     resp.next(new HttpResponse({
                         status: 200,
@@ -48,7 +49,7 @@ export class MockBackend implements HttpInterceptor {
                 };
                 this.users.push(userRegister);
                 localStorage.setItem('users', JSON.stringify(this.users));
-                userRegister.authentication = 'validToken';
+                userRegister.authentication = userRegister.user.email;
                 return new Observable(resp => {
                     resp.next(new HttpResponse({
                         status: 200,
