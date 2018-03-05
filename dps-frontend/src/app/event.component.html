@@ -6,7 +6,7 @@
     JOBS: <input *ngIf="authService.getPermissions()?.admin" (click)="addJob()" type="button" class="btn btn-primary" value="Add Job">
     <div class="row">
         <div class="col-md-4" *ngFor="let job of event.jobs">
-            <div class="panel" [ngClass]="{'panel-primary': !job.volunteer, 'panel-danger': job.volunteer}">
+            <div class="panel" [ngClass]="getClasses(job)">
                 <div class="panel-heading">
                     {{ job.name }}
                 </div>
@@ -20,7 +20,7 @@
                 <div class="panel-footer">
                     <span *ngIf="job.volunteer; then filled else open"></span>
                     <ng-template #filled><input (click)="unVolunteer(job.id)" type="button" class="btn btn-danger" [value]="authService.user?.id != job.volunteer?.id ? 'Filled' : 'Unregister'" [disabled]="authService.user?.id != job.volunteer?.id"></ng-template>
-                    <ng-template #open><input (click)="volunteer(job.id)" type="button" class="btn btn-primary" value="Volunteer" [disabled]="!authService.isAuthorized()"></ng-template>
+                    <ng-template #open><input (click)="volunteer(job.id)" type="button" class="btn btn-primary" value="Volunteer" [disabled]="!authService.isAuthorized() || isVolunteered()"></ng-template>
                     <input *ngIf="authService.getPermissions()?.admin" (click)="editJob(job.id)" type="button" class="btn btn-primary" value="Edit Job">
                 </div>
             </div>

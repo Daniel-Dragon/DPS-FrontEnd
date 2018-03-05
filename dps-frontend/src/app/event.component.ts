@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "./core-module/auth.service";
 import { BsModalService } from "ngx-bootstrap";
 import { AddJobComponent } from "./add-job.component";
-import { Event } from "./shared-module/models";
+import { Event, Job } from "./shared-module/models";
 import { UserService } from "./core-module/user.service";
 
 @Component({
@@ -73,5 +73,35 @@ export class EventComponent implements OnInit {
         initialState.eventId = this.event.id;
         this.modalService.onHide.subscribe(resp => this.loadEvent());
         this.modalService.show(AddJobComponent, {initialState: initialState});
+    }
+
+    getClasses(job: Job) {
+        // {'panel-primary': !job.volunteer, 'panel-danger': job.volunteer?.id != authService.getUserInfo()?.id, 'panel-success': job.volunteer?.id == authService.getUserInfo()?.id}
+        let classes = [];
+        let user = this.authService.getUserInfo();
+        if(job.volunteer) {
+            if (user && job.volunteer.id == user.id) {
+                classes.push('panel-success');
+            } else {
+                classes.push('panel-danger');
+            }
+        } else {
+            if(user && this.event.jobs.findIndex(job => {
+                return job.volunteer && job.volunteer.id == user.id
+            }) >= 0) {
+                classes.push('panel-warning');
+            }
+            else {
+                classes.push('panel-primary');
+            }
+        }
+        return classes;
+    }
+
+    isVolunteered() {
+        let user = this.authService.getUserInfo();
+        return (user && this.event.jobs.findIndex(job => {
+            return job.volunteer && job.volunteer.id == user.id
+        })) >= 0
     }
 }
