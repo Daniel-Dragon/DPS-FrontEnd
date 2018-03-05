@@ -5,9 +5,7 @@ import { Event, Job } from '../shared-module/models';
 
 @Injectable()
 export class MockBackend implements HttpInterceptor {
-    //TODO import .json file and use that for the default
-    emails = JSON.parse(localStorage.getItem('emails')) || defaultEmail;
-    passwords = JSON.parse(localStorage.getItem('passwords')) || defaultPasswords;
+    users = JSON.parse(localStorage.getItem('users')) || defaultUsers;
     events: Event[] = JSON.parse(localStorage.getItem('events')) || defaultEvents;
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -17,40 +15,21 @@ export class MockBackend implements HttpInterceptor {
             let respBody = {};
             let email = request.headers.get('email');
             let password = request.headers.get('password');
-            let index = this.emails.findIndex((element) => {
-                return element == email;
-            });
+            let foundUser = this.users.filter(user => {
+                return user.user.email == email && user.user.password == password
+            })[0];
 
-            if (index >= 0) {
-                if (this.passwords[0] == password) {
-                    status = 200;
-                    respBody = {
-                        authentication: 'validToken',
-                        user: {
-                            id: 0,
-                            name: 'Daniel Foote',
-                            email: 'danfoote104227@gmail.com',
-                            phoneNumber: '5181234567'
-                        },
-                        permissions: {
-                            admin: true,
-                            employee: true,
-                            volunteer: true,
-                            developer: true
-                        }
-                    };
-                }
-            }
-            if (status == 200) {
+            if (foundUser) {
                 return new Observable(resp => {
                     resp.next(new HttpResponse({
-                        status: status,
-                        body: respBody
+                        status: 200,
+                        body: foundUser
                     }));
                     resp.complete();
                 });
             }
-                return Observable.throw('Unauthorized Status: ' + status);
+
+            return Observable.throw('Unauthorized Status: ' + status);
         }
 
         // Mock Events
@@ -200,8 +179,23 @@ export class MockBackend implements HttpInterceptor {
     }
 }
 
-const defaultEmail = ['email@gmail.com'];
-const defaultPasswords = ['password'];
+const defaultUsers = [
+    {
+        user: {
+            email: 'danfoote104227@gmail.com',
+            password: 'password',
+            firstName: 'Daniel',
+            lastName: 'Foote',
+            phoneNumber: '5181234567'
+        },
+        permissions: {
+            admin: true,
+            employee: true,
+            volunteer: true,
+            developer: true
+        }
+    }
+]
 
 const defaultEvents = [
     {
