@@ -126,10 +126,16 @@ export class MockBackend implements HttpInterceptor {
 
             let respBody = JSON.parse(JSON.stringify(matchingEvents[0]));
 
+            // Get user and permissions
+            let thisUser = this.users.filter(user => user.user.email == request.headers.get('authentication'))[0];
+
             // Remove identity info if not authorized
-            if (!request.headers.get('authentication')) {
+            
+            if (!thisUser || !thisUser.permissions.admin) {
                 for (let i = 0; i < respBody.jobs.length; i++) {
-                    if (respBody.jobs[i].volunteer) {
+                    if (!thisUser ||
+                        (respBody.jobs[i].volunteer && 
+                        respBody.jobs[i].volunteer.id != thisUser.user.id)) {
                         respBody.jobs[i].volunteer = {
                             id: -1,
                             name: 'Volunteer'
@@ -221,15 +227,16 @@ export class MockBackend implements HttpInterceptor {
             let eventId = +url[2];
             let jobId = +url[3];
             let userId = +JSON.parse(request.body).userId;
+            let user = this.users.filter(user => user.user.id == userId)[0].user;
 
             this.events.filter(event => {
                 return event.id == eventId;
             })[0].jobs.filter(job=> {
                 return job.id == jobId;
             })[0].volunteer = {
-                id:userId,
-                name:"Daniel Foote",
-                email:"danfoote104227@gmail.com"
+                id: user.id,
+                name: user.name,
+                email: user.email
             };
 
             localStorage.setItem('events', JSON.stringify(this.events));
@@ -251,7 +258,7 @@ export class MockBackend implements HttpInterceptor {
 const defaultUsers = [
     {
         user: {
-            id: 1,
+            id: 0,
             email: 'danfoote104227@gmail.com',
             password: 'password',
             name: 'Daniel Foote',
@@ -262,6 +269,21 @@ const defaultUsers = [
             employee: true,
             volunteer: true,
             developer: true
+        }
+    },
+    {
+        user: {
+            id: 1,
+            email: 'barry@gmail.com',
+            password: 'password',
+            name: 'Barry BlueJeans',
+            phoneNumber: '5181234567'
+        },
+        permissions: {
+            admin: false,
+            employee: false,
+            volunteer: true,
+            developer: false
         }
     }
 ]

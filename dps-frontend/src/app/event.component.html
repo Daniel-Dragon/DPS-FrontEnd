@@ -13,7 +13,7 @@
                 <div class="panel-body">
                         Date: {{ job.startTime | date:'fullDate'}} <br />
                         Time: {{ job.startTime | date:'shortTime'}} - {{ job.endTime | date:'shortTime'}}
-                        <span *ngIf="authService.isAuthorized() && job.volunteer"><br />
+                        <span *ngIf="authService.isAuthorized() && job.volunteer && job.volunteer?.id >= 0"><br />
                             Volunteer: <a [href]="'mailto:' + job.volunteer.email">{{ job.volunteer.name }}</a>
                         </span>
                 </div>
