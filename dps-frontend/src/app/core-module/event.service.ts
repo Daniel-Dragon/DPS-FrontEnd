@@ -53,4 +53,8 @@ export class EventService {
         let body = JSON.stringify(jobVal);
         return this.http.put('api/events/job/' + eventId, body);
     }
+
+    public putEvent(event: Event) {
+        return this.http.put('api/events', event);
+    }
 }

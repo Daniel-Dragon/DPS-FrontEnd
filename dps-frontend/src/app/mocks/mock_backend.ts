@@ -114,6 +114,49 @@ export class MockBackend implements HttpInterceptor {
             });
         }
 
+        // Mock adding/updating Event
+        if (request.url == 'api/events' && request.method == 'PUT') {
+            let event = request.body;
+            let auth = request.headers.get('authentication');
+
+            // Find user who made request and see if they're authorized
+            let requester = this.users.filter(user => user.user.email == auth)[0];
+
+            if (!requester || !requester.permissions.admin) {
+                return Observable.throw('You are not authorized to change Events.');
+            }
+
+            // If id == -1 it's a new event
+            if (event.id == -1) {
+                let newId = 0;
+                for (let i = 0; i < this.events.length; i++) {
+                    if (this.events[i].id > newId) {
+                        newId = this.events[i].id;
+                    }
+                }
+                newId += 1;
+                event.id = newId;
+                event.jobs = [];
+                this.events.push(event);
+            } else {
+                //Else we need to update an event.
+                let index = this.events.findIndex(thisEvent => thisEvent.id == event.id);
+                event.jobs = this.events[index].jobs;
+                this.events[index] = event;
+            }
+            
+
+            localStorage.setItem('events', JSON.stringify(this.events));
+
+            return new Observable(resp => {
+                resp.next(new HttpResponse({
+                    status: 200,
+                    body: {}
+                }));
+                resp.complete();
+            })
+        }
+
         // Mock Single Event
         if (request.url.startsWith('api/events/') && request.method == 'GET') {
             // Get the ID number
