@@ -19,7 +19,7 @@ import { AuthenitcationInterceptor } from './shared-module/authentication-interc
 import { MockBackend } from './mocks/mock_backend';
 import { EventComponent } from './event.component';
 import { AddJobComponent } from './add-job.component';
-import { TimepickerModule } from 'ngx-bootstrap';
+import { TimepickerModule, BsDropdownModule } from 'ngx-bootstrap';
 
 if (environment.production) {
   enableProdMode();
@@ -47,6 +47,7 @@ if (environment.production) {
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
     TimepickerModule.forRoot(),
+    BsDropdownModule.forRoot(),
     CoreModule,
   ],
   providers: [

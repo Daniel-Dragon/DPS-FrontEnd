@@ -25,9 +25,32 @@
                 <li><a href="#">Separated link</a></li>
             </ul>
             </li>
-            <li><span *ngIf="authService.isAuthorized(); then authorized else unauthorized"></span></li>
-            <ng-template #unauthorized><a (click)="login()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></ng-template>
-            <ng-template #authorized><a routerLink="/settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></ng-template>
+            <span *ngIf="authService.isAuthorized(); then authorized else unauthorized"></span>
+            <ng-template #unauthorized><li><a (click)="login()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li></ng-template>
+            <ng-template #authorized>
+                <li class="dropdown" dropdown>
+                    <a href dropdownToggle (click)="false" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+                    <ul *dropdownMenu class="dropdown-menu">
+                        <li role="menuitem"><a [routerLink]="['/settings']">Settings</a></li>
+                        <li role="menuitem"><a (click)="authService.logout()" [routerLink]="['']">Logout</a></li>
+                        <ng-container *ngIf="authService.getPermissions()?.admin">
+                            <li role="separator" class="divider" dropdown-divider></li>
+                            <li role="menuitem"><a (click)="authService.logout()" [routerLink]="['']">Add Event</a></li>
+                        </ng-container>
+                    </ul>
+                </li>
+                
+                <!-- <span dropdown>
+                    <a href dropdownToggle (click)="false">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </a>
+                    <ul *dropdownMenu class="dopdown-menu">
+                        <li>
+                            <a [routerLink]="['/settings']">Settings</a>
+                        </li>
+                    </ul>
+                </span> -->
+            </ng-template>
         </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
