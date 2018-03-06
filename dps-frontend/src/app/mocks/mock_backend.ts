@@ -328,6 +328,21 @@ const defaultUsers = [
             volunteer: true,
             developer: false
         }
+    },
+    {
+        user: {
+            id: 2,
+            email: 'admin@gmail.com',
+            password: 'password',
+            name: 'Test Admin',
+            phoneNumber: '5181234567'
+        },
+        permissions: {
+            admin: true,
+            employee: true,
+            volunteer: true,
+            developer: true
+        }
     }
 ]
 
