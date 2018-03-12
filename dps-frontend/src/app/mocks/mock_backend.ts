@@ -373,7 +373,7 @@ const defaultEvents = [
                 volunteer: {
                     id: 1,
                     name: 'Barry BlueJeans',
-                    email: 'bJean@gmail.com',
+                    email: 'barry@gmail.com',
                 }
             },
             {
@@ -411,9 +411,9 @@ const defaultEvents = [
                 volunteer: {
                     id: 1,
                     name: 'Billy BlueJeans',
-                    email: 'bJean@gmail.com',
+                    email: 'barry@gmail.com',
                 }
             }
         ]
     }
-]
+];
