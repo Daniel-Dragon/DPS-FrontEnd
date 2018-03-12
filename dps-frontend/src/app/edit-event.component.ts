@@ -1,28 +1,37 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { EventService } from "./core-module/event.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
-    styleUrls:[],
-    templateUrl: './add-event.component.html'
+    styleUrls:[ ],
+    templateUrl: './edit-event.component.html'
 })
-export class AddEventComponent implements OnInit {
+export class EditEventComponent implements OnInit {
     form;
-    date = new Date();
     today;
 
-    id = -1;
-    name = "";
-    startTime = new Date();
-    endTime = new Date();
-    description = "";
+    date;
+    id;
+    name;
+    startTime;
+    endTime;
+    description;
 
     constructor(private fb: FormBuilder,
                 private eventService: EventService,
-                private router: Router) {}
+                private router: Router,
+                private route: ActivatedRoute) {}
 
     ngOnInit() {
+        this.route.params.subscribe(params => {
+            this.id = +params['id'];
+            if (this.id != -1) {
+                this.loadEvent();
+            } else {
+                this.initializeEvent();
+            }
+        });
         this.today = new Date();
         this.startTime.setHours(8);
         this.startTime.setMinutes(0);
@@ -32,7 +41,7 @@ export class AddEventComponent implements OnInit {
         this.endTime.setSeconds(0);
 
         this.form = this.fb.group({
-            name: [name, Validators.required],
+            name: [this.name, Validators.required],
             date: [this.date, Validators.required],
             startTime: [this.startTime, Validators.required],
             endTime: [this.endTime, Validators.required],
@@ -67,7 +76,30 @@ export class AddEventComponent implements OnInit {
         delete event.date;
         this.eventService.putEvent(event).subscribe(
             resp => {
-                this.router.navigate['/'];
+                this.router.navigate(['/']);
+            },
+            err => {
+            }
+        )
+    }
+
+    private initializeEvent() {
+        this.date = new Date();
+        this.id = -1;
+        this.name = '';
+        this.startTime = new Date();
+        this.endTime = new Date();
+        this.description = '';
+    }
+
+    private loadEvent() {
+        this.eventService.getEvent(this.id).subscribe(
+            resp => {
+                this.date = new Date(resp.startTime);
+                this.name = resp.name;
+                this.startTime = new Date(resp.startTime);
+                this.endTime = new Date(resp.endTime);
+                this.description = resp.description;
             },
             err => {
 

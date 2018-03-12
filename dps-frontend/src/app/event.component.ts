@@ -15,8 +15,8 @@ export class EventComponent implements OnInit {
     id: Number;
     event: Event;
     constructor(
-        private eventService: EventService, 
-        private authService: AuthService, 
+        private eventService: EventService,
+        private authService: AuthService,
         private route: ActivatedRoute,
         private router: Router,
         private modalService: BsModalService,

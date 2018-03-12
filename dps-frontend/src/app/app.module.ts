@@ -20,7 +20,7 @@ import { MockBackend } from './mocks/mock_backend';
 import { EventComponent } from './event.component';
 import { AddJobComponent } from './add-job.component';
 import { TimepickerModule, BsDropdownModule, BsDatepickerModule } from 'ngx-bootstrap';
-import { AddEventComponent } from './add-event.component';
+import { EditEventComponent } from './edit-event.component';
 
 if (environment.production) {
   enableProdMode();
@@ -34,7 +34,7 @@ if (environment.production) {
     LoginComponent,
     SettingsComponent,
     EventComponent,
-    AddEventComponent,
+    EditEventComponent,
     AddJobComponent
   ],
   imports: [
@@ -46,7 +46,7 @@ if (environment.production) {
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard] },
       // TODO: Add guard to ensure admin role before going to add event page
-      { path: 'event/add', component: AddEventComponent},
+      { path: 'event/edit/:id', component: EditEventComponent},
       { path: 'event/:id', component: EventComponent },
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),

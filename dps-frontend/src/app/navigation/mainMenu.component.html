@@ -35,7 +35,7 @@
                         <li role="menuitem"><a (click)="authService.logout()" [routerLink]="['']">Logout</a></li>
                         <ng-container *ngIf="authService.getPermissions()?.admin">
                             <li role="separator" class="divider" dropdown-divider></li>
-                            <li role="menuitem"><a [routerLink]="['event', 'add']">Add Event</a></li>
+                            <li role="menuitem"><a [routerLink]="['event', 'edit', '-1']">Add Event</a></li>
                         </ng-container>
                     </ul>
                 </li>

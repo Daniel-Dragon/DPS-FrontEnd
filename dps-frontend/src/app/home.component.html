@@ -8,6 +8,9 @@
                 Time: {{ event.startTime | date:'shortTime'}} - {{ event.endTime | date:'shortTime'}} <br /><br />
                 {{ event.description }}
         </div>
-        <div class="panel-footer"><input [routerLink]="['/event', event.id]" type="button" class="btn btn-primary" value="Details"></div>
+        <div class="panel-footer">
+            <input [routerLink]="['/event', event.id]" type="button" class="btn btn-primary" value="Details">
+            <input *ngIf="authService.getPermissions()?.admin" [routerLink]="['event', 'edit', event.id]" type="button" class="btn btn-primary" value="Edit Job">
+        </div>
     </div>
 </div>
