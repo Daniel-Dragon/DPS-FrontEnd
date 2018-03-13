@@ -6,6 +6,7 @@ import 'rxjs/Rx'
 import { User } from "../shared-module/models";
 import { AuthService } from "./auth.service";
 import { Subject } from "rxjs/Rx";
+import { ToastrService } from "ngx-toastr";
 
 
 @Injectable()
@@ -13,7 +14,9 @@ export class UserService implements OnInit {
     user: User;
     onAuthChange = new Subject();
 
-    constructor(public http: HttpClient, private auth: AuthService) {}
+    constructor(public http: HttpClient, 
+                private auth: AuthService,
+                private toastr: ToastrService) {}
 
     public login(loginForm) {
         let header = {
@@ -42,7 +45,7 @@ export class UserService implements OnInit {
                 this.onAuthChange.next(true);
             },
             err => {
-
+                this.toastr.error('There is something wrong and you were not registered. Please try again.', 'Error');
             }
         )
     }
@@ -53,10 +56,12 @@ export class UserService implements OnInit {
                 this.auth.authToken = (resp as any).authentication;
                 this.auth.permissions = (resp as any).permissions;
                 this.auth.user = (resp as any).user;
+                this.toastr.success('User settings have been saved.', 'Success!');
                 this.onAuthChange.next(true);
             },
             err => {
                 this.auth.logout();
+                this.toastr.error('Something went wrong and your settings weren\'t saved', 'Error');
                 this.onAuthChange.next(true);
             }
         );

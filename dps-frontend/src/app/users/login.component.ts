@@ -61,8 +61,9 @@ export class LoginComponent implements OnInit {
         if (registerForm.password != registerForm.passwordVerify) {
             // TODO: Let user know they aren't equal? Or maybe display in form and not allow submission instead.
         } else {
-            delete registerForm.passwordVerify;
-            this.userService.register(registerForm).subscribe(
+            let registerVals = Object.assign({}, registerForm);
+            delete registerVals.passwordVerify;
+            this.userService.register(registerVals).subscribe(
                 resp => {
                     this.modalRef.hide();
                 },
@@ -71,7 +72,6 @@ export class LoginComponent implements OnInit {
                 }
             );
         }
-        console.log(registerForm.value);
      
         
     }

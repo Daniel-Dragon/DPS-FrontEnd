@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { Subscription } from "rxjs/Subscription";
 import { Event, Job } from '../shared-module/models';
 import 'rxjs/Rx'
+import { ToastrService } from "ngx-toastr";
 
 
 @Injectable()
@@ -11,7 +12,7 @@ export class EventService {
     userName : string = "Test Username"
     authentication;
 
-    constructor(public http: HttpClient) {}
+    constructor(public http: HttpClient, private toastr: ToastrService) {}
     
     public getEvents() {
         return this.http.get('api/events').do(resp => {
@@ -19,9 +20,9 @@ export class EventService {
         });
     }
 
-    public getEvent(eventId: Number) {
-        return this.http.get('api/events/' + eventId).do(resp => {
-
+    public getEvent(eventId: Number): Observable<Event> {
+        return this.http.get('api/events/' + eventId).map(resp => {
+            return resp as Event;
         });
     }
 
@@ -34,18 +35,40 @@ export class EventService {
 
     public volunteer(eventId: Number, jobId: Number, userId: Number) {
         let body = JSON.stringify({userId: userId});
-        return this.http.put('api/events/' + eventId + "/" + jobId, body);
+        return this.http.put('api/events/' + eventId + "/" + jobId, body).do(
+            resp => {
+                this.toastr.success('You have successfully volunteered for this position.', 'Success!');
+            },
+            err => {
+                this.toastr.error('There was an error with registering you for this job, please refresh and try again.', 'Error');
+            }
+        );
     }
 
     public unregister(eventId: Number, jobId: Number, userId: Number) {
         let body = JSON.stringify({userId: userId});
-        return this.http.put('api/events/unregister/' + eventId + "/" + jobId, body);
+        return this.http.put('api/events/unregister/' + eventId + "/" + jobId, body).do(
+            resp => {
+                this.toastr.success('You have unregistered for this job.', 'Success!');
+            },
+            err => {
+                this.toastr.error('There was an error unregistering you from this job.', 'Error');
+            }
+        );
     }
 
     public addJob(eventId: Number, jobVal: Job) {
         jobVal.id = -1;
         let body = JSON.stringify(jobVal);
-        return this.http.put('api/events/job/' + eventId, body);
+        return this.http.put('api/events/job/' + eventId, body).do(
+            resp => {
+                this.toastr.success('The job ' + jobVal.name + ' has been added.', 'Job Added');
+            },
+            err => {
+                this.toastr.error()
+                this.toastr.error('There was an error adding this job, please refresh and try again.', 'Error');
+            }
+        );
     }
 
     public updateJob(eventId: number, jobId: number, jobVal: Job) {

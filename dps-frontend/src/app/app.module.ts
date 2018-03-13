@@ -21,6 +21,8 @@ import { EventComponent } from './event.component';
 import { AddJobComponent } from './add-job.component';
 import { TimepickerModule, BsDropdownModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { EditEventComponent } from './edit-event.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 if (environment.production) {
   enableProdMode();
@@ -50,9 +52,14 @@ if (environment.production) {
       { path: 'event/:id', component: EventComponent },
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
+    BrowserAnimationsModule,
     TimepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    ToastrModule.forRoot({
+      closeButton: true,
+      positionClass: "toast-bottom-right"
+    }),
     CoreModule,
   ],
   providers: [

@@ -36,7 +36,7 @@ export class MockBackend implements HttpInterceptor {
         if (request.url == 'api/user/register' && request.method == 'PUT') {
             let userRegister = request.body;
 
-            if (this.users.findIndex(user => user.email == userRegister.email) == -1) {
+            if (this.users.findIndex(user => user.user.email == userRegister.email) == -1) {
                 // No user with email found, can register
                 // Need to find next highest userId
                 let nextId = 0;
