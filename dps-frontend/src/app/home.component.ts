@@ -3,7 +3,12 @@ import { EventService } from "./core-module/event.service";
 import { AuthService } from "./core-module/auth.service";
 
 @Component({
-    templateUrl: './home.component.html'
+    templateUrl: './home.component.html',
+    styles: [`
+    .panel-body {
+        min-height: 150px;
+    }
+    `]
 })
 export class HomeComponent implements OnInit {
     events;

@@ -1,9 +1,11 @@
 <div class="col-md-8 col-md-push-2">
-    {{ event.name }}<br />
-    Date: {{ event.startTime | date:'fullDate'}} <br />
-    Time: {{ event.startTime | date:'shortTime'}} - {{ event.endTime | date:'shortTime'}} <br /><br />
-    {{ event.description }}<br /><br />
-    JOBS: <input *ngIf="authService.getPermissions()?.admin" (click)="addJob()" type="button" class="btn btn-primary" value="Add Job">
+    <p>
+        {{ event.name }}<br />
+        Date: {{ event.startTime | date:'fullDate'}} <br />
+        Time: {{ event.startTime | date:'shortTime'}} - {{ event.endTime | date:'shortTime'}} <br /><br />
+        {{ event.description }}<br /><br />
+        JOBS: <input *ngIf="authService.getPermissions()?.admin" (click)="addJob()" type="button" class="btn btn-primary" value="Add Job">
+    </p>
     <div class="row">
         <div class="col-md-4" *ngFor="let job of event.jobs">
             <div class="panel" [ngClass]="getClasses(job)">
