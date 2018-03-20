@@ -13,9 +13,9 @@ export class EventService {
 
     constructor(public http: HttpClient, private toastr: ToastrService) {}
 
-    public getEvents() {
+    public getEvents() { //Needs to return array of Events 
         return this.http.get('api/events').do(resp => {
-
+            
         });
     }
 
@@ -25,9 +25,10 @@ export class EventService {
         });
     }
 
-    public createEvent(eventObj: Event): Observable<void> {
+    public createEvent(eventObj: Event): Observable<Event> {
         const body = {event: eventObj};
         return this.http.put('api/events/new', body).map(resp => {
+          return resp as Event;
 
         });
     }
@@ -44,9 +45,9 @@ export class EventService {
         );
     }
 
-    public unregister(eventId: Number, jobId: Number, userId: Number) {
+    public unregister(eventId: Number, jobId: Number, userId: Number): Observable<void> {
         const body = JSON.stringify({userId: userId});
-        return this.http.put('api/events/unregister/' + eventId + '/' + jobId, body).do(
+        return this.http.put('api/events/unregister/' + eventId + '/' + jobId, body).map(
             resp => {
                 this.toastr.success('You have unregistered for this job.', 'Success!');
             },
@@ -56,12 +57,13 @@ export class EventService {
         );
     }
 
-    public addJob(eventId: Number, jobVal: Job) {
+    public addJob(eventId: Number, jobVal: Job): Observable<Job> {
         jobVal.id = -1;
         const body = JSON.stringify(jobVal);
-        return this.http.put('api/events/job/' + eventId, body).do(
+        return this.http.put('api/events/job/' + eventId, body).map(
             resp => {
                 this.toastr.success('The job ' + jobVal.name + ' has been added.', 'Job Added');
+               return resp as Job;
             },
             err => {
                 this.toastr.error();
@@ -70,13 +72,14 @@ export class EventService {
         );
     }
 
-    public updateJob(eventId: number, jobId: number, jobVal: Job) {
+    public updateJob(eventId: number, jobId: number, jobVal: Job) { //Unsure of return type, would it just be the updated job itself?
         jobVal.id = jobId;
         const body = JSON.stringify(jobVal);
         return this.http.put('api/events/job/' + eventId, body);
+        
     }
 
-    public putEvent(event: Event) {
+    public putEvent(event: Event) { //Unsure of return type, does not like 'Observable<Event>'
         return this.http.put('api/events', event);
     }
 }
