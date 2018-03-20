@@ -25,16 +25,16 @@ export class EventService {
         });
     }
 
-    public createEvent(eventObj: Event) {
+    public createEvent(eventObj: Event): Observable<void> {
         const body = {event: eventObj};
-        return this.http.put('api/events/new', body).do(resp => {
+        return this.http.put('api/events/new', body).map(resp => {
 
         });
     }
 
-    public volunteer(eventId: Number, jobId: Number, userId: Number) {
+    public volunteer(eventId: Number, jobId: Number, userId: Number): Observable<void> {
         const body = JSON.stringify({userId: userId});
-        return this.http.put('api/events/' + eventId + '/' + jobId, body).do(
+        return this.http.put('api/events/' + eventId + '/' + jobId, body).map(
             resp => {
                 this.toastr.success('You have successfully volunteered for this position.', 'Success!');
             },
