@@ -1,19 +1,18 @@
-import { Injectable, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { Subscription } from "rxjs/Subscription";
+import { Injectable, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { Event, Job } from '../shared-module/models';
-import 'rxjs/Rx'
-import { ToastrService } from "ngx-toastr";
+import 'rxjs/add/operator/map';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable()
 export class EventService {
-    userName : string = "Test Username"
     authentication;
 
     constructor(public http: HttpClient, private toastr: ToastrService) {}
-    
+
     public getEvents() {
         return this.http.get('api/events').do(resp => {
 
@@ -27,15 +26,15 @@ export class EventService {
     }
 
     public createEvent(eventObj: Event) {
-        let body = {event: eventObj}
+        const body = {event: eventObj};
         return this.http.put('api/events/new', body).do(resp => {
 
-        })
+        });
     }
 
     public volunteer(eventId: Number, jobId: Number, userId: Number) {
-        let body = JSON.stringify({userId: userId});
-        return this.http.put('api/events/' + eventId + "/" + jobId, body).do(
+        const body = JSON.stringify({userId: userId});
+        return this.http.put('api/events/' + eventId + '/' + jobId, body).do(
             resp => {
                 this.toastr.success('You have successfully volunteered for this position.', 'Success!');
             },
@@ -46,8 +45,8 @@ export class EventService {
     }
 
     public unregister(eventId: Number, jobId: Number, userId: Number) {
-        let body = JSON.stringify({userId: userId});
-        return this.http.put('api/events/unregister/' + eventId + "/" + jobId, body).do(
+        const body = JSON.stringify({userId: userId});
+        return this.http.put('api/events/unregister/' + eventId + '/' + jobId, body).do(
             resp => {
                 this.toastr.success('You have unregistered for this job.', 'Success!');
             },
@@ -59,13 +58,13 @@ export class EventService {
 
     public addJob(eventId: Number, jobVal: Job) {
         jobVal.id = -1;
-        let body = JSON.stringify(jobVal);
+        const body = JSON.stringify(jobVal);
         return this.http.put('api/events/job/' + eventId, body).do(
             resp => {
                 this.toastr.success('The job ' + jobVal.name + ' has been added.', 'Job Added');
             },
             err => {
-                this.toastr.error()
+                this.toastr.error();
                 this.toastr.error('There was an error adding this job, please refresh and try again.', 'Error');
             }
         );
@@ -73,7 +72,7 @@ export class EventService {
 
     public updateJob(eventId: number, jobId: number, jobVal: Job) {
         jobVal.id = jobId;
-        let body = JSON.stringify(jobVal);
+        const body = JSON.stringify(jobVal);
         return this.http.put('api/events/job/' + eventId, body);
     }
 
