@@ -176,9 +176,9 @@ export class MockBackend implements HttpInterceptor {
             
             if (!thisUser || !thisUser.permissions.admin) {
                 for (let i = 0; i < respBody.jobs.length; i++) {
-                    if (!thisUser ||
-                        (respBody.jobs[i].volunteer && 
-                        respBody.jobs[i].volunteer.id != thisUser.user.id)) {
+                    if ((!thisUser && respBody.jobs[i].volunteer) ||
+                        (respBody.jobs[i].volunteer &&
+                        respBody.jobs[i].volunteer.id !== thisUser.user.id)) {
                         respBody.jobs[i].volunteer = {
                             id: -1,
                             name: 'Volunteer'

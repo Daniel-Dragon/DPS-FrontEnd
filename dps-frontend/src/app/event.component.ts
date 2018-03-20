@@ -77,17 +77,17 @@ export class EventComponent implements OnInit {
 
     getClasses(job: Job) {
         // {'panel-primary': !job.volunteer, 'panel-danger': job.volunteer?.id != authService.getUserInfo()?.id, 'panel-success': job.volunteer?.id == authService.getUserInfo()?.id}
-        let classes = [];
-        let user = this.authService.getUserInfo();
-        if(job.volunteer) {
-            if (user && job.volunteer.id == user.id) {
+        const classes = [];
+        const user = this.authService.getUserInfo();
+        if (job.volunteer) {
+            if (user && job.volunteer.id === user.id) {
                 classes.push('panel-success');
             } else {
                 classes.push('panel-danger');
             }
         } else {
-            if(user && this.event.jobs.findIndex(job => {
-                return job.volunteer && job.volunteer.id == user.id
+            if (user && this.event.jobs.findIndex(job => {
+                return job.volunteer && job.volunteer.id === user.id
             }) >= 0) {
                 classes.push('panel-warning');
             }
