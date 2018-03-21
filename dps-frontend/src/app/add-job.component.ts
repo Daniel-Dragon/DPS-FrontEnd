@@ -11,7 +11,7 @@ import { EventService } from './core-module/event.service';
 export class AddJobComponent implements OnInit {
     form: FormGroup;
     id = -1;
-    name = "";
+    name = '';
     startTime = null;
     endTime = null;
     eventId = null;
@@ -27,7 +27,7 @@ export class AddJobComponent implements OnInit {
     }
 
     isEditing() {
-        return !(this.id == -1);
+        return !(this.id === -1);
     }
 
     addJob(jobVal) {
@@ -38,7 +38,7 @@ export class AddJobComponent implements OnInit {
             err => {
 
             }
-        )
+        );
     }
 
     editJob(jobVal) {
@@ -49,7 +49,7 @@ export class AddJobComponent implements OnInit {
             err => {
 
             }
-        )
+        );
     }
 
     close() {

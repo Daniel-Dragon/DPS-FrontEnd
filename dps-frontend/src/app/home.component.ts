@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { EventService } from "./core-module/event.service";
-import { AuthService } from "./core-module/auth.service";
+import { Component, OnInit } from '@angular/core';
+import { EventService } from './core-module/event.service';
+import { AuthService } from './core-module/auth.service';
 
 @Component({
     templateUrl: './home.component.html',

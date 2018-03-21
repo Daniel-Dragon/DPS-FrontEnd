@@ -58,7 +58,7 @@ if (environment.production) {
     BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
       closeButton: true,
-      positionClass: "toast-bottom-right"
+      positionClass: 'toast-bottom-right'
     }),
     CoreModule,
   ],

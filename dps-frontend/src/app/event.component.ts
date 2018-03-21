@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { EventService } from "./core-module/event.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { AuthService } from "./core-module/auth.service";
-import { BsModalService } from "ngx-bootstrap";
-import { AddJobComponent } from "./add-job.component";
-import { Event, Job } from "./shared-module/models";
-import { UserService } from "./core-module/user.service";
+import { Component, OnInit } from '@angular/core';
+import { EventService } from './core-module/event.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from './core-module/auth.service';
+import { BsModalService } from 'ngx-bootstrap';
+import { AddJobComponent } from './add-job.component';
+import { Event, Job } from './shared-module/models';
+import { UserService } from './core-module/user.service';
 
 @Component({
-    styleUrls:['./event.component.css'],
+    styleUrls: ['./event.component.css'],
     templateUrl: './event.component.html'
 })
 export class EventComponent implements OnInit {
@@ -34,7 +34,7 @@ export class EventComponent implements OnInit {
     loadEvent() {
         this.eventService.getEvent(this.id).subscribe(resp => {
             this.event = <Event>resp;
-        })
+        });
     }
 
     volunteer(jobId: Number) {
@@ -55,28 +55,27 @@ export class EventComponent implements OnInit {
             err => {
                 this.loadEvent();
             }
-        )
-    };
+        );
+    }
 
     addJob() {
-        let initialState = {
+        const initialState = {
             startTime: new Date(this.event.startTime),
             endTime: new Date(this.event.endTime),
             eventId: this.event.id
-        }
+        };
         this.modalService.onHide.subscribe(resp => this.loadEvent());
         this.modalService.show(AddJobComponent, {initialState: initialState});
     }
 
     editJob(jobId) {
-        let initialState: any = this.event.jobs.filter(job => job.id == jobId)[0];
+        const initialState: any = this.event.jobs.filter(job => job.id === jobId)[0];
         initialState.eventId = this.event.id;
         this.modalService.onHide.subscribe(resp => this.loadEvent());
         this.modalService.show(AddJobComponent, {initialState: initialState});
     }
 
     getClasses(job: Job) {
-        // {'panel-primary': !job.volunteer, 'panel-danger': job.volunteer?.id != authService.getUserInfo()?.id, 'panel-success': job.volunteer?.id == authService.getUserInfo()?.id}
         const classes = [];
         const user = this.authService.getUserInfo();
         if (job.volunteer) {
@@ -99,9 +98,10 @@ export class EventComponent implements OnInit {
     }
 
     isVolunteered() {
-        let user = this.authService.getUserInfo();
-        return (user && this.event.jobs.findIndex(job => {
-            return job.volunteer && job.volunteer.id == user.id
-        })) >= 0
+        const user = this.authService.getUserInfo();
+        return (user &&
+            this.event.jobs.findIndex(job => {
+                return job.volunteer && job.volunteer.id === user.id;
+            }) >= 0);
     }
 }

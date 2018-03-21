@@ -17,15 +17,15 @@ export class LoginComponent implements OnInit {
     // registerForm: FormGroup;
 
     constructor(
-        public userService: UserService, 
-        public modalRef: BsModalRef, 
+        public userService: UserService,
+        public modalRef: BsModalRef,
         public router: Router,
         private fb: FormBuilder
     ) {}
 
     ngOnInit() {
-        let email = new FormControl();
-        let password = new FormControl();
+        const email = new FormControl();
+        const password = new FormControl();
         this.loginForm = new FormGroup({
             email: email,
             password: password
@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
             phoneNumber: ['', [Validators.required]],
             password: ['', [Validators.required]],
             passwordVerify: ['', [Validators.required]]
-        })
+        });
     }
 
     login(loginForm): void {
@@ -58,10 +58,10 @@ export class LoginComponent implements OnInit {
 
     register(registerForm): void {
         // TODO: need to check to make sure that: all fields have entries, email is not already registered, etc..
-        if (registerForm.password != registerForm.passwordVerify) {
+        if (registerForm.password !== registerForm.passwordVerify) {
             // TODO: Let user know they aren't equal? Or maybe display in form and not allow submission instead.
         } else {
-            let registerVals = Object.assign({}, registerForm);
+            const registerVals = Object.assign({}, registerForm);
             delete registerVals.passwordVerify;
             this.userService.register(registerVals).subscribe(
                 resp => {
@@ -72,8 +72,6 @@ export class LoginComponent implements OnInit {
                 }
             );
         }
-     
-        
     }
 
     close(): void {

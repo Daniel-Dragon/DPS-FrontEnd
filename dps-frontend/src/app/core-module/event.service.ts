@@ -13,7 +13,7 @@ export class EventService {
 
     constructor(public http: HttpClient, private toastr: ToastrService) {}
 
-    public getEvents(): Observable<Event[]> { 
+    public getEvents(): Observable<Event[]> {
         return this.http.get('api/events').map(resp => {
             return resp as Event[];
         });
@@ -72,14 +72,14 @@ export class EventService {
         );
     }
 
-    public updateJob(eventId: number, jobId: number, jobVal: Job) { //Unsure of return type, would it just be the updated job itself?
+    public updateJob(eventId: number, jobId: number, jobVal: Job) { 
         jobVal.id = jobId;
         const body = JSON.stringify(jobVal);
         return this.http.put('api/events/job/' + eventId, body);
-        
+
     }
 
-    public putEvent(event: Event) { //Unsure of return type, does not like 'Observable<Event>'
+    public putEvent(event: Event) {
         return this.http.put('api/events', event);
     }
 }

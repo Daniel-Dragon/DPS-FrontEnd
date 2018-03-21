@@ -1,10 +1,10 @@
-import { Component, OnInit } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
-import { EventService } from "./core-module/event.service";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { EventService } from './core-module/event.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-    styleUrls:[ ],
+    styleUrls: [ ],
     templateUrl: './edit-event.component.html'
 })
 export class EditEventComponent implements OnInit {
@@ -26,7 +26,7 @@ export class EditEventComponent implements OnInit {
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.id = +params['id'];
-            if (this.id != -1) {
+            if (this.id !== -1) {
                 this.loadEvent();
             } else {
                 this.initializeEvent();
@@ -46,29 +46,29 @@ export class EditEventComponent implements OnInit {
             startTime: [this.startTime, Validators.required],
             endTime: [this.endTime, Validators.required],
             description: [this.description, Validators.required]
-        })
+        });
 
         this.form.get('date').valueChanges.subscribe(val => {
-            let date = val.getDate();
-            let month = val.getMonth();
-            let year = val.getYear();
-            let startTime = this.form.get('startTime');
-            let endTime = this.form.get('endTime');
+            const date = val.getDate();
+            const month = val.getMonth();
+            const year = val.getYear();
+            const startTime = this.form.get('startTime');
+            const endTime = this.form.get('endTime');
             startTime.value.setDate(date);
             startTime.value.setMonth(month);
             startTime.value.setYear(year);
-            
+
             endTime.value.setDate(date);
             endTime.value.setMonth(month);
             endTime.value.setYear(year);
 
 
-        })
+        });
     }
 
     DisableSave() {
         // TODO: Validate form.
-        return false
+        return false;
     }
 
     SaveEvent(event) {
@@ -80,7 +80,7 @@ export class EditEventComponent implements OnInit {
             },
             err => {
             }
-        )
+        );
     }
 
     private initializeEvent() {
@@ -104,6 +104,6 @@ export class EditEventComponent implements OnInit {
             err => {
 
             }
-        )
+        );
     }
 }

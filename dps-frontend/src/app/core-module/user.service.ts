@@ -1,12 +1,12 @@
-import { Injectable, OnInit } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
-import { Subscription } from "rxjs/Subscription";
-import 'rxjs/Rx'
-import { User } from "../shared-module/models";
-import { AuthService } from "./auth.service";
-import { Subject } from "rxjs/Rx";
-import { ToastrService } from "ngx-toastr";
+import { Injectable, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/do';
+import { User } from '../shared-module/models';
+import { AuthService } from './auth.service';
+import { Subject } from 'rxjs/Subject';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable()
@@ -14,15 +14,15 @@ export class UserService implements OnInit {
     user: User;
     onAuthChange = new Subject();
 
-    constructor(public http: HttpClient, 
+    constructor(public http: HttpClient,
                 private auth: AuthService,
                 private toastr: ToastrService) {}
 
     public login(loginForm) {
-        let header = {
+        const header = {
             headers: new HttpHeaders(loginForm)
         };
-        return this.http.get('api/user/authenticate', {headers: new HttpHeaders(loginForm)}).do( 
+        return this.http.get('api/user/authenticate', {headers: new HttpHeaders(loginForm)}).do(
             resp => {
                 this.auth.authToken = (resp as any).authentication;
                 this.auth.user = (resp as any).user;
@@ -47,7 +47,7 @@ export class UserService implements OnInit {
             err => {
                 this.toastr.error('There is something wrong and you were not registered. Please try again.', 'Error');
             }
-        )
+        );
     }
 
     public updateUser(user: User) {
