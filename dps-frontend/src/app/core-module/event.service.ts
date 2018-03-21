@@ -13,9 +13,9 @@ export class EventService {
 
     constructor(public http: HttpClient, private toastr: ToastrService) {}
 
-    public getEvents() { //Needs to return array of Events 
-        return this.http.get('api/events').do(resp => {
-            
+    public getEvents(): Observable<Event[]> { 
+        return this.http.get('api/events').map(resp => {
+            return resp as Event[];
         });
     }
 
