@@ -25,14 +25,7 @@ export class EventService {
         });
     }
 
-    public createEvent(eventObj: Event): Observable<Event> {
-        const body = {event: eventObj};
-        return this.http.put('api/events/new', body).map(resp => {
-          return resp as Event;
-
-        });
-    }
-
+  
     public volunteer(eventId: Number, jobId: Number, userId: Number): Observable<void> {
         const body = JSON.stringify({userId: userId});
         return this.http.put('api/events/' + eventId + '/' + jobId, body).map(
@@ -72,14 +65,30 @@ export class EventService {
         );
     }
 
-    public updateJob(eventId: number, jobId: number, jobVal: Job) { //Unsure of return type, would it just be the updated job itself?
+    public updateJob(eventId: number, jobId: number, jobVal: Job): Observable<void> {
         jobVal.id = jobId;
         const body = JSON.stringify(jobVal);
-        return this.http.put('api/events/job/' + eventId, body);
-        
+        return this.http.put('api/events/job/' + eventId, body).map(
+            resp => {
+                return;
+            },
+            err => {
+                this.toastr.error('There was an error updating this job, please refresh and try again.', 'Error');
+                return;
+            }
+        );
+
     }
 
-    public putEvent(event: Event) { //Unsure of return type, does not like 'Observable<Event>'
-        return this.http.put('api/events', event);
+    public putEvent(event: Event): Observable<void> {
+        return this.http.put('api/events', event).map(
+            resp => {
+                return;
+            },
+            err => {
+                this.toastr.error('There was an error creating this Event, please refresh and try again.', 'Error');
+                return;
+            }
+        );
     }
 }
