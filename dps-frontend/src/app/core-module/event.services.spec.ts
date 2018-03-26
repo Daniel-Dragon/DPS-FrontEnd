@@ -32,17 +32,23 @@ describe('EventService', () => {
     beforeEach(() => {
         service = new EventService(<any>mockHttp, <any>mockToastr);
     });
+
     // Test to ensure 'getEvents' method references correct api
+
     it('getEvents should make the correct call', () => {
         service.getEvents();
         expect(mockHttp.get).toHaveBeenCalledWith('api/events');
     });
+
     // Test to ensure 'getEvent' method references correct api
+
     it('getEvent should make the correct call', () => {
         service.getEvents();
         expect(mockHttp.get).toHaveBeenCalledWith('api/events');
     });
+
     // Test to ensure 'volunteer' method references correct api
+
     it('volunteer should make the correct call', () => {
         const event = {
             eventId: 1,
@@ -52,6 +58,36 @@ describe('EventService', () => {
         service.volunteer(event.eventId, event.jobId, event.userId);
         const body = JSON.stringify({userId: event.userId});
         expect(mockHttp.put).toHaveBeenCalledWith('api/events/' + event.eventId + '/' + event.jobId, body);
+    });
+
+    // Test to ensure 'uregister' method references correct api
+
+    it('unregister should make the correct call', () => {
+        const event = {
+            eventId: 1,
+            jobId: 1,
+            userId: 1,
+        };
+        service.unregister(event.eventId, event.jobId, event.userId);
+        const body = JSON.stringify({userId: event.userId});
+        expect(mockHttp.put).toHaveBeenCalledWith('api/events/unregister/' + event.eventId + '/' + event.jobId, body);
+    });
+
+    // Test to ensure 'addJob' method references correct api
+
+    it('addJob should make the correct call', () => {
+        const job = {
+            jobId: -1,
+        };
+
+        const event = {
+            eventId: -1,
+            userId: 1,
+        };
+        service.addJob(event.eventId, job);
+        const body = JSON.stringify(job);
+        expect(mockHttp.put).toHaveBeenCalledWith('api/events/job/' + event.eventId, body);
+
     });
 
 });
