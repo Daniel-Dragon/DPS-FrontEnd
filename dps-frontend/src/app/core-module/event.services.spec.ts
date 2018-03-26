@@ -78,6 +78,9 @@ describe('EventService', () => {
     it('addJob should make the correct call', () => {
         const job = {
             jobId: -1,
+            name: 'testJob',
+            startTime: 1200,
+            endTime: 1600,
         };
 
         const event = {
@@ -87,6 +90,33 @@ describe('EventService', () => {
         service.addJob(event.eventId, job);
         const body = JSON.stringify(job);
         expect(mockHttp.put).toHaveBeenCalledWith('api/events/job/' + event.eventId, body);
+
+    });
+
+    // Test to ensure 'updateJob' method references correct api
+
+    it('updateJob should make the correct call', () => {
+        const job = {
+            jobId: 1,
+        };
+        const event = {
+            eventId: 1,
+        };
+        service.updateJob(event.eventId, job.jobId, job);
+        const body = JSON.stringify(job);
+        expect(mockHttp.put).toHaveBeenCalledWith('api/events/job/' + event.eventId, body);
+
+    });
+
+    // Test to ensure 'putEvent' method references correct api
+
+    it('putEvent should make the correct call', () => {
+        const event = {
+            id: 1,
+            name: 'Test',
+        };
+        service.putEvent(event);
+        expect(mockHttp.put).toHaveBeenCalledWith('api/events', event);
 
     });
 
