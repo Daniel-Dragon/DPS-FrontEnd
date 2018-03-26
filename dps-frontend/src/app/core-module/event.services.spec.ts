@@ -32,17 +32,17 @@ describe('EventService', () => {
     beforeEach(() => {
         service = new EventService(<any>mockHttp, <any>mockToastr);
     });
-
+    // Test to ensure 'getEvents' method references correct api
     it('getEvents should make the correct call', () => {
         service.getEvents();
         expect(mockHttp.get).toHaveBeenCalledWith('api/events');
     });
-
+    // Test to ensure 'getEvent' method references correct api
     it('getEvent should make the correct call', () => {
         service.getEvents();
         expect(mockHttp.get).toHaveBeenCalledWith('api/events');
     });
-
+    // Test to ensure 'volunteer' method references correct api
     it('volunteer should make the correct call', () => {
         const event = {
             eventId: 1,
@@ -53,7 +53,5 @@ describe('EventService', () => {
         const body = JSON.stringify({userId: event.userId});
         expect(mockHttp.put).toHaveBeenCalledWith('api/events/' + event.eventId + '/' + event.jobId, body);
     });
-
-
 
 });
