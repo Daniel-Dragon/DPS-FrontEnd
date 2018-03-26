@@ -11,6 +11,11 @@ describe('EventService', () => {
     const mockHttp = {
         get: jasmine.createSpy().and.callFake(() => {
             return { map: () => {}};
+
+        }),
+
+        put: jasmine.createSpy().and.callFake(() => {
+            return { map: () => {}};
         })
     };
     const mockToastr = {
@@ -31,6 +36,22 @@ describe('EventService', () => {
     it('getEvents should make the correct call', () => {
         service.getEvents();
         expect(mockHttp.get).toHaveBeenCalledWith('api/events');
+    });
+
+    it('getEvent should make the correct call', () => {
+        service.getEvents();
+        expect(mockHttp.get).toHaveBeenCalledWith('api/events');
+    });
+
+    it('volunteer should make the correct call', () => {
+        const event = {
+            eventId: 1,
+            jobId: 1,
+            userId: 1,
+        };
+        service.volunteer(event.eventId, event.jobId, event.userId);
+        const body = JSON.stringify({userId: event.userId});
+        expect(mockHttp.put).toHaveBeenCalledWith('api/events/' + event.eventId + '/' + event.jobId, body);
     });
 
 
