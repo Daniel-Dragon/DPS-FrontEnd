@@ -28,20 +28,10 @@ describe('EventService', () => {
         service = new EventService(<any>mockHttp, <any>mockToastr);
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    it('getEvents should make the correct call', () => {
+        service.getEvents();
+        expect(mockHttp.get).toHaveBeenCalledWith('api/events');
+    });
 
 
 
