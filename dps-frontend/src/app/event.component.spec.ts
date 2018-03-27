@@ -19,6 +19,10 @@ describe('EventComponent', () => {
             return { map: () => {}};
         }),
 
+        getEvent: jasmine.createSpy().and.callFake(() => {
+            return { map: () => {} };
+        })
+
     };
 
     const mockAuthService = {
@@ -65,8 +69,19 @@ describe('EventComponent', () => {
 
     // Test to ensure loadEvent is making the right calls
 
-    it('loadEvent should make the correct call', () => {
-        
+    it('loadEvent should..?', () => {
+        const event = {
+            id: 1,
+        };
+        expect(mockEventService.getEvent(event.id)); // What needs to go here?
+
+
+    });
+
+    // Test to ensure 'volunteer' method is ..?
+
+    it('volunteer should..?', () => {
+
 
     });
 
