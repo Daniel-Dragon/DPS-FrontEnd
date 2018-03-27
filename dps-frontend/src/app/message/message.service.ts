@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { ToastrService } from 'ngx-toastr';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/map';
+import { UserService } from '../core-module/user.service';
 
 
 @Injectable()
@@ -14,17 +15,31 @@ export class MessageService {
     public conversations: Conversation[] = [];
     public numNew: number;
 
-    constructor(private http: HttpClient, private toastr: ToastrService) {
-        // TODO request an update every 30 seconds.
-        this.http.get('api/message/all').subscribe(
+    constructor(private http: HttpClient, private toastr: ToastrService, private userService: UserService) {
+        this.userService.onAuthChange.subscribe(
             resp => {
-                this.conversations = resp as Conversation[];
-                this.repeatCheckNew().subscribe();
-            },
-            err => {
-                this.toastr.error('Something went wrong and messages can\'t be retrieved!', 'Error');
+                if (resp === true) {
+                    this.http.get('api/message/all').subscribe(
+                        resp => {
+                            this.conversations = resp as Conversation[];
+                            this.countNew();
+                            this.repeatCheckNew().subscribe();
+                        },
+                        err => {
+                            this.toastr.error('Something went wrong and messages can\'t be retrieved!', 'Error');
+                        }
+                    );
+                }
             }
         );
+    }
+
+    private countNew() {
+        let ans = 0;
+        for (let i = 0; i < this.conversations.length; i++) {
+            ans += this.conversations[i].numNew;
+        }
+        this.numNew = ans;
     }
 
     private repeatCheckNew() {
@@ -65,7 +80,7 @@ export class MessageService {
             err => {
 
             }
-        )
+        );
     }
 
     markRead(index: number): void {
