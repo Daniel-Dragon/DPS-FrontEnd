@@ -29,7 +29,7 @@ export class UserService implements OnInit {
                 this.auth.permissions = (resp as any).permissions;
                 this.onAuthChange.next(true);
                 return;
-
+ 
             },
             err => {
                 this.auth.logout();
