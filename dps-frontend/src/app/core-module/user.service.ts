@@ -18,51 +18,58 @@ export class UserService implements OnInit {
                 private auth: AuthService,
                 private toastr: ToastrService) {}
 
-    public login(loginForm) {
+    public login(loginForm): Observable<void> {
         const header = {
             headers: new HttpHeaders(loginForm)
         };
-        return this.http.get('api/user/authenticate', {headers: new HttpHeaders(loginForm)}).do(
+        return this.http.get('api/user/authenticate', {headers: new HttpHeaders(loginForm)}).map(
             resp => {
                 this.auth.authToken = (resp as any).authentication;
                 this.auth.user = (resp as any).user;
                 this.auth.permissions = (resp as any).permissions;
                 this.onAuthChange.next(true);
+                return;
+
             },
             err => {
                 this.auth.logout();
                 this.onAuthChange.next(true);
+                return;
             }
         );
     }
 
-    public register(registerForm) {
-        return this.http.put('api/user/register', registerForm).do(
+    public register(registerForm): Observable<void> {
+        return this.http.put('api/user/register', registerForm).map(
             resp => {
                 this.auth.authToken = (resp as any).authentication;
                 this.auth.permissions = (resp as any).permissions;
                 this.auth.user = (resp as any).user;
                 this.onAuthChange.next(true);
+                return;
             },
             err => {
                 this.toastr.error('There is something wrong and you were not registered. Please try again.', 'Error');
+                return;
             }
         );
     }
 
-    public updateUser(user: User) {
-        return this.http.put('api/user', user).do(
+    public updateUser(user: User): Observable<void> {
+        return this.http.put('api/user', user).map(
             resp => {
                 this.auth.authToken = (resp as any).authentication;
                 this.auth.permissions = (resp as any).permissions;
                 this.auth.user = (resp as any).user;
                 this.toastr.success('User settings have been saved.', 'Success!');
                 this.onAuthChange.next(true);
+                return;
             },
             err => {
                 this.auth.logout();
                 this.toastr.error('Something went wrong and your settings weren\'t saved', 'Error');
                 this.onAuthChange.next(true);
+                return;
             }
         );
     }
