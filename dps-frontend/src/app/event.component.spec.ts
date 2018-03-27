@@ -27,7 +27,11 @@ describe('EventComponent', () => {
 
     const mockAuthService = {
         isAuthorized: jasmine.createSpy().and.callFake(() => {
-            return;
+            return {
+                subscribe: func => {
+                    func(true);
+                }
+            };
         }),
 
         getUserInfo: jasmine.createSpy().and.callFake(() => {
@@ -42,9 +46,16 @@ describe('EventComponent', () => {
 
     };
 
-    let mockRoute: ActivatedRoute;
-    let mockRouter: Router;
-    let mockModalService: BsModalService;
+    const mockRoute = {
+        route: {
+            params: func => {
+                const param = {id: 1};
+                func(param);
+            }
+        }
+    };
+    const mockRouter = {};
+    const mockModalService = {};
 
     const mockUserService = {
         login: jasmine.createSpy().and.callFake(() => {
@@ -64,7 +75,7 @@ describe('EventComponent', () => {
     let component;
     beforeEach( () => {
      component = new EventComponent(<any>mockEventService, <any>mockAuthService,
-        mockRoute, mockRouter, mockModalService, <any>mockUserService);
+        <any>mockRoute, <any>mockRouter, <any>mockModalService, <any>mockUserService);
     });
 
     // Test to ensure loadEvent is making the right calls

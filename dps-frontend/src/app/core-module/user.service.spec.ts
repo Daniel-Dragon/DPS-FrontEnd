@@ -4,7 +4,10 @@ import { UserService } from './user.service';
 describe('UserService', () => {
     const mockHttp = {
         get: jasmine.createSpy().and.callFake(() => {
-            return { do: () => {}};
+            return {
+                do: () => {},
+                map: () => {}
+            };
         })
     };
     const mockAuth = {
