@@ -80,7 +80,7 @@ describe('EventComponent', () => {
 
     // Test to ensure loadEvent is making the right calls
 
-    it('loadEvent should..?', () => {
+    it('loadEvent should make the correct call', () => {
         const event = {
             id: 1,
         };
