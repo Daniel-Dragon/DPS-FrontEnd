@@ -34,3 +34,16 @@ export interface Permissions {
     volunteer: Boolean;
     developer: Boolean;
 }
+
+export interface Conversation {
+    id: number;
+    with: string;
+    numNew: number;
+    messages: Message[];
+}
+
+export interface Message {
+    from: string;
+    message: string;
+    time: Date;
+}

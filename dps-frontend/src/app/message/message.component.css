@@ -1,0 +1,31 @@
+/* .sidebar {
+    background-color: gray;
+} */
+
+.chat {
+    list-style: none;
+}
+
+hr {
+    border-color: red;
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+.new-message-text {
+    position: relative;
+    top: 1px;
+    color: red;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 4px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom: none;
+    padding: 2px;
+}
+
+.chat-body {
+    height: 70vh;
+    overflow-y: auto;
+}

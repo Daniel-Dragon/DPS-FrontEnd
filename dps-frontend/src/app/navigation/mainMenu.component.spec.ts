@@ -9,7 +9,7 @@ describe('MainMenuComponent', () => {
             makeModal: jasmine.createSpy(),
             dismissModal: jasmine.createSpy()
         };
-        cmp = new MainMenuComponent(mockModalService, <any>{}, <any>{});
+        cmp = new MainMenuComponent(mockModalService, <any>{}, <any>{}, <any>{});
     });
 
     it('should be defined', () => {

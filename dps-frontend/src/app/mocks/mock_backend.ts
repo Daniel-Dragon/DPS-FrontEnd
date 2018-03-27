@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Event, Job } from '../shared-module/models';
+import { Event, Job, Message } from '../shared-module/models';
 
 @Injectable()
 export class MockBackend implements HttpInterceptor {
@@ -290,7 +290,70 @@ export class MockBackend implements HttpInterceptor {
                     body: {}
                 }));
                 resp.complete();
-            })
+            });
+        }
+
+        // Getting all messages
+        if (request.url === 'api/message/all' && request.method === 'GET') {
+            const body = conversations;
+
+            return new Observable(resp => {
+                resp.next(new HttpResponse({
+                    status: 200,
+                    body: body
+                }));
+                resp.complete();
+            });
+        }
+
+        if (request.url === 'api/message' && request.method === 'GET') {
+            const body = [];
+            for (let i = 0; i < conversations.length; i++) {
+                if (conversations[i].numNew > 0) {
+                    const convo = {
+                        id: conversations[i].id,
+                        with: conversations[i].with,
+                        numNew: conversations[i].numNew,
+                        messages: []
+                    };
+                    convo.messages = convo.messages.concat(conversations[i].messages.slice(-(conversations[i].numNew)));
+                    body.push(convo);
+                }
+            }
+
+            return new Observable(resp => {
+                resp.next(new HttpResponse({
+                    status: 200,
+                    body: body
+                }));
+                resp.complete();
+            });
+        }
+
+        if (request.url.startsWith('api/message/new/') && request.method === 'PUT') {
+            const url = request.url.split('/');
+            const conversationId = +url[3];
+            const message = <Message>JSON.parse(request.body);
+            message.time = new Date(message.time);
+            conversations.find( convo => convo.id === conversationId ).messages.push(message);
+            return new Observable(resp => {
+                resp.next(new HttpResponse({
+                    status: 200,
+                    body: {}
+                }));
+                resp.complete();
+            });
+        }
+
+        if (request.url.startsWith('api/message/new/') && request.method === 'PUT') {
+
+            return new Observable(resp => {
+                resp.next(new HttpResponse({
+                    status: 200,
+                    body: {}
+                }));
+                resp.complete();
+            });
         }
 
 
@@ -413,6 +476,41 @@ const defaultEvents = [
                     name: 'Billy BlueJeans',
                     email: 'barry@gmail.com',
                 }
+            }
+        ]
+    }
+];
+
+let conversations = [
+    {
+        id: 0,
+        with: 'Barry Bluejeans',
+        numNew: 1,
+        messages: [
+            {
+                from: 'Barry Bluejeans',
+                message: 'Hey!',
+                time: new Date(2018, 2, 23, 15, 43, 0, 0)
+            },
+            {
+                from: 'Barry Bluejeans',
+                message: 'Hey!',
+                time: new Date(2018, 2, 23, 15, 43, 0, 0)
+            },
+            {
+                from: 'Daniel Foote',
+                message: 'Hey!',
+                time: new Date(2018, 2, 23, 15, 43, 0, 0)
+            },
+            {
+                from: 'Barry Bluejeans',
+                message: 'Hey!',
+                time: new Date(2018, 2, 23, 15, 43, 0, 0)
+            },
+            {
+                from: 'Barry Bluejeans',
+                message: 'Hey!',
+                time: new Date(2018, 2, 23, 15, 43, 0, 0)
             }
         ]
     }

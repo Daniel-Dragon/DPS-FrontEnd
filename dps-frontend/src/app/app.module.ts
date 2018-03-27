@@ -23,6 +23,9 @@ import { TimepickerModule, BsDropdownModule, BsDatepickerModule } from 'ngx-boot
 import { EditEventComponent } from './edit-event.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { MessageComponent } from './message/message.component';
+import { TimePassedPipe } from './message/time-ago.pipe';
+import { MessageService } from './message/message.service';
 
 if (environment.production) {
   enableProdMode();
@@ -37,7 +40,9 @@ if (environment.production) {
     SettingsComponent,
     EventComponent,
     EditEventComponent,
-    AddJobComponent
+    AddJobComponent,
+    MessageComponent,
+    TimePassedPipe
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,7 @@ if (environment.production) {
       // TODO: Add guard to ensure admin role before going to add event page
       { path: 'event/edit/:id', component: EditEventComponent},
       { path: 'event/:id', component: EventComponent },
+      { path: 'messages', component: MessageComponent },
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
     BrowserAnimationsModule,
@@ -64,6 +70,7 @@ if (environment.production) {
   ],
   providers: [
     LoggedInGuard,
+    MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthenitcationInterceptor, multi: true },
     ...environment.providers
   ],
