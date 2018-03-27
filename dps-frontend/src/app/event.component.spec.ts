@@ -84,8 +84,16 @@ describe('EventComponent', () => {
         const event = {
             id: 1,
         };
-        expect(mockEventService.getEvent(event.id)); // What needs to go here?
 
+        mockEventService.getEvent = jasmine.createSpy().and.callFake( () => {
+            return{
+                subscribe: func => {
+                    func(1);
+                }
+            };
+        });
+        component.loadEvent();
+        expect(component.event).toBe(1);
 
     });
 
