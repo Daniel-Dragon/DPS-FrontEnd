@@ -25,6 +25,10 @@
                 <li><a href="#">Separated link</a></li>
             </ul>
             </li> -->
+            <li>
+                <a [routerLink]="['/donations']">Donate!</a>
+            </li>
+        
             <span *ngIf="authService.isAuthorized(); then authorized else unauthorized"></span>
             <ng-template #unauthorized><li><a (click)="login()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li></ng-template>
             <ng-template #authorized>

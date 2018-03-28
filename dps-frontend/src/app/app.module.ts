@@ -24,9 +24,9 @@ import { EditEventComponent } from './edit-event.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MessageComponent } from './message/message.component';
+import { DonationComponent } from './donations.component';
 import { TimePassedPipe } from './message/time-ago.pipe';
 import { MessageService } from './message/message.service';
-
 if (environment.production) {
   enableProdMode();
 }
@@ -42,6 +42,7 @@ if (environment.production) {
     EditEventComponent,
     AddJobComponent,
     MessageComponent,
+    DonationComponent,
     TimePassedPipe
   ],
   imports: [
@@ -56,6 +57,7 @@ if (environment.production) {
       { path: 'event/edit/:id', component: EditEventComponent},
       { path: 'event/:id', component: EventComponent },
       { path: 'messages', component: MessageComponent },
+      {path: 'donations', component: DonationComponent},
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
     BrowserAnimationsModule,
