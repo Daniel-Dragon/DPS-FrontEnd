@@ -125,13 +125,14 @@ describe('EventComponent', () => {
 
     });
 
+    // Test to ensure 'editJob' makes the right call with the correct parameters
+
     it('editJob should make the right call', () => {
         const mockVolunteer: Volunteer = {
             id: 9,
             name: 'TestVolunteer',
             email: 'doesntmatter@whocares.com',
         };
-        
         const mockJob: Job = {
             id: 4,
             name: 'TestJob',
@@ -139,8 +140,6 @@ describe('EventComponent', () => {
             endTime: new Date(1400, 1, 1, 1),
             volunteer: mockVolunteer,
         };
-        
-       
         const mockEvent: Event = {
             description: 'Event used for testing',
             name: 'TestEvent',
@@ -155,10 +154,5 @@ describe('EventComponent', () => {
         mockInitialState.eventId = mockEvent.id;
         component.editJob(jobId);
         expect(mockModalService.show).toHaveBeenCalledWith(jasmine.any(Function), { initialState: mockInitialState});
-
     });
-
-
-
-
 });
