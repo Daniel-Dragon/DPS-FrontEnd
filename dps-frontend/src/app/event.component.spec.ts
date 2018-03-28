@@ -7,9 +7,10 @@ import { AddJobComponent } from './add-job.component';
 import { Event, Job } from './shared-module/models';
 import { UserService } from './core-module/user.service';
 import { EventComponent } from './event.component';
+import { Volunteer } from './shared-module/models';
 
 describe('EventComponent', () => {
-
+    
     const mockEventService = {
         createEvent: jasmine.createSpy().and.callFake(() => {
             return { map: () => {} };
@@ -120,6 +121,39 @@ describe('EventComponent', () => {
         component.event = mockEvent;
         component.BsModalService = mockModalService;
         component.addJob();
+        expect(mockModalService.show).toHaveBeenCalledWith(jasmine.any(Function), { initialState: mockInitialState});
+
+    });
+
+    it('editJob should make the right call', () => {
+        const mockVolunteer: Volunteer = {
+            id: 9,
+            name: 'TestVolunteer',
+            email: 'doesntmatter@whocares.com',
+        };
+        
+        const mockJob: Job = {
+            id: 4,
+            name: 'TestJob',
+            startTime: new Date(1200, 1, 1, 1),
+            endTime: new Date(1400, 1, 1, 1),
+            volunteer: mockVolunteer,
+        };
+        
+       
+        const mockEvent: Event = {
+            description: 'Event used for testing',
+            name: 'TestEvent',
+            startTime: new Date(1200, 1, 1, 1),
+            endTime: new Date(1400, 1, 1, 1),
+            id: 5,
+            jobs: [mockJob],
+        };
+       component.event = mockEvent;
+        const jobId = mockEvent.jobs[0].id;
+        const mockInitialState: any = mockEvent.jobs.filter(job => job.id === jobId)[0];
+        mockInitialState.eventId = mockEvent.id;
+        component.editJob(jobId);
         expect(mockModalService.show).toHaveBeenCalledWith(jasmine.any(Function), { initialState: mockInitialState});
 
     });
