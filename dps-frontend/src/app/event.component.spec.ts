@@ -55,7 +55,11 @@ describe('EventComponent', () => {
         }
     };
     const mockRouter = {};
-    const mockModalService = {};
+    const mockModalService = {
+        onHide: { subscribe: jasmine.createSpy() },
+
+        show: jasmine.createSpy(),
+    };
 
     const mockUserService = {
         login: jasmine.createSpy().and.callFake(() => {
@@ -97,10 +101,26 @@ describe('EventComponent', () => {
 
     });
 
-    // Test to ensure 'volunteer' method is ..?
+    // Test to ensure 'addJob' method is making the correct call
 
-    it('volunteer should..?', () => {
+    it('addJob should make the right call', () => {
+        const mockEvent = {
+            EventService: mockEventService,
+            startTime: 1200,
+            endTime: 1400,
+            id: 5,
+        };
 
+        const mockInitialState = {
+            startTime: new Date(mockEvent.startTime),
+            endTime: new Date(mockEvent.endTime),
+            eventId: mockEvent.id,
+        };
+
+        component.event = mockEvent;
+        component.BsModalService = mockModalService;
+        component.addJob();
+        expect(mockModalService.show).toHaveBeenCalledWith(jasmine.any(Function), { initialState: mockInitialState});
 
     });
 
