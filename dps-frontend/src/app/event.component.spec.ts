@@ -8,6 +8,7 @@ import { Event, Job } from './shared-module/models';
 import { UserService } from './core-module/user.service';
 import { EventComponent } from './event.component';
 import { Volunteer } from './shared-module/models';
+import { User } from './shared-module/models';
 
 describe('EventComponent', () => {
     
@@ -154,5 +155,32 @@ describe('EventComponent', () => {
         mockInitialState.eventId = mockEvent.id;
         component.editJob(jobId);
         expect(mockModalService.show).toHaveBeenCalledWith(jasmine.any(Function), { initialState: mockInitialState});
+    });
+
+    // Test to ensure 'getClasses' method is making the correct calls
+
+    it('getClasses should make the right call', () => {
+        const mockClasses = [];
+        const mockUser: User = {
+            id: 5,
+            name: 'Randy Lahey',
+            email: 'whocares@doesntmatter.com',
+            phoneNumber: '1234567890',
+        };
+        const mockVolunteer: Volunteer = {
+            id: 5,
+            name: 'Randy Lahey',
+            email: 'whocares@doesntmatter.com',
+        };
+        const mockJob: Job = {
+            id: 7,
+            name: 'TestJob2',
+            startTime: new Date(1200, 1, 1, 1),
+            endTime: new Date(1400, 1, 1, 1),
+            volunteer: mockVolunteer,
+        };
+        component.AuthService = mockAuthService;
+        component.getClasses(mockJob);
+        expect(mockAuthService.getUserInfo).toHaveBeenCalled();
     });
 });
