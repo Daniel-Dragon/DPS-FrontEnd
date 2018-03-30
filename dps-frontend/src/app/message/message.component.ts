@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { MessageService } from './message.service';
 import { AuthService } from '../core-module/auth.service';
 import { Message } from '../shared-module/models';
@@ -8,7 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.css']
 })
-export class MessageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class MessageComponent implements OnInit, OnDestroy, AfterViewInit, AfterViewChecked {
     constructor(private messageService: MessageService, private auth: AuthService, private fb: FormBuilder) {}
     form: FormGroup;
     messageBox = '';
@@ -55,5 +55,9 @@ export class MessageComponent implements OnInit, OnDestroy, AfterViewInit {
             this.messageService.sendMessage(messageObj as Message, conversationId).subscribe();
         } else {
         }
+    }
+
+    ngAfterViewChecked() {
+        this.scrollToBottom();
     }
 }
