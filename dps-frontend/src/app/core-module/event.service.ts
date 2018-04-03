@@ -90,4 +90,15 @@ export class EventService {
             }
         );
     }
+    
+    private removeEvent(event: Event): Observable<void> {
+        return this.http.delete('api/events').map(
+                resp => {
+                    return;
+                },
+                err => {
+                    this.toastr.error('There was an error removing this Event, please refresh and try again.', 'Error');
+                }
+        );
+    }
 }
