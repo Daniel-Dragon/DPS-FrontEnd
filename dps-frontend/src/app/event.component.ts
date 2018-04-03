@@ -85,7 +85,7 @@ export class EventComponent implements OnInit {
                 classes.push('panel-danger');
             }
         } else {
-            if (user && this.event.jobs.findIndex(job => {
+            if (user && this.event.jobs.findIndex(job => { // If user is already volunteered for a job
                 return job.volunteer && job.volunteer.id === user.id
             }) >= 0) {
                 classes.push('panel-warning');
