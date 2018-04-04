@@ -22,7 +22,7 @@
                 <input formControlName="description" type="text" class="form-control" id="description">
             </div>
             <button [disabled]="DisableSave()" class="btn btn-success">Save</button>
-            <button class="btn btn-danger">Delete</button>
+            <input type="button" class="btn btn-danger" value="Delete Event" (click)="DeleteEvent(form.value)"/>
         </form>
     </div>
 </div>

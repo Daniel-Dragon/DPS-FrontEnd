@@ -157,6 +157,50 @@ export class MockBackend implements HttpInterceptor {
             })
         }
 
+        // Mock Deleting Event
+
+        if (request.url.startsWith('api/events') && request.method === 'DELETE') {
+            // Get ID number
+            let event = this.events.filter(event => {
+                return event.id === id;
+            });
+            let url = request.url.split('/');
+            let id = +url[url.length - 1];
+
+            let matchingEvents = this.events.filter(event => {
+                
+                return event.id === id;
+            });
+            console.log('Matching Events' + matchingEvents[0]);
+            let respBody = JSON.parse(JSON.stringify(matchingEvents[0]));
+            console.log('Matching Events: ' + respBody);
+            // Get User and Permisisons
+
+            let thisUser = this.users.filter(user => user.user.email === request.headers.get('authentication'))[0];
+
+            if (!thisUser || !thisUser.permissions.admin) {
+                for (let i = 0; i < respBody.jobs.length; i++) {
+                    if ((!thisUser && respBody.jobs[i].volunteer) ||
+                        (respBody.jobs[i].volunteer &&
+                        respBody.jobs[i].volunteer.id !== thisUser.user.id)) {
+                        respBody.jobs[i].volunteer = {
+                            id: -1,
+                            name: 'Volunteer'
+                        };
+                    }
+                }
+            }
+         
+
+              return new Observable(resp => {
+                  
+                resp.next(new HttpResponse({
+                    status: 200,
+                    body: respBody
+                }));
+                resp.complete();
+            });
+        }
         // Mock Single Event
         if (request.url.startsWith('api/events/') && request.method == 'GET') {
             // Get the ID number
@@ -187,13 +231,15 @@ export class MockBackend implements HttpInterceptor {
                 }
             }
 
+ 
+
             return new Observable(resp => {
                 resp.next(new HttpResponse({
                     status: 200,
                     body: respBody
                 }));
                 resp.complete();
-            })
+            });
         }
 
         // If we are unregistering

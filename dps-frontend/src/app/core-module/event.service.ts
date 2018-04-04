@@ -91,8 +91,9 @@ export class EventService {
         );
     }
     
-    private removeEvent(event: Event): Observable<void> {
-        return this.http.delete('api/events').map(
+    public removeEvent(event: Event) {
+        console.log('Delete ID: ' + event.id);
+        return this.http.delete('api/events' ).map(
                 resp => {
                     return;
                 },

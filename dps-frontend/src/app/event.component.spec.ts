@@ -37,21 +37,17 @@ describe('EventComponent', () => {
         }),
 
         getUserInfo: jasmine.createSpy().and.callFake(() => {
-
             return {
                 id: 5,
                 name: 'Randy Lahey',
                 email: 'Randy.Lahey@sunnyvale.org',
                 phoneNumber: '0123456789',
             };
-
         }),
 
         getPermissions: jasmine.createSpy().and.callFake(() => {
             return ;
-
         }),
-
     };
 
     const mockRoute = {
@@ -65,22 +61,18 @@ describe('EventComponent', () => {
     const mockRouter = {};
     const mockModalService = {
         onHide: { subscribe: jasmine.createSpy() },
-
         show: jasmine.createSpy(),
     };
-
     const mockUserService = {
         login: jasmine.createSpy().and.callFake(() => {
             return { map: () => {}};
         }),
-
         register: jasmine.createSpy().and.callFake(() => {
             return { map: () => {}};
         }),
 
         updateUser: jasmine.createSpy().and.callFake(() => {
             return { map: () => {}};
-
         }),
     };
 
@@ -106,7 +98,6 @@ describe('EventComponent', () => {
         });
         component.loadEvent();
         expect(component.event).toBe(1);
-
     });
 
     // Test to ensure 'addJob' method is making the correct call
@@ -129,7 +120,6 @@ describe('EventComponent', () => {
         component.BsModalService = mockModalService;
         component.addJob();
         expect(mockModalService.show).toHaveBeenCalledWith(jasmine.any(Function), { initialState: mockInitialState});
-
     });
 
     // Test to ensure 'editJob' makes the right call with the correct parameters
@@ -179,10 +169,9 @@ describe('EventComponent', () => {
             endTime: new Date(1400, 1, 1, 1),
             volunteer: mockVolunteer,
         };
-       const mockClasses = component.getClasses(mockJob);
+        const mockClasses = component.getClasses(mockJob);
         component.getClasses(mockJob);
         expect(mockClasses).toEqual(['panel-success']);
-
     });
 
     it('getClasses should return the right value (if user is NOT volunteered to the job)', () => {
@@ -211,7 +200,7 @@ describe('EventComponent', () => {
 
         const mockJob3: Job = {
             id: 823,
-            name: 'Poop-Smith',
+            name: 'Bagger',
             startTime: new Date(1200, 8, 23, 1986),
             endTime: new Date (1600, 8, 23, 1986),
             volunteer: null,
@@ -239,7 +228,6 @@ describe('EventComponent', () => {
             description: 'No.',
             jobs: [mockJob4],
         };
-
         component.event = mockEvent;
         const mockClasses = component.getClasses(mockJob3);
         component.getClasses(mockJob3);
@@ -269,5 +257,4 @@ describe('EventComponent', () => {
         component.getClasses(mockJob);
         expect(mockClasses).toEqual(['panel-primary']);
     });
-
 });
