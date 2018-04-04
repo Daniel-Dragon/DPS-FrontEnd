@@ -9,9 +9,9 @@ import { UserService } from './core-module/user.service';
 import { EventComponent } from './event.component';
 import { Volunteer } from './shared-module/models';
 import { User } from './shared-module/models';
+import { ExpectedConditions } from 'protractor';
 
 describe('EventComponent', () => {
-    
     const mockEventService = {
         createEvent: jasmine.createSpy().and.callFake(() => {
             return { map: () => {} };
@@ -37,15 +37,17 @@ describe('EventComponent', () => {
         }),
 
         getUserInfo: jasmine.createSpy().and.callFake(() => {
-            return;
-
+            return {
+                id: 5,
+                name: 'Randy Lahey',
+                email: 'Randy.Lahey@sunnyvale.org',
+                phoneNumber: '0123456789',
+            };
         }),
 
         getPermissions: jasmine.createSpy().and.callFake(() => {
-            return;
-
+            return ;
         }),
-
     };
 
     const mockRoute = {
@@ -59,22 +61,18 @@ describe('EventComponent', () => {
     const mockRouter = {};
     const mockModalService = {
         onHide: { subscribe: jasmine.createSpy() },
-
         show: jasmine.createSpy(),
     };
-
     const mockUserService = {
         login: jasmine.createSpy().and.callFake(() => {
             return { map: () => {}};
         }),
-
         register: jasmine.createSpy().and.callFake(() => {
             return { map: () => {}};
         }),
 
         updateUser: jasmine.createSpy().and.callFake(() => {
             return { map: () => {}};
-
         }),
     };
 
@@ -100,7 +98,6 @@ describe('EventComponent', () => {
         });
         component.loadEvent();
         expect(component.event).toBe(1);
-
     });
 
     // Test to ensure 'addJob' method is making the correct call
@@ -123,7 +120,6 @@ describe('EventComponent', () => {
         component.BsModalService = mockModalService;
         component.addJob();
         expect(mockModalService.show).toHaveBeenCalledWith(jasmine.any(Function), { initialState: mockInitialState});
-
     });
 
     // Test to ensure 'editJob' makes the right call with the correct parameters
@@ -149,7 +145,7 @@ describe('EventComponent', () => {
             id: 5,
             jobs: [mockJob],
         };
-       component.event = mockEvent;
+        component.event = mockEvent;
         const jobId = mockEvent.jobs[0].id;
         const mockInitialState: any = mockEvent.jobs.filter(job => job.id === jobId)[0];
         mockInitialState.eventId = mockEvent.id;
@@ -159,14 +155,8 @@ describe('EventComponent', () => {
 
     // Test to ensure 'getClasses' method is making the correct calls
 
-    it('getClasses should make the right call', () => {
-        const mockClasses = [];
-        const mockUser: User = {
-            id: 5,
-            name: 'Randy Lahey',
-            email: 'whocares@doesntmatter.com',
-            phoneNumber: '1234567890',
-        };
+    it('getClasses should return the right value (if user is volunteered to called job)', () => {
+        // Testing first conditional = true, first nested conditional = true
         const mockVolunteer: Volunteer = {
             id: 5,
             name: 'Randy Lahey',
@@ -179,8 +169,92 @@ describe('EventComponent', () => {
             endTime: new Date(1400, 1, 1, 1),
             volunteer: mockVolunteer,
         };
-        component.AuthService = mockAuthService;
+        const mockClasses = component.getClasses(mockJob);
         component.getClasses(mockJob);
-        expect(mockAuthService.getUserInfo).toHaveBeenCalled();
+        expect(mockClasses).toEqual(['panel-success']);
+    });
+
+    it('getClasses should return the right value (if user is NOT volunteered to the job)', () => {
+          // Testing first conditional = true, first nested conditional = false
+          const mockVolunteer2: Volunteer = {
+            id: 12,
+            name: 'Bubbles',
+            email: 'Bubbles@SunnyVale.org',
+         };
+
+          const mockJob2: Job = {
+            id: 5,
+            name: 'TestJob3',
+            startTime: new Date(1200, 1, 1, 1),
+            endTime: new Date(1400, 1, 1, 1),
+            volunteer: mockVolunteer2,
+          };
+
+          const mockClasses = component.getClasses(mockJob2);
+          component.getClasses(mockJob2);
+          expect(mockClasses).toEqual(['panel-danger']);
+    });
+
+    it('getClasses should return the right value (if the job has NO volunteers and user is already volunteered elsewhere))', () => {
+        // Testing first conditional = false, second nested conditonal = true
+
+        const mockJob3: Job = {
+            id: 823,
+            name: 'Bagger',
+            startTime: new Date(1200, 8, 23, 1986),
+            endTime: new Date (1600, 8, 23, 1986),
+            volunteer: null,
+        };
+
+        const mockVolunteer: Volunteer = {
+            id: 5,
+            name: 'Randy Lahey',
+            email: 'Randy.Lahey@sunnyvale.org',
+        };
+
+        const mockJob4: Job = {
+            id: 3,
+            name: 'Assistant Trailer Park Supervisor',
+            startTime: new Date(1200, 3, 4, 2018),
+            endTime: new Date(1400, 3, 4, 2018),
+            volunteer: mockVolunteer,
+        };
+
+        const mockEvent: Event = {
+            id: 23,
+            name: 'Test',
+            startTime: new Date(1200, 3, 4, 2018),
+            endTime: new Date(1400, 3, 4, 2018),
+            description: 'No.',
+            jobs: [mockJob4],
+        };
+        component.event = mockEvent;
+        const mockClasses = component.getClasses(mockJob3);
+        component.getClasses(mockJob3);
+        expect(mockClasses).toEqual(['panel-warning']);
+    });
+
+    it('getClasses should return the right value (if the job has NO volunteers and the user is available to volunteer))', () => {
+        // Testing first conditional = false, second nested conditional = false
+
+        const mockJob: Job = {
+            id: 666,
+            name: 'Supervisor',
+            startTime: new Date(1200, 1, 1, 1),
+            endTime: new Date(1400, 1, 1, 1),
+            volunteer: null,
+        };
+       const mockEvent: Event = {
+            id: 3123,
+            name: 'Test',
+            startTime: new Date(1200, 3, 4, 2018),
+            endTime: new Date(1400, 3, 4, 2018),
+            description: 'No.',
+            jobs: [mockJob],
+        };
+        component.event = mockEvent;
+        const mockClasses = component.getClasses(mockJob);
+        component.getClasses(mockJob);
+        expect(mockClasses).toEqual(['panel-primary']);
     });
 });

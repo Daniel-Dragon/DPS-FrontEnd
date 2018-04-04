@@ -27,7 +27,7 @@ export class AddJobComponent implements OnInit {
     }
 
     isEditing() {
-        return !(this.id === -1);
+        return !(this.ID === -1);
     }
 
     addJob(jobVal) {
@@ -42,7 +42,7 @@ export class AddJobComponent implements OnInit {
     }
 
     editJob(jobVal) {
-        this.eventService.updateJob(this.eventId, this.id, jobVal).subscribe(
+        this.eventService.updateJob(this.eventId, this.ID, jobVal).subscribe(
             resp => {
                 this.modalRef.hide();
             },

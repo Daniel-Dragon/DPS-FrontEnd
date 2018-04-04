@@ -10,7 +10,8 @@
         </div>
         <div class="panel-footer">
             <input [routerLink]="['/event', event.id]" type="button" class="btn btn-primary" value="Details">
-            <input *ngIf="authService.getPermissions()?.admin" [routerLink]="['event', 'edit', event.id]" type="button" class="btn btn-primary" value="Edit Job">
+            <input *ngIf="authService.getPermissions()?.admin" [routerLink]="['event', 'edit', event.id]" type="button" class="btn btn-primary" value="Edit Event">
+            
         </div>
     </div>
 </div>

@@ -90,4 +90,16 @@ export class EventService {
             }
         );
     }
+
+    public removeEvent(event: Event) {
+        console.log('Delete ID: ' + event.ID);
+        return this.http.delete('api/events/' + event.ID).map(
+                resp => {
+                    return;
+                },
+                err => {
+                    this.toastr.error('There was an error removing this Event, please refresh and try again.', 'Error');
+                }
+        );
+    }
 }

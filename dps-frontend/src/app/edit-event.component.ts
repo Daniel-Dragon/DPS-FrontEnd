@@ -10,7 +10,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class EditEventComponent implements OnInit {
     form;
     today;
-
     date;
     id;
     name;
@@ -75,6 +74,18 @@ export class EditEventComponent implements OnInit {
         event.id = this.id;
         delete event.date;
         this.eventService.putEvent(event).subscribe(
+            resp => {
+                this.router.navigate(['/']);
+            },
+            err => {
+            }
+        );
+    }
+
+    DeleteEvent(event) {
+        event.id = this.id;
+        console.log('DeleteEvent Called!');
+        this.eventService.removeEvent(event).subscribe(
             resp => {
                 this.router.navigate(['/']);
             },

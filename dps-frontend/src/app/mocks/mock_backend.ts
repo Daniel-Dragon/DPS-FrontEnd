@@ -157,6 +157,50 @@ export class MockBackend implements HttpInterceptor {
             })
         }
 
+        // Mock Deleting Event
+
+        if (request.url.startsWith('api/events') && request.method === 'DELETE') {
+            // Get ID number
+
+            let url = request.url.split('/');
+            let ID = +url[url.length - 1];
+
+            let matchingEvents = this.events.filter(event => {
+                return event.ID === ID;
+            });
+
+            let respBody = JSON.parse(JSON.stringify(matchingEvents[0]));
+
+            // Get User and Permisisons
+
+            let thisUser = this.users.filter(user => user.user.email === request.headers.get('authentication'))[0];
+
+            if (!thisUser || !thisUser.permissions.admin) {
+                for (let i = 0; i < respBody.jobs.length; i++) {
+                    if ((!thisUser && respBody.jobs[i].volunteer) ||
+                        (respBody.jobs[i].volunteer &&
+                        respBody.jobs[i].volunteer.ID !== thisUser.user.ID)) {
+                        respBody.jobs[i].volunteer = {
+                            ID: -1,
+                            name: 'Volunteer'
+                        };
+                    }
+                }
+            }
+            for (let i = 0; i < this.events.length; i++) {
+                if (ID === this.events[i].ID) {
+                    this.events.splice(i, 1); // Remove the event from the array
+                }
+            }
+              return new Observable(resp => {
+
+                resp.next(new HttpResponse({
+                    status: 200,
+                    body: respBody
+                }));
+                resp.complete();
+            });
+        }
         // Mock Single Event
         if (request.url.startsWith('api/events/') && request.method == 'GET') {
             // Get the ID number
@@ -187,13 +231,15 @@ export class MockBackend implements HttpInterceptor {
                 }
             }
 
+ 
+
             return new Observable(resp => {
                 resp.next(new HttpResponse({
                     status: 200,
                     body: respBody
                 }));
                 resp.complete();
-            })
+            });
         }
 
         // If we are unregistering
