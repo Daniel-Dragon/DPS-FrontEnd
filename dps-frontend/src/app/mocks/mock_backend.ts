@@ -41,12 +41,12 @@ export class MockBackend implements HttpInterceptor {
                 // Need to find next highest userId
                 let nextId = 0;
                 for (let i = 0; i < this.users.length; i++) {
-                    if (this.users[i].user.id > nextId) {
-                        nextId = this.users[i].user.id;
+                    if (this.users[i].user.ID > nextId) {
+                        nextId = this.users[i].user.ID;
                     }
                 }
                 nextId += 1;
-                userRegister.id = nextId;
+                userRegister.ID = nextId;
                 userRegister = {
                     user: userRegister,
                     permissions: {
@@ -75,7 +75,7 @@ export class MockBackend implements HttpInterceptor {
         // Mock updating user details
         if (request.url == 'api/user' && request.method == 'PUT') {
             let updatedUser = request.body;
-            let userToUpdateIndex = this.users.findIndex(user => user.user.id == updatedUser.id);
+            let userToUpdateIndex = this.users.findIndex(user => user.user.ID == updatedUser.ID);
             // check if the user has permissions to edit this user by checking their token
             if (request.headers.get('authentication') == this.users[userToUpdateIndex].user.email) {
                 //Has permission doing our stupid auth token as email thing
@@ -126,21 +126,21 @@ export class MockBackend implements HttpInterceptor {
                 return Observable.throw('You are not authorized to change Events.');
             }
 
-            // If id == -1 it's a new event
-            if (event.id == -1) {
+            // If ID == -1 it's a new event
+            if (event.ID == -1) {
                 let newId = 0;
                 for (let i = 0; i < this.events.length; i++) {
-                    if (this.events[i].id > newId) {
-                        newId = this.events[i].id;
+                    if (this.events[i].ID > newId) {
+                        newId = this.events[i].ID;
                     }
                 }
                 newId += 1;
-                event.id = newId;
+                event.ID = newId;
                 event.jobs = [];
                 this.events.push(event);
             } else {
                 //Else we need to update an event.
-                let index = this.events.findIndex(thisEvent => thisEvent.id == event.id);
+                let index = this.events.findIndex(thisEvent => thisEvent.ID == event.ID);
                 event.jobs = this.events[index].jobs;
                 this.events[index] = event;
             }
@@ -161,10 +161,10 @@ export class MockBackend implements HttpInterceptor {
         if (request.url.startsWith('api/events/') && request.method == 'GET') {
             // Get the ID number
             let url = request.url.split('/');
-            let id = +url[url.length - 1];
+            let ID = +url[url.length - 1];
 
             let matchingEvents = this.events.filter(event => {
-                return event.id == id;
+                return event.ID == ID;
             });
 
             let respBody = JSON.parse(JSON.stringify(matchingEvents[0]));
@@ -178,9 +178,9 @@ export class MockBackend implements HttpInterceptor {
                 for (let i = 0; i < respBody.jobs.length; i++) {
                     if ((!thisUser && respBody.jobs[i].volunteer) ||
                         (respBody.jobs[i].volunteer &&
-                        respBody.jobs[i].volunteer.id !== thisUser.user.id)) {
+                        respBody.jobs[i].volunteer.ID !== thisUser.user.ID)) {
                         respBody.jobs[i].volunteer = {
-                            id: -1,
+                            ID: -1,
                             name: 'Volunteer'
                         };
                     }
@@ -197,7 +197,7 @@ export class MockBackend implements HttpInterceptor {
         }
 
         // If we are unregistering
-        if(request.url.startsWith('api/events/unregister') && request.method == 'PUT') {
+        if (request.url.startsWith('api/events/unregister') && request.method == 'PUT') {
             // api/events/unregister/:eventId/:jobId header contains userId
             let url = request.url.split('/');
             let eventId = +url[3];
@@ -205,9 +205,9 @@ export class MockBackend implements HttpInterceptor {
             let userId = +JSON.parse(request.body).userId;
 
             this.events.filter(event => {
-                return event.id == eventId;
+                return event.ID == eventId;
             })[0].jobs.filter(job=> {
-                return job.id == jobId;
+                return job.ID == jobId;
             })[0].volunteer = null;
 
             localStorage.setItem('events', JSON.stringify(this.events));
@@ -229,26 +229,26 @@ export class MockBackend implements HttpInterceptor {
             let job = <Job>JSON.parse(request.body);
             let nextJobId = 0;
 
-            if (job.id != -1) {
+            if (job.ID != -1) {
                 // We are updating a job
-                let tempEventIndex = this.events.findIndex(event => event.id == eventId);
-                let tempJobIndex = this.events[tempEventIndex].jobs.findIndex(curJob => curJob.id == job.id);
+                let tempEventIndex = this.events.findIndex(event => event.ID == eventId);
+                let tempJobIndex = this.events[tempEventIndex].jobs.findIndex(curJob => curJob.ID == job.ID);
                 job.volunteer = this.events[tempEventIndex].jobs[tempJobIndex].volunteer;
                 this.events[tempEventIndex].jobs[tempJobIndex] = job;
             } else {
                 // Find the highest jobId, then increase it by 1 so it's unique
                 for (let i = 0; i < this.events.length; i++) {
                     for (let j = 0; j < this.events[i].jobs.length; j++) {
-                        if (this.events[i].jobs[j].id > nextJobId) {
-                            nextJobId = this.events[i].jobs[j].id;
+                        if (this.events[i].jobs[j].ID > nextJobId) {
+                            nextJobId = this.events[i].jobs[j].ID;
                         }
                     }
                 }
                 nextJobId += 1;
-                job.id = nextJobId;
+                job.ID = nextJobId;
                 job.volunteer = null;
                 this.events.filter(event => {
-                    return event.id == eventId;
+                    return event.ID == eventId;
                 })[0].jobs.push(job);
             }
 
@@ -264,20 +264,20 @@ export class MockBackend implements HttpInterceptor {
         }
 
         // If we are volunteering for a job
-        if(request.url.startsWith('api/events/') && request.method == 'PUT') {
+        if (request.url.startsWith('api/events/') && request.method == 'PUT') {
             // api/events/:eventId/:jobId header contains userId
             let url = request.url.split('/');
             let eventId = +url[2];
             let jobId = +url[3];
             let userId = +JSON.parse(request.body).userId;
-            let user = this.users.filter(user => user.user.id == userId)[0].user;
+            let user = this.users.filter(user => user.user.ID == userId)[0].user;
 
             this.events.filter(event => {
-                return event.id == eventId;
+                return event.ID == eventId;
             })[0].jobs.filter(job=> {
-                return job.id == jobId;
+                return job.ID == jobId;
             })[0].volunteer = {
-                id: user.id,
+                ID: user.ID,
                 name: user.name,
                 email: user.email
             };
@@ -311,7 +311,7 @@ export class MockBackend implements HttpInterceptor {
             for (let i = 0; i < conversations.length; i++) {
                 if (conversations[i].numNew > 0) {
                     const convo = {
-                        id: conversations[i].id,
+                        ID: conversations[i].ID,
                         with: conversations[i].with,
                         numNew: conversations[i].numNew,
                         messages: []
@@ -335,7 +335,7 @@ export class MockBackend implements HttpInterceptor {
             const conversationId = +url[3];
             const message = <Message>JSON.parse(request.body);
             message.time = new Date(message.time);
-            conversations.find( convo => convo.id === conversationId ).messages.push(message);
+            conversations.find( convo => convo.ID === conversationId ).messages.push(message);
             return new Observable(resp => {
                 resp.next(new HttpResponse({
                     status: 200,
@@ -364,7 +364,7 @@ export class MockBackend implements HttpInterceptor {
 const defaultUsers = [
     {
         user: {
-            id: 0,
+            ID: 0,
             email: 'danfoote104227@gmail.com',
             password: 'password',
             name: 'Daniel Foote',
@@ -379,7 +379,7 @@ const defaultUsers = [
     },
     {
         user: {
-            id: 1,
+            ID: 1,
             email: 'barry@gmail.com',
             password: 'password',
             name: 'Barry BlueJeans',
@@ -394,7 +394,7 @@ const defaultUsers = [
     },
     {
         user: {
-            id: 2,
+            ID: 2,
             email: 'admin@gmail.com',
             password: 'password',
             name: 'Test Admin',
@@ -411,36 +411,36 @@ const defaultUsers = [
 
 const defaultEvents = [
     {
-        id: 0,
+        ID: 0,
         name: 'Clean up Main Street',
         startTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(8, 0, 0, 0),
         endTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(10, 0, 0, 0),
         description: 'We will be leaving from the coffee shop to do a two hour pickup of litter around Main Street',
         jobs: [
             {
-                id: 0,
+                ID: 0,
                 name: 'General Volunteer',
                 startTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(8, 0, 0, 0),
                 endTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(10, 0, 0, 0),
                 volunteer: {
-                        id: 0,
+                        ID: 0,
                         name: 'Daniel Foote',
                         email: 'danfoote104227@gmail.com'
                 }
             },
             {
-                id: 1,
+                ID: 1,
                 name: 'Bagger',
                 startTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(8, 0, 0, 0),
                 endTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(10, 0, 0, 0),
                 volunteer: {
-                    id: 1,
+                    ID: 1,
                     name: 'Barry BlueJeans',
                     email: 'barry@gmail.com',
                 }
             },
             {
-                id: 2,
+                ID: 2,
                 name: 'Overseer',
                 startTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(8, 0, 0, 0),
                 endTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(10, 0, 0, 0),
@@ -449,30 +449,30 @@ const defaultEvents = [
         ]
     },
     {
-        id: 1,
+        ID: 1,
         name: 'Code Blue Shelter',
         startTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(18, 0, 0, 0),
         endTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(24, 0, 0, 0),
         description: 'It will be below freezing this night, we will be opening the shelter for those who need it and need volunteers to organize this event.',
         jobs: [
             {
-                id: 3,
+                ID: 3,
                 name: 'Cook',
                 startTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(18, 0, 0, 0),
                 endTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(24, 0, 0, 0),
                 volunteer: {
-                        id: 0,
+                        ID: 0,
                         name: 'Daniel Foote',
                         email: 'danfoote104227@gmail.com'
                 }
             },
             {
-                id: 4,
+                ID: 4,
                 name: 'Stocker',
                 startTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(18, 0, 0, 0),
                 endTime: new Date(Date.now() + (1000 * 60 * 60 * 24 * 10)).setHours(24, 0, 0, 0),
                 volunteer: {
-                    id: 1,
+                    ID: 1,
                     name: 'Billy BlueJeans',
                     email: 'barry@gmail.com',
                 }
@@ -483,7 +483,7 @@ const defaultEvents = [
 
 let conversations = [
     {
-        id: 0,
+        ID: 0,
         with: 'Barry Bluejeans',
         numNew: 1,
         messages: [

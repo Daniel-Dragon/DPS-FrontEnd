@@ -59,7 +59,7 @@ export class MessageService {
                 for (let i = 0; i < response.length; i++) {
                     let index = this.conversations.findIndex(
                         conversation => {
-                            return conversation.id === response[i].id;
+                            return conversation.ID === response[i].ID;
                         }
                     );
 
@@ -96,7 +96,7 @@ export class MessageService {
             return this.conversations[index];
         } else {
             return {
-                id: -1,
+                ID: -1,
                 with: 'None',
                 numNew: 0,
                 messages: []

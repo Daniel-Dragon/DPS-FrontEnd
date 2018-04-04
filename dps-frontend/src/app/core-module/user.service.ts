@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/catch';
 import { User } from '../shared-module/models';
 import { AuthService } from './auth.service';
 import { Subject } from 'rxjs/Subject';
@@ -29,12 +30,11 @@ export class UserService implements OnInit {
                 this.auth.permissions = (resp as any).permissions;
                 this.onAuthChange.next(true);
                 return;
- 
-            },
-            err => {
+            }).catch((err: any) => {
+                this.toastr.error(err.error, 'Unable to login');
                 this.auth.logout();
                 this.onAuthChange.next(true);
-                return;
+                return Observable.throw(new Error(err.status));
             }
         );
     }

@@ -49,7 +49,7 @@ export class MessageComponent implements OnInit, OnDestroy, AfterViewInit, After
             time: new Date()
         };
         this.messageService.markRead(this.selectedConversation);
-        const conversationId = this.messageService.getConversation(this.selectedConversation).id;
+        const conversationId = this.messageService.getConversation(this.selectedConversation).ID;
         this.form.controls.message.setValue('');
         if (conversationId >= 0) {
             this.messageService.sendMessage(messageObj as Message, conversationId).subscribe();

@@ -50,7 +50,7 @@ export class EventService {
     }
 
     public addJob(eventId: Number, jobVal: Job): Observable<Job> {
-        jobVal.id = -1;
+        jobVal.ID = -1;
         const body = JSON.stringify(jobVal);
         return this.http.put('api/events/job/' + eventId, body).map(
             resp => {
@@ -65,7 +65,7 @@ export class EventService {
     }
 
     public updateJob(eventId: number, jobId: number, jobVal: Job): Observable<void> {
-        jobVal.id = jobId;
+        jobVal.ID = jobId;
         const body = JSON.stringify(jobVal);
         return this.http.put('api/events/job/' + eventId, body).map(
             resp => {

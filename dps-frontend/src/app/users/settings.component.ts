@@ -16,7 +16,8 @@ export class SettingsComponent implements OnInit {
     phoneNumber;
     user;
     ngOnInit() {
-        this.user = this.authService.getUserInfo()
+        this.userService.onAuthChange.subscribe(resp => { this.user = this.authService.getUserInfo(); });
+        this.user = this.authService.getUserInfo();
         this.name = new FormControl(this.user.name, Validators.required);
         this.email = new FormControl(this.user.email, [Validators.required, Validators.email]);
         this.phoneNumber = new FormControl(this.user.phoneNumber, Validators.required);
@@ -32,7 +33,7 @@ export class SettingsComponent implements OnInit {
     }
 
     public SaveUserInfo(userInfo) {
-        userInfo.id = this.user.id;
+        userInfo.ID = this.user.ID;
         this.userService.updateUser(userInfo).subscribe(
             resp => {
                 this.isEditing = false;

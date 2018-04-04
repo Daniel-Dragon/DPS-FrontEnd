@@ -10,7 +10,7 @@ import { EventService } from './core-module/event.service';
 })
 export class AddJobComponent implements OnInit {
     form: FormGroup;
-    id = -1;
+    ID = -1;
     name = '';
     startTime = null;
     endTime = null;
