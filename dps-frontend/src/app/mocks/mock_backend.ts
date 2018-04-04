@@ -161,19 +161,16 @@ export class MockBackend implements HttpInterceptor {
 
         if (request.url.startsWith('api/events') && request.method === 'DELETE') {
             // Get ID number
-            let event = this.events.filter(event => {
-                return event.id === id;
-            });
+
             let url = request.url.split('/');
             let id = +url[url.length - 1];
 
             let matchingEvents = this.events.filter(event => {
-                
                 return event.id === id;
             });
-            console.log('Matching Events' + matchingEvents[0]);
+
             let respBody = JSON.parse(JSON.stringify(matchingEvents[0]));
-            console.log('Matching Events: ' + respBody);
+
             // Get User and Permisisons
 
             let thisUser = this.users.filter(user => user.user.email === request.headers.get('authentication'))[0];
@@ -190,10 +187,13 @@ export class MockBackend implements HttpInterceptor {
                     }
                 }
             }
-         
-
+            for (let i = 0; i < this.events.length; i++) {
+                if (id === this.events[i].id) {
+                    this.events.splice(i, 1); // Remove the event from the array
+                }
+            }
               return new Observable(resp => {
-                  
+
                 resp.next(new HttpResponse({
                     status: 200,
                     body: respBody

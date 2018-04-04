@@ -93,7 +93,7 @@ export class EventService {
     
     public removeEvent(event: Event) {
         console.log('Delete ID: ' + event.id);
-        return this.http.delete('api/events' ).map(
+        return this.http.delete('api/events/' + event.id).map(
                 resp => {
                     return;
                 },
