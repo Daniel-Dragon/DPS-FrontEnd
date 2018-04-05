@@ -27,6 +27,7 @@ import { MessageComponent } from './message/message.component';
 import { DonationComponent } from './donations.component';
 import { TimePassedPipe } from './message/time-ago.pipe';
 import { MessageService } from './message/message.service';
+import { DeactivateGuardService } from './deactivate-guard.service';
 if (environment.production) {
   enableProdMode();
 }
@@ -72,6 +73,7 @@ if (environment.production) {
   ],
   providers: [
     LoggedInGuard,
+    DeactivateGuardService,
     MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthenitcationInterceptor, multi: true },
     ...environment.providers
