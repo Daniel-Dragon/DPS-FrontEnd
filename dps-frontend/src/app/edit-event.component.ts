@@ -28,7 +28,7 @@ export class EditEventComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.ID = +params['id'];
+            this.ID = +params['ID'];
             if (this.ID !== -1) {
                 this.loadEvent();
             } else {
@@ -136,4 +136,4 @@ export class EditEventComponent implements OnInit {
         this.modalRef.hide();
       }
     }
-}
+

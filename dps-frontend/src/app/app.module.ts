@@ -55,8 +55,8 @@ if (environment.production) {
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard] },
       // TODO: Add guard to ensure admin role before going to add event page
-      { path: 'event/edit/:id', component: EditEventComponent},
-      { path: 'event/:id', component: EventComponent },
+      { path: 'event/edit/:ID', component: EditEventComponent},
+      { path: 'event/:ID', component: EventComponent },
       { path: 'messages', component: MessageComponent },
       {path: 'donations', component: DonationComponent},
       { path: '**', redirectTo: '', pathMatch: 'full'}
