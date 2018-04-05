@@ -23,7 +23,7 @@
                     <span *ngIf="job.volunteer; then filled else open"></span>
                     <ng-template #filled><input (click)="unVolunteer(job.ID)" type="button" class="btn btn-danger" [value]="authService.user?.ID != job.volunteer?.ID ? 'Filled' : 'Unregister'" [disabled]="authService.user?.ID != job.volunteer?.ID"></ng-template>
                     <ng-template #open><input (click)="volunteer(job.ID)" type="button" class="btn btn-primary" value="Volunteer" [disabled]="!authService.isAuthorized() || isVolunteered()"></ng-template>
-                    <input *ngIf="authService.getPermissions()?.admin" (click)="editJob(job.ID)" type="button" class="btn btn-primary" value="Edit Event">
+                    <input *ngIf="authService.getPermissions()?.admin" (click)="editJob(job.ID)" type="button" class="btn btn-primary" value="Edit Job">
                 </div>
             </div>
         </div>
