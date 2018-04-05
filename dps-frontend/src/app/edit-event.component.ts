@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EventService } from './core-module/event.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
     styleUrls: [ ],
@@ -11,21 +13,23 @@ export class EditEventComponent implements OnInit {
     form;
     today;
     date;
-    id;
+    ID;
     name;
     startTime;
     endTime;
     description;
+    modalRef: BsModalRef;
 
     constructor(private fb: FormBuilder,
                 private eventService: EventService,
                 private router: Router,
-                private route: ActivatedRoute) {}
+                private route: ActivatedRoute,
+                private modalService: BsModalService) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.id = +params['id'];
-            if (this.id !== -1) {
+            this.ID = +params['id'];
+            if (this.ID !== -1) {
                 this.loadEvent();
             } else {
                 this.initializeEvent();
@@ -71,7 +75,7 @@ export class EditEventComponent implements OnInit {
     }
 
     SaveEvent(event) {
-        event.id = this.id;
+        event.id = this.ID;
         delete event.date;
         this.eventService.putEvent(event).subscribe(
             resp => {
@@ -83,7 +87,7 @@ export class EditEventComponent implements OnInit {
     }
 
     DeleteEvent(event) {
-        event.id = this.id;
+        event.ID = this.ID;
         console.log('DeleteEvent Called!');
         this.eventService.removeEvent(event).subscribe(
             resp => {
@@ -96,7 +100,7 @@ export class EditEventComponent implements OnInit {
 
     private initializeEvent() {
         this.date = new Date();
-        this.id = -1;
+        this.ID = -1;
         this.name = '';
         this.startTime = new Date();
         this.endTime = new Date();
@@ -104,7 +108,7 @@ export class EditEventComponent implements OnInit {
     }
 
     private loadEvent() {
-        this.eventService.getEvent(this.id).subscribe(
+        this.eventService.getEvent(this.ID).subscribe(
             resp => {
                 this.date = new Date(resp.startTime);
                 this.name = resp.name;
@@ -116,5 +120,20 @@ export class EditEventComponent implements OnInit {
 
             }
         );
+    }
+
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+      }
+
+      confirm(): void {
+        this.DeleteEvent(this.form.value);
+        this.modalRef.hide();
+      }
+
+      decline(): void {
+
+        this.modalRef.hide();
+      }
     }
 }

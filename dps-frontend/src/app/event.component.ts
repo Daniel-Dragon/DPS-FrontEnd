@@ -25,7 +25,7 @@ export class EventComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            this.ID = +params['id'];
+            this.ID = +params['ID'];
             this.loadEvent();
         });
         this.userService.onAuthChange.subscribe(resp => this.loadEvent());
