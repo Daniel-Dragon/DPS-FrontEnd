@@ -210,9 +210,10 @@ export class MockBackend implements HttpInterceptor {
             let matchingEvents = this.events.filter(event => {
                 return event.ID == ID;
             });
-
-            let respBody = JSON.parse(JSON.stringify(matchingEvents[0]));
-
+            let respBody;
+            if (matchingEvents.length > 0){
+                respBody = JSON.parse(JSON.stringify(matchingEvents[0]));
+            }
             // Get user and permissions
             let thisUser = this.users.filter(user => user.user.email == request.headers.get('authentication'))[0];
 
