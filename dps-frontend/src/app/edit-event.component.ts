@@ -75,7 +75,7 @@ export class EditEventComponent implements OnInit {
     }
 
     SaveEvent(event) {
-        event.id = this.ID;
+        event.ID = this.ID;
         delete event.date;
         this.eventService.putEvent(event).subscribe(
             resp => {
