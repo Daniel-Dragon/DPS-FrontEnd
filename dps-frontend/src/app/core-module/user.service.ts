@@ -11,13 +11,28 @@ import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable()
-export class UserService implements OnInit {
+export class UserService {
     user: User;
     onAuthChange = new Subject();
 
     constructor(public http: HttpClient,
                 private auth: AuthService,
-                private toastr: ToastrService) {}
+                private toastr: ToastrService) {
+        const token = localStorage.getItem('token');
+        if (token) {
+            this.http.get('api/user/authenticate', {headers: new HttpHeaders({authentication: token})}).subscribe(
+                resp => {
+                    this.auth.authToken = (resp as any).authentication;
+                    this.auth.user = (resp as any).user;
+                    this.auth.permissions = (resp as any).permissions;
+                    this.onAuthChange.next(true);
+                },
+                err => {
+                    localStorage.removeItem('token');
+                }
+            );
+        }
+    }
 
     public login(loginForm): Observable<void> {
         const header = {
@@ -28,6 +43,7 @@ export class UserService implements OnInit {
                 this.auth.authToken = (resp as any).authentication;
                 this.auth.user = (resp as any).user;
                 this.auth.permissions = (resp as any).permissions;
+                localStorage.setItem('token', this.auth.authToken);
                 this.onAuthChange.next(true);
                 return;
             }).catch((err: any) => {
@@ -72,8 +88,5 @@ export class UserService implements OnInit {
                 return;
             }
         );
-    }
-
-    ngOnInit() {
     }
 }

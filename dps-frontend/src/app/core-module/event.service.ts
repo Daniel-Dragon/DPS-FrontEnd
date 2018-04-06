@@ -50,8 +50,10 @@ export class EventService {
     }
 
     public addJob(eventId: Number, jobVal: Job): Observable<Job> {
-        jobVal.ID = -1;
-        const body = JSON.stringify(jobVal);
+        const body: any = Object.assign({}, jobVal);
+        body.ID = -1;
+        body.startTime = body.startTime.getTime();
+        body.endTime = body.endTime.getTime();
         return this.http.put('api/events/job/' + eventId, body).map(
             resp => {
                 this.toastr.success('The job ' + jobVal.name + ' has been added.', 'Job Added');
@@ -65,8 +67,10 @@ export class EventService {
     }
 
     public updateJob(eventId: number, jobId: number, jobVal: Job): Observable<void> {
-        jobVal.ID = jobId;
-        const body = JSON.stringify(jobVal);
+        const body: any = Object.assign({}, jobVal);
+        body.ID = jobId;
+        body.startTime = body.startTime.getTime();
+        body.endTime = body.endTime.getTime();
         return this.http.put('api/events/job/' + eventId, body).map(
             resp => {
                 return;
