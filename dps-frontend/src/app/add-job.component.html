@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h4 class="modal-title pull-left">Add Job</h4>
+    <h4 class="modal-title pull-left">{{ this.ID >= 0 ? 'Edit' : 'Add' }} Job</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
         <span aria-hidden="true">&times;</span>
     </button>
