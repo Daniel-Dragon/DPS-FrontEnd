@@ -29,3 +29,11 @@ hr {
     height: 70vh;
     overflow-y: auto;
 }
+
+.chat-body>li {
+    padding: 0px 10px 0px 10px;
+}
+
+#chat-form {
+    padding-top: 10px
+}

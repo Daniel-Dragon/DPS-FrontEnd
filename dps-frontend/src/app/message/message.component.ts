@@ -26,35 +26,28 @@ export class MessageComponent implements OnInit, OnDestroy, AfterViewInit, After
     }
 
     ngOnDestroy() {
-        this.messageService.markRead(this.selectedConversation);
-    }
-
-    changeSelectedConversation(index: number): void {
-        this.messageService.markRead(this.selectedConversation);
-        this.selectedConversation = index;
+        // this.messageService.markRead(this.selectedConversation);
     }
 
     scrollToBottom(): void {
         this.chatBody.nativeElement.scrollTop = this.chatBody.nativeElement.scrollHeight;
     }
 
-    newConversation() {
-
-    }
-
     sendMessage() {
-        const messageObj = {
-            from: this.auth.getUserInfo().name,
-            message: this.form.controls.message.value,
-            time: new Date()
-        };
-        this.messageService.markRead(this.selectedConversation);
-        const conversationId = this.messageService.getConversation(this.selectedConversation).ID;
+        // const messageObj = {
+        //     from: this.auth.getUserInfo().name,
+        //     message: this.form.controls.message.value,
+        //     time: new Date()
+        // };
+        // this.messageService.markRead(this.selectedConversation);
+        // const conversationId = this.messageService.getConversation(this.selectedConversation).ID;
+        // this.form.controls.message.setValue('');
+        // if (conversationId >= 0) {
+        //     this.messageService.sendMessage(messageObj as Message, conversationId).subscribe();
+        // } else {
+        // }
+        this.messageService.sendMessage(this.form.controls.message.value);
         this.form.controls.message.setValue('');
-        if (conversationId >= 0) {
-            this.messageService.sendMessage(messageObj as Message, conversationId).subscribe();
-        } else {
-        }
     }
 
     ngAfterViewChecked() {

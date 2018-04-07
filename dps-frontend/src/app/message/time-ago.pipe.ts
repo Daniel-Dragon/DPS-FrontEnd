@@ -1,8 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'timeAgo'})
+@Pipe({name: 'timeAgo', pure: false})
 export class TimePassedPipe implements PipeTransform {
-  transform(value: Date): string {
+  transform(value: any): string {
+    value = new Date(value);
     const msPerDay = 86400000;
     const msPerHour = 3600000;
     const msPerMinute = 60000;
