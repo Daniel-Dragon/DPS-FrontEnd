@@ -39,6 +39,7 @@ export class EditEventComponent implements OnInit {
         this.startTime.setHours(8);
         this.startTime.setMinutes(0);
         this.startTime.setSeconds(0);
+
         this.endTime.setHours(10);
         this.endTime.setMinutes(0);
         this.endTime.setSeconds(0);
@@ -54,7 +55,7 @@ export class EditEventComponent implements OnInit {
         this.form.get('date').valueChanges.subscribe(val => {
             const date = val.getDate();
             const month = val.getMonth();
-            const year = val.getYear();
+            const year = val.getFullYear();
             const startTime = this.form.get('startTime');
             const endTime = this.form.get('endTime');
             startTime.value.setDate(date);

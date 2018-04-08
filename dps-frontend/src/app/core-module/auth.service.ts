@@ -27,6 +27,6 @@ export class AuthService {
         this.authToken = null;
         this.user = null;
         this.permissions = null;
-        localStorage.removeItem('authentication');
+        localStorage.removeItem('token');
     }
 }

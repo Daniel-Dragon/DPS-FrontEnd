@@ -8,6 +8,7 @@ import { User } from '../shared-module/models';
 import { AuthService } from './auth.service';
 import { Subject } from 'rxjs/Subject';
 import { ToastrService } from 'ngx-toastr';
+import { MessageService } from '../message/message.service';
 
 
 @Injectable()
@@ -88,5 +89,10 @@ export class UserService {
                 return;
             }
         );
+    }
+
+    public logout() {
+        this.auth.logout();
+        this.onAuthChange.next(false);
     }
 }

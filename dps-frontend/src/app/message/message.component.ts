@@ -3,6 +3,8 @@ import { MessageService } from './message.service';
 import { AuthService } from '../core-module/auth.service';
 import { Message } from '../shared-module/models';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
 
 @Component({
   templateUrl: './message.component.html',
@@ -14,6 +16,7 @@ export class MessageComponent implements OnInit, OnDestroy, AfterViewInit, After
     messageBox = '';
     selectedConversation = 0;
     @ViewChild('chatBody') chatBody: ElementRef;
+    @ViewChild('typingBox') typingBox: ElementRef;
 
     ngOnInit() {
         this.form = this.fb.group({
@@ -23,6 +26,11 @@ export class MessageComponent implements OnInit, OnDestroy, AfterViewInit, After
 
     ngAfterViewInit() {
         this.scrollToBottom();
+        Observable.fromEvent(this.typingBox.nativeElement, 'input')
+            .subscribe(() => { this.messageService.startedTyping(); });
+        Observable.fromEvent(this.typingBox.nativeElement, 'input')
+            .debounceTime(3000)
+            .subscribe(() => { this.messageService.stoppedTyping(); });
     }
 
     ngOnDestroy() {

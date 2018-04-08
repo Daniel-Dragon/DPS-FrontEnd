@@ -15,26 +15,50 @@ export class MessageService {
     messages = [];
     numNew = 0;
     ws;
+    typing = [];
+    isTyping = false;
     constructor(private toastr: ToastrService, private userService: UserService, private authService: AuthService) {
         this.userService.onAuthChange.subscribe(
             resp => {
                 if (resp === true) {
                     this.ws = new WebSocket('ws://localhost:8080/api/messages/echo?token=' + this.authService.authToken);
-                    // this.ws.onconnect = function (msg) {
-                    //     ;
-                    // };
                     this.ws.onmessage = function (msg) {
-                        this.messages = this.messages.concat(JSON.parse(msg.data));
+                        const incoming = JSON.parse(msg.data);
+                        if (incoming.typing) {
+                            this.typing = incoming.typing;
+                        }
+                        if (incoming.messages) {
+                            this.messages = this.messages.concat(incoming.messages);
+                        }
                     }.bind(this);
                 } else {
+                    if (this.ws) {
+                        this.ws.close();
+                    }
                     this.ws = null;
                 }
             });
     }
     public sendMessage (message: string): void {
         if (message) {
-            this.ws.send(message);
+            const outgoing = {
+                message: message
+            };
+            this.ws.send(JSON.stringify(outgoing));
+            this.stoppedTyping();
         }
+    }
+    public startedTyping () {
+        if (!this.isTyping) {
+            this.ws.send(JSON.stringify({typing: true}));
+        }
+        this.isTyping = true;
+    }
+    public stoppedTyping() {
+        if (this.isTyping) {
+            this.ws.send(JSON.stringify({typing: false}));
+        }
+        this.isTyping = false;
     }
     // public messageDelay = 60000;
     // public conversations: Conversation[] = [];

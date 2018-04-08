@@ -26,7 +26,7 @@ export class EventService {
     }
 
     public volunteer(eventId: Number, jobId: Number, userId: Number): Observable<void> {
-        const body = JSON.stringify({userId: userId});
+        const body = {userId: userId};
         return this.http.put('api/events/' + eventId + '/' + jobId, body).map(
             resp => {
                 this.toastr.success('You have successfully volunteered for this position.', 'Success!');
@@ -84,7 +84,14 @@ export class EventService {
     }
 
     public putEvent(event: Event): Observable<void> {
-        return this.http.put('api/events', event).map(
+        const body = {
+            ID: event.ID,
+            name: event.name,
+            startTime: event.startTime.getTime(),
+            endTime: event.endTime.getTime(),
+            description: event.description
+        };
+        return this.http.put('api/events', body).map(
             resp => {
                 return;
             },

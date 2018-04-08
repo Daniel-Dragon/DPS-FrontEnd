@@ -37,3 +37,8 @@ hr {
 #chat-form {
     padding-top: 10px
 }
+
+#typing-pane {
+    min-height: 20px;
+    overflow-y: hidden;
+}

@@ -28,6 +28,7 @@ import { DonationComponent } from './donations.component';
 import { TimePassedPipe } from './message/time-ago.pipe';
 import { MessageService } from './message/message.service';
 import { DeactivateGuardService } from './deactivate-guard.service';
+import { IsTypingPipe } from './message/isTyping.pipe';
 if (environment.production) {
   enableProdMode();
 }
@@ -44,7 +45,8 @@ if (environment.production) {
     AddJobComponent,
     MessageComponent,
     DonationComponent,
-    TimePassedPipe
+    TimePassedPipe,
+    IsTypingPipe
   ],
   imports: [
     BrowserModule,
