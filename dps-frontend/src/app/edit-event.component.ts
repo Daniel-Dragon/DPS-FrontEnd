@@ -38,16 +38,6 @@ export class EditEventComponent implements OnInit {
                 this.initializeEvent();
             }
         });
-        this.today = new Date();
-        this.startTime = new Date();
-        this.startTime.setHours(8);
-        this.startTime.setMinutes(0);
-        this.startTime.setSeconds(0);
-
-        this.endTime = new Date();
-        this.endTime.setHours(10);
-        this.endTime.setMinutes(0);
-        this.endTime.setSeconds(0);
 
         this.form = this.fb.group({
             name: [this.name, Validators.required],
@@ -109,19 +99,31 @@ export class EditEventComponent implements OnInit {
         this.date.setDate(this.date.getDate() + 1);
         this.ID = -1;
         this.name = '';
-        this.startTime = new Date();
-        this.endTime = new Date();
+        this.startTime = new Date(this.date);
+        this.endTime = new Date(this.date);
+        this.startTime.setHours(8);
+        this.startTime.setMinutes(0);
+        this.startTime.setSeconds(0);
+
+        this.endTime.setHours(10);
+        this.endTime.setMinutes(0);
+        this.endTime.setSeconds(0);
         this.description = '';
     }
 
     private loadEvent() {
         this.eventService.getEvent(this.ID).subscribe(
             resp => {
-                this.date = new Date(resp.startTime);
-                this.name = resp.name;
-                this.startTime = new Date(resp.startTime);
-                this.endTime = new Date(resp.endTime);
-                this.description = resp.description;
+                this.form.controls.name.setValue(resp.name);
+                this.form.controls.startTime.setValue(new Date(resp.startTime));
+                this.form.controls.endTime.setValue(new Date(resp.endTime));
+                this.form.controls.description.setValue(resp.description);
+                this.form.controls.date.setValue(new Date(resp.startTime));
+                // this.date = new Date(resp.startTime);
+                // this.name = resp.name;
+                // this.startTime = new Date(resp.startTime);
+                // this.endTime = new Date(resp.endTime);
+                // this.description = resp.description;
 
                
             },
