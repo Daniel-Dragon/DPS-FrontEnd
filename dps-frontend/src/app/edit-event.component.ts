@@ -5,6 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { EventComponent } from './event.component';
+import { GuardModalComponent } from './guardmodal';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     styleUrls: [ ],
@@ -119,6 +121,7 @@ export class EditEventComponent implements OnInit {
                 this.form.controls.endTime.setValue(new Date(resp.endTime));
                 this.form.controls.description.setValue(resp.description);
                 this.form.controls.date.setValue(new Date(resp.startTime));
+                this.form.markAsPristine();
                 // this.date = new Date(resp.startTime);
                 // this.name = resp.name;
                 // this.startTime = new Date(resp.startTime);
@@ -148,11 +151,16 @@ export class EditEventComponent implements OnInit {
         this.modalRef.hide();
       }
 
-      canDeactivate(){
-        if(this.form.$dirty){
-            
+      canDeactivate() {
+        if (this.form.dirty) {
+            const subject = new Subject<Boolean>();
+            const modal = this.modalService.show(GuardModalComponent);
+            modal.content.subject = subject;
+
+            return subject.asObservable();
+        } else {
+            return true;
         }
     }
-    
-    }
+}
 

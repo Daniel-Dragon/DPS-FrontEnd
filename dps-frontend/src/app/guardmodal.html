@@ -1,7 +1,18 @@
-<ng-template #template>
-    <div class="modal-body text-center">
-      <p>You have entered data. Are you sure you want to leave?</p>
-      <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
-      <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
-    </div>
-  </ng-template>
+<div class="modal-header modal-block-primary">
+  <button type="button" class="close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+  </button>
+  <h4 class="modal-title">Are you sure?</h4>
+</div>
+<div class="modal-body clearfix">
+  <div class="modal-icon">
+    <i class="fa fa-question-circle"></i>
+  </div>
+  <div class="modal-text">
+    <p>The form has not been submitted yet, do you really want to leave page?</p>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" (click)="action(false)">No</button>
+  <button class="btn btn-primary right" (click)="action(true)">Yes</button>
+</div>

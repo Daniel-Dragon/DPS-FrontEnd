@@ -29,6 +29,7 @@ import { TimePassedPipe } from './message/time-ago.pipe';
 import { MessageService } from './message/message.service';
 import { DeactivateGuardService } from './deactivate-guard.service';
 import { IsTypingPipe } from './message/isTyping.pipe';
+import { GuardModalComponent } from './guardmodal';
 if (environment.production) {
   enableProdMode();
 }
@@ -46,6 +47,7 @@ if (environment.production) {
     MessageComponent,
     DonationComponent,
     TimePassedPipe,
+    GuardModalComponent,
     IsTypingPipe
   ],
   imports: [
@@ -57,7 +59,7 @@ if (environment.production) {
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard], canDeactivate: [] },
       // TODO: Add guard to ensure admin role before going to add event page
-      { path: 'event/edit/:ID', component: EditEventComponent , canDeactivate: []},
+      { path: 'event/edit/:ID', component: EditEventComponent , canDeactivate: [DeactivateGuardService]},
       { path: 'event/:ID', component: EventComponent, canDeactivate: [] },
       { path: 'messages', component: MessageComponent },
       {path: 'donations', component: DonationComponent},
@@ -81,6 +83,6 @@ if (environment.production) {
     ...environment.providers
   ],
   bootstrap: [AppComponent],
-  entryComponents: [LoginComponent, AddJobComponent]
+  entryComponents: [LoginComponent, AddJobComponent, GuardModalComponent]
 })
 export class AppModule { }
