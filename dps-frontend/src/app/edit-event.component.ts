@@ -106,6 +106,7 @@ export class EditEventComponent implements OnInit {
 
     private initializeEvent() {
         this.date = new Date();
+        this.date.setDate(this.date.getDate() + 1);
         this.ID = -1;
         this.name = '';
         this.startTime = new Date();
