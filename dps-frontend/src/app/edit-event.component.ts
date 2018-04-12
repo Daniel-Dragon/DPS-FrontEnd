@@ -136,5 +136,12 @@ export class EditEventComponent implements OnInit {
 
         this.modalRef.hide();
       }
+
+      canDeactivate(){
+        if(this.form.$dirty){
+            
+        }
+    }
+    
     }
 

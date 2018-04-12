@@ -43,4 +43,10 @@ export class SettingsComponent implements OnInit {
             }
         );
     }
+
+    canDeactivate(){
+        if(this.userForm.$dirty){
+            
+        }
+    }
 }
