@@ -4,6 +4,7 @@ import { EventService } from './core-module/event.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { EventComponent } from './event.component';
 
 @Component({
     styleUrls: [ ],
@@ -24,22 +25,26 @@ export class EditEventComponent implements OnInit {
                 private eventService: EventService,
                 private router: Router,
                 private route: ActivatedRoute,
-                private modalService: BsModalService) {}
+                private modalService: BsModalService,
+                ) {}
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             this.ID = +params['ID'];
             if (this.ID !== -1) {
+                console.log('loadEvent called!');
                 this.loadEvent();
             } else {
                 this.initializeEvent();
             }
         });
         this.today = new Date();
+        this.startTime = new Date();
         this.startTime.setHours(8);
         this.startTime.setMinutes(0);
         this.startTime.setSeconds(0);
 
+        this.endTime = new Date();
         this.endTime.setHours(10);
         this.endTime.setMinutes(0);
         this.endTime.setSeconds(0);
@@ -116,11 +121,14 @@ export class EditEventComponent implements OnInit {
                 this.startTime = new Date(resp.startTime);
                 this.endTime = new Date(resp.endTime);
                 this.description = resp.description;
+
+               
             },
             err => {
 
-            }
-        );
+            });
+            
+        
     }
 
     openModal(template: TemplateRef<any>) {
