@@ -37,7 +37,7 @@
                 <small style="color: lightgray;" *ngIf="messageService.typing.length > 0">{{ messageService.typing | isTyping }}</small>
             </div>
         </div>
-        <div class="row" id="chat-form">
+        <div class="row" id="chat-form" [hidden]="!auth.permissions?.employee">
             <form [formGroup]="form" (ngSubmit)="sendMessage()">
                 <div class="col-md-10 col-sm-9 col-lg-11">
                     <input #typingBox type="text" formControlName="message" class="form-control" placeholder="Type a message..." [(ngModel)]='messageBox'>

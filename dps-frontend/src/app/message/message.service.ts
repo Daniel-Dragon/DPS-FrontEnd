@@ -35,6 +35,7 @@ export class MessageService {
                     if (this.ws) {
                         this.ws.close();
                     }
+                    this.messages = [];
                     this.ws = null;
                 }
             });

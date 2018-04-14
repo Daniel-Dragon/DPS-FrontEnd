@@ -25,6 +25,11 @@ export class MainMenuComponent {
         this.modalService.show(LoginComponent);
     }
 
+    logout() {
+        this.userService.logout();
+        this.router.navigate(['']);
+    }
+
     settings() {
     }
 }
