@@ -77,6 +77,7 @@ export class EditEventComponent implements OnInit {
         delete event.date;
         this.eventService.putEvent(event).subscribe(
             resp => {
+                this.form.markAsPristine();
                 this.router.navigate(['/']);
             },
             err => {
@@ -89,6 +90,7 @@ export class EditEventComponent implements OnInit {
         console.log('DeleteEvent Called!');
         this.eventService.removeEvent(event).subscribe(
             resp => {
+                this.form.markAsPristine();
                 this.router.navigate(['/']);
             },
             err => {
