@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Event, Job } from '../shared-module/models';
 import 'rxjs/add/operator/map';
 import { ToastrService } from 'ngx-toastr';
+import { User } from '../shared-module/models';
 
 
 @Injectable()
@@ -23,6 +24,14 @@ export class EventService {
         return this.http.get('api/events/' + eventId).map(resp => {
             return resp as Event;
         });
+    }
+
+    public getAllUsers(): Observable<User[]> {
+
+        return this.http.get('api/user').map(resp => {
+            return resp as User[];
+        });
+
     }
 
     public volunteer(eventId: Number, jobId: Number, userId: Number): Observable<void> {

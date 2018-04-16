@@ -15,6 +15,7 @@ export class AddJobComponent implements OnInit {
     startTime = null;
     endTime = null;
     eventId = null;
+    users = [];
 
     constructor(private modalRef: BsModalRef, private fb: FormBuilder, private eventService: EventService) {}
 
@@ -24,6 +25,8 @@ export class AddJobComponent implements OnInit {
             startTime: new Date(this.startTime),
             endTime: new Date(this.endTime)
         });
+
+        this.getUsers();
     }
 
     isEditing() {
@@ -39,6 +42,16 @@ export class AddJobComponent implements OnInit {
 
             }
         );
+    }
+
+    getUsers() {
+
+        this.eventService.getAllUsers().subscribe(
+            resp => {
+                this.users = resp;
+                console.log(resp);
+            });
+     
     }
 
     editJob(jobVal) {
