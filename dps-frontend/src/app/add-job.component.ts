@@ -44,12 +44,17 @@ export class AddJobComponent implements OnInit {
         );
     }
 
+    removeVolunteer() {
+        console.log()
+        this.eventService.unregister(this.eventId, this.ID , 2 );
+    }
+
     getUsers() {
 
         this.eventService.getAllUsers().subscribe(
             resp => {
                 this.users = resp;
-                console.log(resp);
+               
             });
      
     }

@@ -33,7 +33,9 @@
                             
                         </div>
                     </div>
-                    <div class="btn-group" dropdown>
+                    <span *ngIf="this.ID !== -1; then editingVolunteer else creating"></span>
+                    <ng-template #editingVolunteer>
+                    <div class="btn-group"  dropdown>
                         <button type="button" class="btn btn-danger">Edit Volunteer</button>
                         <button id="button-split" type="button" dropdownToggle class="btn btn-danger dropdown-toggle dropdown-toggle-split"
                                 aria-controls="dropdown-split">
@@ -44,10 +46,11 @@
                             role="menu" aria-labelledby="button-split">
                           <li role="menuitem" *ngFor="let user of users"><a class="dropdown-item" href="#">{{user.name}}</a></li>
                           <li class="divider dropdown-divider"></li>
-                          <li role="menuitem"><a class="dropdown-item" href="#">Remove Volunteer</a>
+                          <li role="menuitem"><a class="dropdown-item"  (click)=removeVolunteer() >Remove Volunteer</a>
                           </li>
                         </ul>
                       </div>
+                    </ng-template>
 
                 </div>
                 <div class="modal-footer">
