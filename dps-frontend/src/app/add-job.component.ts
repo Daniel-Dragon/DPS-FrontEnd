@@ -115,11 +115,13 @@ export class AddJobComponent implements OnInit {
     
     deleteJob(jobId) {
        
-        this.eventService.deleteJob(this.eventId, jobId);
-       
+        this.eventService.deleteJob(this.eventId, jobId).subscribe(
+            resp => {
+                this.eventService.getEvent(this.eventId);
+        });
+        
+            console.log('Delete Event called with: ' + this.ID);
         this.modalRef.hide();
-        console.log('Delete Event called with: ' + this.ID);
-
 
     }
 
@@ -129,6 +131,7 @@ export class AddJobComponent implements OnInit {
 
       confirm(): void {
           this.deleteJob(this.form.value);
+          this.modalRef.hide();
       }
 
 
