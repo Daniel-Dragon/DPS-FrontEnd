@@ -61,15 +61,15 @@ export class AddJobComponent implements OnInit {
         );
     }
 
+    // Change volunteer function used by admin to select a different volunteer for a job
+
     changeVolunteer(userId){
         this.eventService.getAllUsers().subscribe(
             resp => {
                 this.users = resp;
                 for (let i = 0; i < resp.length; i++) {
                     if (resp[i].ID === userId){
-                        console.log('User selected: ' + resp[i].ID);
                         userId = resp[i].ID;
-                        
                     }
                 }
             });
@@ -81,14 +81,11 @@ export class AddJobComponent implements OnInit {
                 err => {
                     this.modalRef.hide();
                 }
-                
             );
-
-    
-
     }
 
- 
+    // Get Users returns an array of all registered users
+    
     getUsers() {
 
         this.eventService.getAllUsers().subscribe(
