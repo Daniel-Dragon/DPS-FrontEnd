@@ -20,7 +20,7 @@ export class AddJobComponent implements OnInit {
     users = [];
     jobs = [];
 
-    constructor(private modalRef: BsModalRef, private fb: FormBuilder, private eventService: EventService,
+    constructor(private modalRef: BsModalRef, private modalRef2: BsModalRef, private fb: FormBuilder, private eventService: EventService,
         private authService: AuthService, private modalService: BsModalService) {}
 
     ngOnInit() {
@@ -126,18 +126,18 @@ export class AddJobComponent implements OnInit {
     }
 
     openModal(template: TemplateRef<any>) {
-        this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+        this.modalRef2 = this.modalService.show(template, {class: 'modal-sm'});
       }
 
       confirm(): void {
           this.deleteJob(this.form.value);
-          this.modalRef.hide();
+          this.modalRef2.hide();
       }
 
 
       decline(): void {
 
-        this.modalRef.hide();
+        this.modalRef2.hide();
       }
 
 }
