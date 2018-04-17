@@ -92,6 +92,19 @@ export class EventService {
 
     }
 
+    public deleteJob(eventId: number, jobId: number): Observable<void> {
+        return this.http.delete('api/event/' + eventId + '/' + jobId).map(
+
+            resp => {
+                return;
+            },
+            err => {
+                this.toastr.error('There was an error removing this job, please refresh and try again.', 'Error');
+                return;
+            }
+        );
+    }
+
     public putEvent(event: Event): Observable<void> {
         const body = {
             ID: event.ID,

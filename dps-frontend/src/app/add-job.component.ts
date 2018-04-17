@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { EventService } from './core-module/event.service';
-
+import { TemplateRef } from '@angular/core';
 import { AuthService } from './core-module/auth.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class AddJobComponent implements OnInit {
     jobs = [];
 
     constructor(private modalRef: BsModalRef, private fb: FormBuilder, private eventService: EventService,
-        private authService: AuthService) {}
+        private authService: AuthService, private modalService: BsModalService) {}
 
     ngOnInit() {
         this.form = this.fb.group({
@@ -111,5 +111,30 @@ export class AddJobComponent implements OnInit {
     close() {
         this.modalRef.hide();
     }
+
+    
+    deleteJob(jobId) {
+       
+        this.eventService.deleteJob(this.eventId, jobId);
+       
+        this.modalRef.hide();
+        console.log('Delete Event called with: ' + this.ID);
+
+
+    }
+
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+      }
+
+      confirm(): void {
+          this.deleteJob(this.form.value);
+      }
+
+
+      decline(): void {
+
+        this.modalRef.hide();
+      }
 
 }
