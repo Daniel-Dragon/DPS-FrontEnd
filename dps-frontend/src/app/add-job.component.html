@@ -27,12 +27,6 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-10 col-sm-push-1">
-                        <div class="form-group">
-                            <label for="currentVolunteer">Current Volunteer: {{ volunteer === undefined || volunteer === null ? 'None' : volunteer.name }}</label>
-                            
-                        </div>
-                    </div>
                     <span *ngIf="this.ID !== -1; then editingVolunteer else creating"></span>
                     <ng-template #editingVolunteer>
                     <div class="btn-group"  dropdown>
@@ -46,7 +40,7 @@
                             role="menu" aria-labelledby="button-split">
                           <li role="menuitem" *ngFor="let user of users"><a class="dropdown-item" href="#">{{user.name}}</a></li>
                           <li class="divider dropdown-divider"></li>
-                          <li role="menuitem"><a class="dropdown-item"  (click)=removeVolunteer() >Remove Volunteer</a>
+                          <li role="menuitem"><a class="dropdown-item"  (click)=removeVolunteer() (click)=refreshModal() >Remove Volunteer</a>
                           </li>
                         </ul>
                       </div>

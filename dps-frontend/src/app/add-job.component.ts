@@ -5,6 +5,8 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { EventService } from './core-module/event.service';
 
+import { AuthService } from './core-module/auth.service';
+
 @Component({
     templateUrl: './add-job.component.html'
 })
@@ -18,7 +20,8 @@ export class AddJobComponent implements OnInit {
     users = [];
     jobs = [];
 
-    constructor(private modalRef: BsModalRef, private fb: FormBuilder, private eventService: EventService) {}
+    constructor(private modalRef: BsModalRef, private fb: FormBuilder, private eventService: EventService,
+        private authService: AuthService) {}
 
     ngOnInit() {
         this.form = this.fb.group({
@@ -45,10 +48,20 @@ export class AddJobComponent implements OnInit {
         );
     }
 
+
+
     removeVolunteer() {
-        this.eventService.unregister(this.eventId, this.ID , 2 );
+        this.eventService.unregister(this.eventId, this.ID, this.authService.user.ID).subscribe(
+            resp => {
+                this.modalRef.hide();
+            },
+            err => {
+                this.modalRef.hide();
+            }
+        );
     }
 
+ 
     getUsers() {
 
         this.eventService.getAllUsers().subscribe(
