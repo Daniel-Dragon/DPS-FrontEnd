@@ -93,7 +93,7 @@ export class EventService {
     }
 
     public deleteJob(eventId: number, jobId: number): Observable<void> {
-        return this.http.delete('api/event/' + eventId + '/' + jobId).map(
+        return this.http.delete('api/events/' + eventId + '/' + jobId).map(
 
             resp => {
                 return;
