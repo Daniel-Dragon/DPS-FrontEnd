@@ -16,6 +16,7 @@ export class AddJobComponent implements OnInit {
     endTime = null;
     eventId = null;
     users = [];
+    jobs = [];
 
     constructor(private modalRef: BsModalRef, private fb: FormBuilder, private eventService: EventService) {}
 
@@ -45,7 +46,6 @@ export class AddJobComponent implements OnInit {
     }
 
     removeVolunteer() {
-        console.log()
         this.eventService.unregister(this.eventId, this.ID , 2 );
     }
 
@@ -54,9 +54,10 @@ export class AddJobComponent implements OnInit {
         this.eventService.getAllUsers().subscribe(
             resp => {
                 this.users = resp;
-               
+                for (let i = 0; i < this.jobs.length; i++) {
+                    this.users = this.users.filter(user => (this.jobs[i].volunteer === null) || user.ID !== this.jobs[i].volunteer.ID);
+                }
             });
-     
     }
 
     editJob(jobVal) {

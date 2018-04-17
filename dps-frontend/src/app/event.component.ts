@@ -71,6 +71,7 @@ export class EventComponent implements OnInit {
     editJob(jobId) {
         const initialState: any = this.event.jobs.filter(job => job.ID === jobId)[0];
         initialState.eventId = this.event.ID;
+        initialState.jobs = this.event.jobs;
         this.modalService.onHide.subscribe(resp => this.loadEvent());
         this.modalService.show(AddJobComponent, {initialState: initialState});
     }
