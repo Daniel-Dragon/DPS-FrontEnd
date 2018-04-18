@@ -50,8 +50,8 @@ export class AddJobComponent implements OnInit {
 
     // Remove volunteer function used by admin to remove a user from a job that they volunteered for
 
-    removeVolunteer() {
-        this.eventService.adminUnregister(this.eventId, this.ID, this.authService.user.ID).subscribe(
+    removeVolunteer(userName) {
+        this.eventService.adminUnregister(this.eventId, this.ID, this.authService.user.ID, userName).subscribe(
             
             resp => {
                 this.modalRef.hide();

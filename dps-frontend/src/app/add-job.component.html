@@ -40,7 +40,7 @@
                             role="menu" aria-labelledby="button-split">
                           <li role="menuitem" *ngFor="let user of users"><a class="dropdown-item" (click)=changeVolunteer(user.ID,user.name)>{{user.name}}</a></li>
                           <li class="divider dropdown-divider"></li>
-                          <li role="menuitem"><a class="dropdown-item"  (click)=removeVolunteer() >Remove Volunteer</a>
+                          <li role="menuitem"><a class="dropdown-item" *ngFor="let user of users" (click)=removeVolunteer(volunteer.name) >Remove Volunteer</a>
                           </li>
                         </ul>
                       </div>

@@ -59,14 +59,14 @@ export class EventService {
         );
     }
 
-    public adminUnregister(eventId: Number, jobId: Number, userId: Number): Observable<void> {
+    public adminUnregister(eventId: Number, jobId: Number, userId: Number, userName: String): Observable<void> {
         const body = JSON.stringify({userId: userId});  
         return this.http.put('api/events/unregister/' + eventId + '/' + jobId, body).map(
             resp => {
-                this.toastr.success('You have unregistered a user for this job.', 'Success!');
+                this.toastr.success('You have unregistered ' + userName + ' for this job.', 'Success!');
             },
             err => {
-                this.toastr.error('There was an error unregistering that user from this job.', 'Error');
+                this.toastr.error('There was an error unregistering ' + userName + ' from this job.', 'Error');
             }
         );
 
