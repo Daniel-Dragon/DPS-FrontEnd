@@ -51,7 +51,8 @@ export class AddJobComponent implements OnInit {
     // Remove volunteer function used by admin to remove a user from a job that they volunteered for
 
     removeVolunteer() {
-        this.eventService.unregister(this.eventId, this.ID, this.authService.user.ID).subscribe(
+        this.eventService.adminUnregister(this.eventId, this.ID, this.authService.user.ID).subscribe(
+            
             resp => {
                 this.modalRef.hide();
             },
@@ -63,18 +64,20 @@ export class AddJobComponent implements OnInit {
 
     // Change volunteer function used by admin to select a different volunteer for a job
 
-    changeVolunteer(userId){
-        this.eventService.getAllUsers().subscribe(
-            resp => {
-                this.users = resp;
-                for (let i = 0; i < resp.length; i++) {
-                    if (resp[i].ID === userId){
-                        userId = resp[i].ID;
-                    }
-                }
-            });
+    changeVolunteer(userId, name){
+        
+        // this.eventService.getAllUsers().subscribe(
+        //     resp => {
+        //         this.users = resp;
+        //         for (let i = 0; i < resp.length; i++) {
+        //             if (resp[i].ID === userId){
+        //                 userId = resp[i].ID;
+        //                 name = resp[i].name;
+        //             }
+        //         }
+        //     });
 
-            this.eventService.volunteer(this.eventId, this.ID, userId).subscribe(
+        this.eventService.adminVolunteer(this.eventId, this.ID, userId, name).subscribe(
                 resp => {
                     this.modalRef.hide();
                 },

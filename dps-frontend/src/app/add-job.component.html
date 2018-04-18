@@ -38,7 +38,7 @@
                         </button>
                         <ul id="dropdown-split" *dropdownMenu class="dropdown-menu"
                             role="menu" aria-labelledby="button-split">
-                          <li role="menuitem" *ngFor="let user of users"><a class="dropdown-item" (click)=changeVolunteer(user.ID)>{{user.name}}</a></li>
+                          <li role="menuitem" *ngFor="let user of users"><a class="dropdown-item" (click)=changeVolunteer(user.ID,user.name)>{{user.name}}</a></li>
                           <li class="divider dropdown-divider"></li>
                           <li role="menuitem"><a class="dropdown-item"  (click)=removeVolunteer() >Remove Volunteer</a>
                           </li>

@@ -6,6 +6,7 @@ import { Event, Job } from '../shared-module/models';
 import 'rxjs/add/operator/map';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../shared-module/models';
+import 'rxjs/add/operator/do';
 
 
 @Injectable()
@@ -33,6 +34,18 @@ export class EventService {
         });
 
     }
+    public adminVolunteer(eventId: Number, jobId: Number, userId: Number, userName: String)  {
+        const body = {userId: userId};
+        
+        return this.http.put('api/events/' + eventId + '/' + jobId, body).do(
+            resp => {
+                this.toastr.success('You have successfully volunteered ' + userName + ' for this position.', 'Success!');
+            },
+            err => {
+                this.toastr.error('There was an error with registering ' + userName + ' for this job, please refresh and try again.', 'Error');
+            }
+        );
+    }
 
     public volunteer(eventId: Number, jobId: Number, userId: Number): Observable<void> {
         const body = {userId: userId};
@@ -44,6 +57,20 @@ export class EventService {
                 this.toastr.error('There was an error with registering you for this job, please refresh and try again.', 'Error');
             }
         );
+    }
+
+    public adminUnregister(eventId: Number, jobId: Number, userId: Number): Observable<void> {
+        const body = JSON.stringify({userId: userId});  
+        return this.http.put('api/events/unregister/' + eventId + '/' + jobId, body).map(
+            resp => {
+                this.toastr.success('You have unregistered a user for this job.', 'Success!');
+            },
+            err => {
+                this.toastr.error('There was an error unregistering that user from this job.', 'Error');
+            }
+        );
+
+
     }
 
     public unregister(eventId: Number, jobId: Number, userId: Number): Observable<void> {
