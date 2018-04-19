@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../core-module/auth.service';
 import { UserService } from '../core-module/user.service';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs/Subject';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { GuardModalComponent } from '../guardmodal';
 
 @Component({
     templateUrl: './settings.component.html',
     styleUrls: []
     })
 export class SettingsComponent implements OnInit {
-    constructor(public authService: AuthService, private userService: UserService) {}
+    constructor(public authService: AuthService,private modalService: BsModalService, private userService: UserService) {}
     isEditing = false;
     userForm;
     name;
     email;
+    modalRef: BsModalRef;
     phoneNumber;
     user;
     ngOnInit() {
@@ -44,9 +49,19 @@ export class SettingsComponent implements OnInit {
         );
     }
 
-    canDeactivate(){
-        if(this.userForm.$dirty){
-            
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+      }
+
+    canDeactivate() {
+        if (this.userForm.dirty) {
+            const subject = new Subject<Boolean>();
+            const modal = this.modalService.show(GuardModalComponent);
+            modal.content.subject = subject;
+
+            return subject.asObservable();
+        } else {
+            return true;
         }
     }
 }
