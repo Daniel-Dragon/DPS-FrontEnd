@@ -46,7 +46,7 @@
                             role="menu" aria-labelledby="button-split">
                           <li role="menuitem" *ngFor="let user of users"><a class="dropdown-item" (click)=changeVolunteer(user.ID,user.name)>{{user.name}}</a></li>
                           <li class="divider dropdown-divider"></li>
-                          <li role="menuitem"><a class="dropdown-item" (click)=removeVolunteer(volunteer.name) >Remove Volunteer</a>
+                          <li role="menuitem"><a class="dropdown-item" (click)=removeVolunteer(volunteer.name)>Remove Volunteer</a>
                           </li>
                         </ul>
                       </div>
@@ -58,7 +58,7 @@
                     <span *ngIf="isEditing(); then editing else creating"></span>
                     <ng-template #editing><input (click)="editJob(form.value)" type="button" class="btn btn-primary" value="Edit Job"></ng-template>
                     <ng-template #creating><input (click)="addJob(form.value)" type="button" class="btn btn-primary" value="Save Job"></ng-template>
-                    <input (click)="openModal(template)" type="button" class="btn btn-danger" value="Delete Job">
+                    <!-- <input (click)="openModal(template)" type="button" class="btn btn-danger" value="Delete Job"> -->
 
                 </div>
             </form>               
