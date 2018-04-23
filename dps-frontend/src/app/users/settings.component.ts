@@ -12,7 +12,7 @@ import { GuardModalComponent } from '../guardmodal';
     styleUrls: []
     })
 export class SettingsComponent implements OnInit {
-    constructor(public authService: AuthService,private modalService: BsModalService, private userService: UserService) {}
+    constructor(public authService: AuthService, private modalService: BsModalService, private userService: UserService) {}
     isEditing = false;
     userForm;
     name;
@@ -54,7 +54,7 @@ export class SettingsComponent implements OnInit {
       }
 
     canDeactivate() {
-        if (this.userForm.dirty) {
+        if (this.isEditing && this.userForm.dirty) {
             const subject = new Subject<Boolean>();
             const modal = this.modalService.show(GuardModalComponent);
             modal.content.subject = subject;

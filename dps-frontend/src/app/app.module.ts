@@ -57,7 +57,7 @@ if (environment.production) {
     SharedModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard], canDeactivate: [] },
+      { path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard], canDeactivate: [DeactivateGuardService] },
       // TODO: Add guard to ensure admin role before going to add event page
       { path: 'event/edit/:ID', component: EditEventComponent , canDeactivate: [DeactivateGuardService]},
       { path: 'event/:ID', component: EventComponent, canDeactivate: [] },
