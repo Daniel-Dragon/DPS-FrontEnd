@@ -61,7 +61,7 @@ if (environment.production) {
       // TODO: Add guard to ensure admin role before going to add event page
       { path: 'event/edit/:ID', component: EditEventComponent , canDeactivate: [DeactivateGuardService]},
       { path: 'event/:ID', component: EventComponent, canDeactivate: [] },
-      { path: 'messages', component: MessageComponent },
+      { path: 'messages', component: MessageComponent, canActivate: [LoggedInGuard] },
       {path: 'donations', component: DonationComponent},
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
