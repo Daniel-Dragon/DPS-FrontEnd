@@ -129,14 +129,10 @@ export class EditEventComponent implements OnInit {
                 // this.startTime = new Date(resp.startTime);
                 // this.endTime = new Date(resp.endTime);
                 // this.description = resp.description;
-
-               
             },
             err => {
 
             });
-            
-        
     }
 
     openModal(template: TemplateRef<any>) {
