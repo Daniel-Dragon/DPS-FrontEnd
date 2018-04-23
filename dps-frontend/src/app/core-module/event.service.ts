@@ -63,7 +63,7 @@ export class EventService {
         const body = JSON.stringify({userId: userId});  
         return this.http.put('api/events/unregister/' + eventId + '/' + jobId, body).map(
             resp => {
-                this.toastr.success('You have unregistered ' + userName + ' for this job.', 'Success!');
+                this.toastr.success('You have unregistered ' + userName + ' from this job.', 'Success!');
             },
             err => {
                 this.toastr.error('There was an error unregistering ' + userName + ' from this job.', 'Error');
