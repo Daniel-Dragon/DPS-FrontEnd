@@ -22,7 +22,7 @@
                 <input formControlName="description" type="text" class="form-control" id="description">
             </div>
             <button [disabled]="DisableSave()" class="btn btn-success" [disabled]="!form.valid">Save</button>
-            <input type="button" class="btn btn-danger" (click)="openModal(template)" value="Delete Event" />
+            <input type="button" class="btn btn-danger" (click)="openModal(template)" value="Delete Event" *ngIf="ID !== -1" />
        
       
         </form>
