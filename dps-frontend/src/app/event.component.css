@@ -1,3 +1,6 @@
 .panel-body {
     height: 100px
 }
+.btn[disabled] {
+    pointer-events: none;
+}

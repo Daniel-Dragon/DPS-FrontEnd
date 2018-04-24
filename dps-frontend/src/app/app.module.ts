@@ -30,6 +30,7 @@ import { MessageService } from './message/message.service';
 import { DeactivateGuardService } from './deactivate-guard.service';
 import { IsTypingPipe } from './message/isTyping.pipe';
 import { GuardModalComponent } from './guardmodal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 if (environment.production) {
   enableProdMode();
 }
@@ -73,6 +74,7 @@ if (environment.production) {
       closeButton: true,
       positionClass: 'toast-bottom-right'
     }),
+    TooltipModule.forRoot(),
     CoreModule,
   ],
   providers: [
