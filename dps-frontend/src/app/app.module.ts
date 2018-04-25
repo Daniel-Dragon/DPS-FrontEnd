@@ -31,6 +31,8 @@ import { DeactivateGuardService } from './deactivate-guard.service';
 import { IsTypingPipe } from './message/isTyping.pipe';
 import { GuardModalComponent } from './guardmodal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { AboutComponent } from './about.component';
+import {FaqComponent} from './faq.component';
 if (environment.production) {
   enableProdMode();
 }
@@ -47,6 +49,8 @@ if (environment.production) {
     AddJobComponent,
     MessageComponent,
     DonationComponent,
+    AboutComponent,
+    FaqComponent,
     TimePassedPipe,
     GuardModalComponent,
     IsTypingPipe
@@ -64,6 +68,8 @@ if (environment.production) {
       { path: 'event/:ID', component: EventComponent, canDeactivate: [] },
       { path: 'messages', component: MessageComponent, canActivate: [LoggedInGuard] },
       {path: 'donations', component: DonationComponent},
+      {path: 'about', component: AboutComponent},
+      {path: 'faq', component: FaqComponent},
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
     BrowserAnimationsModule,
