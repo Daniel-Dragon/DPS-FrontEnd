@@ -25,20 +25,23 @@
                 <li><a href="#">Separated link</a></li>
             </ul>
             </li> -->
-            <li>
+            <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a [routerLink]="['/']">Home</a>
+            </li>
+            <li routerLinkActive="active">
                 <a [routerLink]="['/donations']">Donate!</a>
             </li>
-            <li>
+            <li routerLinkActive="active">
                 <a [routerLink]="['about']">About Us</a>
             </li>
-            <li>
+            <li routerLinkActive="active">
                 <a [routerLink]="['faq']">FAQ</a>
             </li>
         
             <span *ngIf="authService.isAuthorized(); then authorized else unauthorized"></span>
             <ng-template #unauthorized><li><a (click)="login()"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li></ng-template>
             <ng-template #authorized>
-                <li>
+                <li li routerLinkActive="active">
                     <a [routerLink]="['/messages']" ><span class="glyphicon glyphicon-envelope" aria-hidden="true"><span class="badge" *ngIf="messageService.numNew > 0">{{ messageService.numNew }}</span></span></a>
                 </li>
                 <li class="dropdown" dropdown>
