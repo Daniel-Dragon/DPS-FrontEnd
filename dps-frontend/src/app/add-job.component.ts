@@ -21,8 +21,13 @@ export class AddJobComponent implements OnInit {
     users = [];
     jobs = [];
 
-    constructor(private modalRef: BsModalRef, private modalRef2: BsModalRef, private fb: FormBuilder, private eventService: EventService,
-        private authService: AuthService, private modalService: BsModalService, private routerService: Router) {}
+    constructor(private modalRef: BsModalRef,
+        private modalRef2: BsModalRef,
+        private fb: FormBuilder,
+        private eventService: EventService,
+        private authService: AuthService,
+        private modalService: BsModalService,
+        private routerService: Router) {}
 
     ngOnInit() {
         this.form = this.fb.group({
@@ -30,6 +35,9 @@ export class AddJobComponent implements OnInit {
             startTime: new Date(this.startTime),
             endTime: new Date(this.endTime)
         });
+
+        this.startTime = new Date(new Date(this.startTime).getTime() - 1000);
+        this.endTime = new Date(new Date(this.endTime).getTime() + 1000);
 
         this.getUsers();
     }
