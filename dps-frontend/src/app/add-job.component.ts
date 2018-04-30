@@ -29,8 +29,7 @@ export class AddJobComponent implements OnInit {
             startTime: new Date(this.startTime),
             endTime: new Date(this.endTime)
         });
-        this.startTime = new Date(new Date(this.startTime).getTime() - 60);
-        this.endTime = new Date(new Date(this.endTime).getTime() + 60);
+
         this.getUsers();
     }
 
@@ -51,8 +50,9 @@ export class AddJobComponent implements OnInit {
 
     // Remove volunteer function used by admin to remove a user from a job that they volunteered for
 
-    removeVolunteer (userName) {
+    removeVolunteer(userName) {
         this.eventService.adminUnregister(this.eventId, this.ID, this.authService.user.ID, userName).subscribe(
+
             resp => {
                 this.modalRef.hide();
             },
@@ -64,7 +64,19 @@ export class AddJobComponent implements OnInit {
 
     // Change volunteer function used by admin to select a different volunteer for a job
 
-    changeVolunteer (userId, name) {
+    changeVolunteer(userId, name) {
+
+        // this.eventService.getAllUsers().subscribe(
+        //     resp => {
+        //         this.users = resp;
+        //         for (let i = 0; i < resp.length; i++) {
+        //             if (resp[i].ID === userId){
+        //                 userId = resp[i].ID;
+        //                 name = resp[i].name;
+        //             }
+        //         }
+        //     });
+
         this.eventService.adminVolunteer(this.eventId, this.ID, userId, name).subscribe(
                 resp => {
                     this.modalRef.hide();
@@ -76,7 +88,8 @@ export class AddJobComponent implements OnInit {
     }
 
     // Get Users returns an array of all registered users
-    getUsers () {
+
+    getUsers() {
 
         this.eventService.getAllUsers().subscribe(
             resp => {
@@ -102,15 +115,16 @@ export class AddJobComponent implements OnInit {
         this.modalRef.hide();
     }
 
-
     deleteJob(jobId) {
 
         this.eventService.deleteJob(this.eventId, jobId).subscribe(
             resp => {
                 this.eventService.getEvent(this.eventId);
         });
-        console.log('Delete Event called with: ' + this.ID);
+
+            console.log('Delete Event called with: ' + this.ID);
         this.modalRef.hide();
+
     }
 
     openModal(template: TemplateRef<any>) {
