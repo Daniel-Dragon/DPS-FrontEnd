@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { EventService } from './core-module/event.service';
 import { TemplateRef } from '@angular/core';
 import { AuthService } from './core-module/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     templateUrl: './add-job.component.html'
@@ -21,7 +22,7 @@ export class AddJobComponent implements OnInit {
     jobs = [];
 
     constructor(private modalRef: BsModalRef, private modalRef2: BsModalRef, private fb: FormBuilder, private eventService: EventService,
-        private authService: AuthService, private modalService: BsModalService) {}
+        private authService: AuthService, private modalService: BsModalService, private routerService: Router) {}
 
     ngOnInit() {
         this.form = this.fb.group({
@@ -119,11 +120,11 @@ export class AddJobComponent implements OnInit {
 
         this.eventService.deleteJob(this.eventId, jobId).subscribe(
             resp => {
-                this.eventService.getEvent(this.eventId);
+            //  return this.routerService.navigate(['event', this.eventId]);
+            this.modalRef.hide();
         });
 
-            console.log('Delete Event called with: ' + this.ID);
-        this.modalRef.hide();
+            console.log('Delete Job called with: ' + this.ID);
 
     }
 
@@ -131,8 +132,8 @@ export class AddJobComponent implements OnInit {
         this.modalRef2 = this.modalService.show(template, {class: 'modal-sm'});
       }
 
-      confirm(): void {
-          this.deleteJob(this.form.value);
+      confirm(jobId: number): void {
+          this.deleteJob(jobId);
           this.modalRef2.hide();
       }
 
