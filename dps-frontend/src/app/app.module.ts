@@ -63,13 +63,12 @@ if (environment.production) {
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'settings', component: SettingsComponent, canActivate: [LoggedInGuard], canDeactivate: [DeactivateGuardService] },
-      // TODO: Add guard to ensure admin role before going to add event page
       { path: 'event/edit/:ID', component: EditEventComponent , canDeactivate: [DeactivateGuardService]},
       { path: 'event/:ID', component: EventComponent, canDeactivate: [] },
       { path: 'messages', component: MessageComponent, canActivate: [LoggedInGuard] },
-      {path: 'donations', component: DonationComponent},
-      {path: 'about', component: AboutComponent},
-      {path: 'faq', component: FaqComponent},
+      { path: 'donations', component: DonationComponent },
+      { path: 'about', component: AboutComponent },
+      { path: 'faq', component: FaqComponent },
       { path: '**', redirectTo: '', pathMatch: 'full'}
     ]),
     BrowserAnimationsModule,
